@@ -9,9 +9,8 @@ before_install:
   - export PATH=/home/travis/miniconda3/bin:$PATH
 install:
   - conda create --yes -n test-env python=$PYTHON_VERSION nose flake8
-  - conda install -c qiime2 qiime
-  - conda install -c bioconda mafft
-  - conda install -c biocore fasttree
+  - conda install --yes -c qiime2 qiime
+  - conda install --yes -c biocore fasttree
   - source activate test-env
   - pip install https://github.com/qiime2/q2-types/archive/master.zip
   - pip install .
