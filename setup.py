@@ -14,7 +14,7 @@ setup(
     version="0.0.0-dev",
     packages=find_packages(),
     install_requires=['scikit-bio', 'qiime >= 2.0.0', 'q2-types'],
-    #package_data={'q2_phylogeny': ['markdown/*md']},
+    # package_data={'q2_phylogeny': ['markdown/*md']},
     author="Greg Caporaso",
     author_email="gregcaporaso@gmail.com",
     description="Create and work with Phylogenetic trees in QIIME 2.",
