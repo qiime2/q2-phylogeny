@@ -6,8 +6,8 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-from ._util import midpoint_root
+import skbio
 
-__version__ = '0.0.0-dev'
 
-__all__ = ["midpoint_root"]
+def midpoint_root(tree: skbio.TreeNode) -> skbio.TreeNode:
+    return tree.root_at_midpoint()
