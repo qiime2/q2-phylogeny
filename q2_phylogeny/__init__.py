@@ -7,7 +7,8 @@
 # ----------------------------------------------------------------------------
 
 from ._util import midpoint_root
+from ._fasttree import fasttree
 
 __version__ = '0.0.0-dev'
 
-__all__ = ["midpoint_root"]
+__all__ = ["midpoint_root", "fasttree"]
