@@ -9,7 +9,7 @@
 import unittest
 import skbio
 
-from q2_types.testing import TestPluginBase
+from qiime.plugin.testing import TestPluginBase
 from q2_types.feature_data import AlignedDNAFASTAFormat
 
 from q2_phylogeny import fasttree
