@@ -22,5 +22,6 @@ setup(
     url="http://www.qiime.org",
     entry_points={
         'qiime.plugins': ['q2-phylogeny=q2_phylogeny.plugin_setup:plugin']
-    }
+    },
+    package_data={'q2_phylogeny.tests': ['data/*']}
 )
