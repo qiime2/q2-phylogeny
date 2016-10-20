@@ -9,6 +9,7 @@
 from qiime.plugin import Plugin
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence
+from q2_types.feature_table import FeatureTable, Frequency
 
 import q2_phylogeny
 
@@ -35,4 +36,15 @@ plugin.methods.register_function(
     outputs=[('tree', Phylogeny[Unrooted])],
     name='Construct a phylogenetic tree with FastTree.',
     description=("Construct a phylogenetic tree with FastTree.")
+)
+
+plugin.methods.register_function(
+    function=q2_phylogeny.filter_table,
+    inputs={'table': FeatureTable[Frequency],
+            'tree': Phylogeny[Rooted | Unrooted]},
+    parameters={},
+    outputs=[('filtered_table', FeatureTable[Frequency])],
+    name="Remove features from table if they're not present in tree.",
+    description=("Remove features from a feature table if their ids are "
+                 "not tip ids in tree.")
 )
