@@ -11,9 +11,9 @@ from setuptools import setup, find_packages
 setup(
     name="q2-phylogeny",
     # TODO stop duplicating version string
-    version="0.0.5",
+    version="0.0.6.dev",
     packages=find_packages(),
-    install_requires=['scikit-bio', 'qiime >= 2.0.5', 'q2-types >= 0.0.5'],
+    install_requires=['scikit-bio', 'qiime >= 2.0.6', 'q2-types >= 0.0.6'],
     # package_data={'q2_phylogeny': ['markdown/*md']},
     author="Greg Caporaso",
     author_email="gregcaporaso@gmail.com",
