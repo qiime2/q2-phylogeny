@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2016--, QIIME development team.
+# Copyright (c) 2016-2017, QIIME 2 development team.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -47,6 +47,7 @@ class FilterTableTests(unittest.TestCase):
         actual = filter_table(table, tree)
         expected = table.filter(['O1', 'O2'], axis='observation')
         self.assertEqual(actual, expected)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2016--, QIIME development team.
+# Copyright (c) 2016-2017, QIIME 2 development team.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -10,17 +10,17 @@ from setuptools import setup, find_packages
 
 setup(
     name="q2-phylogeny",
-    # TODO stop duplicating version string
-    version="0.0.7.dev0",
+    version="2017.2.0.dev0",
     packages=find_packages(),
-    install_requires=['scikit-bio', 'qiime >= 2.0.6', 'q2-types >= 0.0.6'],
+    install_requires=['qiime2 == 2017.2.*', 'q2-types == 2017.2.*',
+                      'scikit-bio'],
     author="Greg Caporaso",
     author_email="gregcaporaso@gmail.com",
     description="Create and work with Phylogenetic trees in QIIME 2.",
-    license="BSD",
-    url="http://www.qiime.org",
+    license="BSD-3-Clause",
+    url="https://qiime2.org",
     entry_points={
-        'qiime.plugins': ['q2-phylogeny=q2_phylogeny.plugin_setup:plugin']
+        'qiime2.plugins': ['q2-phylogeny=q2_phylogeny.plugin_setup:plugin']
     },
     package_data={'q2_phylogeny.tests': ['data/*']}
 )
