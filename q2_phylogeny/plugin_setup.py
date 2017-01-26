@@ -25,6 +25,9 @@ plugin.methods.register_function(
     inputs={'tree': Phylogeny[Unrooted]},
     parameters={},
     outputs=[('rooted_tree', Phylogeny[Rooted])],
+    input_descriptions={'tree': 'The phylogenetic tree to be rooted.'},
+    parameter_descriptions={},
+    output_descriptions={'rooted_tree': 'The rooted phylogenetic tree.'},
     name='Midpoint root an unrooted phylogenetic tree.',
     description=("Midpoint root an unrooted phylogenetic tree.")
 )
@@ -34,6 +37,12 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={},
     outputs=[('tree', Phylogeny[Unrooted])],
+    input_descriptions={
+        'alignment': ('Aligned sequences to be used for phylogenetic '
+                      'reconstruction.')
+    },
+    parameter_descriptions={},
+    output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with FastTree.',
     description=("Construct a phylogenetic tree with FastTree.")
 )
@@ -44,7 +53,14 @@ plugin.methods.register_function(
             'tree': Phylogeny[Rooted | Unrooted]},
     parameters={},
     outputs=[('filtered_table', FeatureTable[Frequency])],
+    input_descriptions={
+        'table': 'Feature table that features should be filtered from.',
+        'tree': ('Tree where tip identifiers are the feature identifiers that '
+                 'should be retained in the table.')
+    },
+    parameter_descriptions={},
+    output_descriptions={'filtered_table': 'The resulting feature table.'},
     name="Remove features from table if they're not present in tree.",
-    description=("Remove features from a feature table if their ids are "
-                 "not tip ids in tree.")
+    description=("Remove features from a feature table if their identifiers "
+                 "are not tip identifiers in tree.")
 )
