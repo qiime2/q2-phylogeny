@@ -10,9 +10,9 @@ from setuptools import setup, find_packages
 
 setup(
     name="q2-phylogeny",
-    version="2017.2.0",
+    version="2017.3.0.dev",
     packages=find_packages(),
-    install_requires=['qiime2 == 2017.2.*', 'q2-types == 2017.2.*',
+    install_requires=['qiime2 == 2017.3.*', 'q2-types == 2017.3.*',
                       'scikit-bio'],
     author="Greg Caporaso",
     author_email="gregcaporaso@gmail.com",
