@@ -57,6 +57,18 @@ class RunCommandTests(TestPluginBase):
             with redirected_stdio(stderr=os.devnull):
                 run_command(cmd, tree_fp)
 
+    def test_failed_run_not_verbose(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-1.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        result = NewickFormat()
+        aligned_fp = str(input_sequences)
+        tree_fp = str(result)
+
+        cmd = ['FastTree', '-nt', '-not-a-real-parameter', aligned_fp]
+        with self.assertRaises(subprocess.CalledProcessError):
+            with redirected_stdio(stderr=os.devnull):
+                run_command(cmd, tree_fp, verbose=False)
+
 
 if __name__ == "__main__":
     unittest.main()
