@@ -17,7 +17,10 @@ plugin = Plugin(
     name='phylogeny',
     version=q2_phylogeny.__version__,
     website='https://github.com/qiime2/q2-phylogeny',
-    package='q2_phylogeny'
+    package='q2_phylogeny',
+    citation_text=("FastTree 2 – Approximately Maximum-Likelihood Trees for "
+                   "Large Alignments. Price MN, Dehal PS, Arkin AP (2010) "
+                   "PLOS ONE 5(3): e9490. doi: 10.1371/journal.pone.0009490")
 )
 
 plugin.methods.register_function(
