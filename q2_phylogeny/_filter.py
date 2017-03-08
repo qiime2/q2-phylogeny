@@ -11,7 +11,7 @@ import skbio
 
 
 def filter_table(table: biom.Table, tree: skbio.TreeNode) -> biom.Table:
-    """ Filter feature table in-place against a phylogenic tree
+    """ Filter table to remove feature ids that are not tip ids in tree
     """
     tip_ids = set([t.name for t in tree.tips()])
     feature_ids = set(table.ids(axis='observation'))
