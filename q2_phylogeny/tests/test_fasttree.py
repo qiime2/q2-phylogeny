@@ -40,6 +40,22 @@ class FastTreeTests(TestPluginBase):
         tip_names.sort()
         self.assertEqual(tip_names, ['seq1', 'seq2'])
 
+    def test_fasttree_underscore_ids(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-2.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with redirected_stdio(stderr=os.devnull):
+            obs = fasttree(input_sequences)
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids (the branch lengths can vary with
+        # different versions of FastTree)
+        obs_tree = skbio.io.read(obs.open(), format='newick',
+                                 into=skbio.TreeNode)
+        tips = list(obs_tree.tips())
+        self.assertEqual(len(tips), 2)
+        tip_names = [t.name for t in tips]
+        tip_names.sort()
+        self.assertEqual(tip_names, ['_s_e_q_1_', '_s_e_q_2_'])
+
 
 class RunCommandTests(TestPluginBase):
 
