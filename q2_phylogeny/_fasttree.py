@@ -29,6 +29,6 @@ def fasttree(alignment: AlignedDNAFASTAFormat) -> NewickFormat:
     result = NewickFormat()
     aligned_fp = str(alignment)
     tree_fp = str(result)
-    cmd = ['FastTree', '-nt', aligned_fp]
+    cmd = ['FastTree', '-quote', '-nt', aligned_fp]
     run_command(cmd, tree_fp)
     return result
