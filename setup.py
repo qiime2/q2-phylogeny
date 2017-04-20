@@ -7,13 +7,13 @@
 # ----------------------------------------------------------------------------
 
 from setuptools import setup, find_packages
+import versioneer
 
 setup(
     name="q2-phylogeny",
-    version="2017.3.0.dev",
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(),
-    install_requires=['qiime2 == 2017.3.*', 'q2-types == 2017.3.*',
-                      'scikit-bio'],
     author="Greg Caporaso",
     author_email="gregcaporaso@gmail.com",
     description="Create and work with Phylogenetic trees in QIIME 2.",
@@ -22,5 +22,6 @@ setup(
     entry_points={
         'qiime2.plugins': ['q2-phylogeny=q2_phylogeny.plugin_setup:plugin']
     },
-    package_data={'q2_phylogeny.tests': ['data/*']}
+    package_data={'q2_phylogeny.tests': ['data/*']},
+    zip_safe=False,
 )
