@@ -20,7 +20,10 @@ plugin = Plugin(
     package='q2_phylogeny',
     citation_text=("FastTree 2 – Approximately Maximum-Likelihood Trees for "
                    "Large Alignments. Price MN, Dehal PS, Arkin AP (2010) "
-                   "PLOS ONE 5(3): e9490. doi: 10.1371/journal.pone.0009490")
+                   "PLOS ONE 5(3): e9490. doi: 10.1371/journal.pone.0009490"),
+    description=('This QIIME 2 plugin supports generating and manipulating '
+                 'phylogenetic trees.'),
+    short_description='Plugin for generating and manipulating phylogenies.'
 )
 
 plugin.methods.register_function(
