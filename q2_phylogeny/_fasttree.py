@@ -14,7 +14,7 @@ from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
 
-def run_command(cmd, output_fp, verbose=True, env=None):
+def run_command(cmd, output_fp, verbose=True):
     if verbose:
         print("Running external command line application. This may print "
               "messages to stdout and/or stderr.")
@@ -23,29 +23,29 @@ def run_command(cmd, output_fp, verbose=True, env=None):
               "no longer exist.")
         print("\nCommand:", end=' ')
         print(" ".join(cmd), end='\n\n')
-    if env is None:
-        env = os.environ.copy()
+        
     with open(output_fp, 'w') as output_f:
-        subprocess.run(cmd, stdout=output_f, check=True, env=env)
+        subprocess.run(cmd, stdout=output_f, check=True)
 
 
 @contextlib.contextmanager
-def _env(**environ):
+def _env(environ):
     current = os.environ.copy()
     os.environ.update(environ)
     try:
         yield
     finally:
         os.environ.clear()
-        os.environ.update(old_environ)
+        os.environ.update(current)
+
 
 def fasttree(alignment: AlignedDNAFASTAFormat, threads: int=1) -> NewickFormat:
     result = NewickFormat()
     aligned_fp = str(alignment)
     tree_fp = str(result)
 
-    env = os.environ.copy()
-    with _env({'OMP_NUM_THREADS': threads}):
+    environ = {'OMP_NUM_THREADS': str(threads)} 
+    with _env(environ):
         cmd = ['FastTreeMP', '-quote', '-nt', aligned_fp]
-        run_command(cmd, tree_fp, env)
+        run_command(cmd, tree_fp)
     return result
