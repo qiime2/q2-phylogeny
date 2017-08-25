@@ -23,20 +23,23 @@ def run_command(cmd, output_fp, verbose=True):
               "no longer exist.")
         print("\nCommand:", end=' ')
         print(" ".join(cmd), end='\n\n')
-        
+
     with open(output_fp, 'w') as output_f:
         subprocess.run(cmd, stdout=output_f, check=True)
 
 
 @contextlib.contextmanager
 def _env(environ):
-    current = os.environ.copy()
+    # The `env` parameter of subprocess.run was not working to restrict
+    # the number of threads being used. Required a context manager to update
+    # the user's environment temporarily.
+    backup = os.environ.copy()
     os.environ.update(environ)
     try:
         yield
     finally:
         os.environ.clear()
-        os.environ.update(current)
+        os.environ.update(backup)
 
 
 def fasttree(alignment: AlignedDNAFASTAFormat, threads: int=1) -> NewickFormat:
@@ -44,7 +47,7 @@ def fasttree(alignment: AlignedDNAFASTAFormat, threads: int=1) -> NewickFormat:
     aligned_fp = str(alignment)
     tree_fp = str(result)
 
-    environ = {'OMP_NUM_THREADS': str(threads)} 
+    environ = {'OMP_NUM_THREADS': str(threads)}
     with _env(environ):
         cmd = ['FastTreeMP', '-quote', '-nt', aligned_fp]
         run_command(cmd, tree_fp)
