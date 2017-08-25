@@ -42,13 +42,15 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=q2_phylogeny.fasttree,
     inputs={'alignment': FeatureData[AlignedSequence]},
-    parameters={'threads': Int},
+    parameters={'n_threads': Int},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
                       'reconstruction.')
     },
-    parameter_descriptions={},
+    parameter_descriptions={
+        'n_threads': 'The number of threads.'
+    },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with FastTree.',
     description=("Construct a phylogenetic tree with FastTree.")

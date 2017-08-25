@@ -42,12 +42,13 @@ def _env(environ):
         os.environ.update(backup)
 
 
-def fasttree(alignment: AlignedDNAFASTAFormat, threads: int=1) -> NewickFormat:
+def fasttree(alignment: AlignedDNAFASTAFormat,
+             n_threads: int=1) -> NewickFormat:
     result = NewickFormat()
     aligned_fp = str(alignment)
     tree_fp = str(result)
 
-    environ = {'OMP_NUM_THREADS': str(threads)}
+    environ = {'OMP_NUM_THREADS': str(n_threads)}
     with _env(environ):
         cmd = ['FastTreeMP', '-quote', '-nt', aligned_fp]
         run_command(cmd, tree_fp)
