@@ -10,7 +10,7 @@ from qiime2.plugin import Plugin
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence
 from q2_types.feature_table import FeatureTable, Frequency
-from qiime2.core.type import Int
+from qiime2.core.type import Int, Range
 
 import q2_phylogeny
 
@@ -42,14 +42,17 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=q2_phylogeny.fasttree,
     inputs={'alignment': FeatureData[AlignedSequence]},
-    parameters={'n_threads': Int},
+    parameters={'n_threads': Int % Range(-1, None)},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
                       'reconstruction.')
     },
     parameter_descriptions={
-        'n_threads': 'The number of threads.'
+        'n_threads': 'The number of threads. Using more than one thread '
+                     'runs the non-deterministic variant of `FastTree`, and '
+                     'may result in a different tree than single-threading. '
+                     '(Use -1 to automatically use all available cores)'
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with FastTree.',

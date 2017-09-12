@@ -23,8 +23,6 @@ def run_command(cmd, output_fp, verbose=True, env=None):
         print("\nCommand:", end=' ')
         print(" ".join(cmd), end='\n\n')
 
-    if env is None:
-        env = os.environ.copy()
     with open(output_fp, 'w') as output_f:
         subprocess.run(cmd, stdout=output_f, check=True, env=env)
 
@@ -35,9 +33,14 @@ def fasttree(alignment: AlignedDNAFASTAFormat,
     aligned_fp = str(alignment)
     tree_fp = str(result)
 
-    env = os.environ.copy()
-    env.update({'OMP_NUM_THREADS': str(n_threads)})
+    env = None
+    if n_threads == 1:
+        cmd = ['FastTree']
+    else:
+        env = os.environ.copy()
+        env.update({'OMP_NUM_THREADS': str(n_threads)})
+        cmd = ['FastTreeMP']
 
-    cmd = ['FastTreeMP', '-quote', '-nt', aligned_fp]
+    cmd.extend(['-quote', '-nt', aligned_fp])
     run_command(cmd, tree_fp, env=env)
     return result
