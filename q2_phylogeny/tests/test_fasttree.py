@@ -52,14 +52,15 @@ class FastTreeTests(TestPluginBase):
         tip_names.sort()
         self.assertEqual(tip_names, ['_s_e_q_1_', '_s_e_q_2_'])
 
-    def test_fasttree(self):
+    def test_fasttree_n_threads(self):
         input_fp = self.get_data_path('aligned-dna-sequences-1.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
             obs = fasttree(input_sequences, n_threads=-1)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids (the branch lengths can vary with
-        # different versions of FastTree)
+        # different versions of FastTree, and threading can produce
+        # non-deterministic trees)
         obs_tree = skbio.TreeNode.read(str(obs))
         tips = list(obs_tree.tips())
         tip_names = [t.name for t in tips]

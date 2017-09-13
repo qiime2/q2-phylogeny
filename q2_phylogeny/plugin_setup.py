@@ -50,8 +50,10 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_threads': 'The number of threads. Using more than one thread '
-                     'runs the non-deterministic variant of `FastTree`, and '
-                     'may result in a different tree than single-threading. '
+                     'runs the non-deterministic variant of `FastTree` '
+                     '(`FastTreeMP`), and may result in a different tree than '
+                     'single-threading. See '
+                     'http://www.microbesonline.org/fasttree/ for details. '
                      '(Use -1 to automatically use all available cores)'
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
