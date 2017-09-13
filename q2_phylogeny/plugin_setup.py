@@ -53,8 +53,9 @@ plugin.methods.register_function(
                      'runs the non-deterministic variant of `FastTree` '
                      '(`FastTreeMP`), and may result in a different tree than '
                      'single-threading. See '
-                     'http://www.microbesonline.org/fasttree/ for details. '
-                     '(Use -1 to automatically use all available cores)'
+                     'http://www.microbesonline.org/fasttree/#OpenMP for '
+                     'details. (Use -1 to automatically use all available '
+                     'cores)'
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with FastTree.',
