@@ -6,22 +6,19 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-from qiime2.plugin import Plugin
+from qiime2.plugin import Plugin, Citations, Int, Range
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence
 from q2_types.feature_table import FeatureTable, Frequency
-from qiime2.core.type import Int, Range
 
 import q2_phylogeny
 
+citations = Citations.load('citations.bib', package='q2_phylogeny')
 plugin = Plugin(
     name='phylogeny',
     version=q2_phylogeny.__version__,
     website='https://github.com/qiime2/q2-phylogeny',
     package='q2_phylogeny',
-    citation_text=("FastTree 2 – Approximately Maximum-Likelihood Trees for "
-                   "Large Alignments. Price MN, Dehal PS, Arkin AP (2010) "
-                   "PLOS ONE 5(3): e9490. doi: 10.1371/journal.pone.0009490"),
     description=('This QIIME 2 plugin supports generating and manipulating '
                  'phylogenetic trees.'),
     short_description='Plugin for generating and manipulating phylogenies.'
@@ -59,7 +56,8 @@ plugin.methods.register_function(
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with FastTree.',
-    description=("Construct a phylogenetic tree with FastTree.")
+    description=("Construct a phylogenetic tree with FastTree."),
+    citations=[citations['price2010fasttree']]
 )
 
 plugin.methods.register_function(

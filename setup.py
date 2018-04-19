@@ -22,6 +22,9 @@ setup(
     entry_points={
         'qiime2.plugins': ['q2-phylogeny=q2_phylogeny.plugin_setup:plugin']
     },
-    package_data={'q2_phylogeny.tests': ['data/*']},
+    package_data={
+        'q2_phylogeny': ['citations.bib'],
+        'q2_phylogeny.tests': ['data/*']
+    },
     zip_safe=False,
 )
