@@ -6,12 +6,14 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-from qiime2.plugin import Plugin, Citations, Int, Range
+from qiime2.plugin import Plugin, Citations, Int, Range, Str, Choices
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence
 from q2_types.feature_table import FeatureTable, Frequency
 
 import q2_phylogeny
+
+_RAXML_MODEL_OPT = ['GTRGAMMA', 'GTRGAMMAI', 'GTRCAT', 'GTRCATI']
 
 citations = Citations.load('citations.bib', package='q2_phylogeny')
 plugin = Plugin(
@@ -59,6 +61,33 @@ plugin.methods.register_function(
     description=("Construct a phylogenetic tree with FastTree."),
     citations=[citations['price2010fasttree']]
 )
+
+plugin.methods.register_function(
+    function=q2_phylogeny.raxml,
+    inputs={'alignment': FeatureData[AlignedSequence]},
+    parameters={'n_threads': Int % Range(-1, None),
+                'substitution_model': Str % 
+		                      Choices(_RAXML_MODEL_OPT),
+	        'seed': Int
+		},
+    outputs=[('tree', Phylogeny[Unrooted])],
+    input_descriptions={
+        'alignment': ('Aligned sequences to be used for phylogenetic '
+                      'reconstruction.'),
+    },
+    parameter_descriptions={
+        'n_threads': ('The number of threads. Using more than one thread '
+                     'will enable the PTHREADS version of RAxML'),
+        'substitution_model': ('Model of Nucleotide Substitution'),
+	'seed': ('Random number seed for the parsimony starting tree.'
+	         'This allows you to reproduce your results'),
+    },
+    output_descriptions={'tree': 'The resulting phylogenetic tree.'},
+    name='Construct a phylogenetic tree with RAxML.',
+    description=("Construct a phylogenetic tree with RAxML."),
+    citations=[citations['Stamatakis2014raxml']]
+)
+
 
 plugin.methods.register_function(
     function=q2_phylogeny.filter_table,
