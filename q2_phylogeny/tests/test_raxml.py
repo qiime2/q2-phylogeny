@@ -28,7 +28,8 @@ class RaxmlTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs_tree = raxml(input_sequences)
+            obs = raxml(input_sequences)
+        obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids (the branch lengths can vary with)
         tips = list(obs_tree.tips())
@@ -40,11 +41,13 @@ class RaxmlTests(TestPluginBase):
     def test_raxml_underscore_ids(self):
         input_fp = self.get_data_path('aligned-dna-sequences-4.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-        obs_tree = raxml(input_sequences)
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml(input_sequences)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids (the branch lengths can vary with)
         tips = list(obs_tree.tips())
-        tip_names = [t.name.replace(' ','_') for t in tips]
+        tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names), set(['GCA_001510755_1',
         'GCA_001045515_1', 'GCA_000454205_1', 'GCA_000473545_1',
         'GCA_000196255_1', 'GCA_002142615_1', 'GCA_000686145_1',

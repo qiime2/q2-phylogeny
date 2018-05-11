@@ -30,8 +30,9 @@ def run_command(cmd, verbose=True, env=None):
 
 def raxml(alignment: AlignedDNAFASTAFormat,
              n_threads: int=1, seed: int=1723,
-	     substitution_model: str='GTRGAMMA') -> skbio.TreeNode:
+	     substitution_model: str='GTRGAMMA') -> NewickFormat:
     aligned_fp = str(alignment)
+    result = NewickFormat()
 
     if n_threads == 1:
         cmd = ['raxmlHPC']
@@ -48,7 +49,7 @@ def raxml(alignment: AlignedDNAFASTAFormat,
 	       ]
         run_command(cmd)
 
-        tree_fp = os.path.join(temp_dir, 'RAxML_bestTree.%s' % runname)
-        result = skbio.TreeNode.read(tree_fp)
+        tree_tmp_fp = os.path.join(temp_dir, 'RAxML_bestTree.%s' % runname)
+        os.rename(tree_tmp_fp, str(result))
 
     return result
