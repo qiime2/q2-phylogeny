@@ -25,7 +25,8 @@ def run_command(cmd, verbose=True, env=None):
               "no longer exist.")
         print("\nCommand:", end=' ')
         print(" ".join(cmd), end='\n\n')
-        subprocess.run(cmd, check=True, env=env)
+
+    subprocess.run(cmd, check=True, env=env)
 
 
 def raxml(alignment: AlignedDNAFASTAFormat,
