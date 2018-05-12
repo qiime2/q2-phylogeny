@@ -45,7 +45,7 @@ class RaxmlTests(TestPluginBase):
             obs = raxml(input_sequences)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         # load the resulting tree and test that it has the right number of
-        # tips and the right tip ids (the branch lengths can vary with)
+        # tips and the right tip ids
         tips = list(obs_tree.tips())
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names), set(['GCA_001510755_1',
@@ -60,40 +60,38 @@ class RaxmlTests(TestPluginBase):
             obs = raxml(input_sequences)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         # load the resulting tree and test that it has the right number of
-        # tips and the right tip ids (the branch lengths can vary)
+        # tips and the right tip ids
         tips = list(obs_tree.tips())
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names), set(['GCA001510755','GCA001045515','GCA000454205',
             'GCA000473545','GCA000196255','GCA002142615','GCA000686145',
             'GCA001950115','GCA001971985','GCA900007555']))
 
+    # To do:
+    # Assert that the collection of branchlengths are as expected
+    # when switching the default model and/or test tree topology.
+    #
+    # Test that an invalid model choice can be captured? I think
+    # this may already be handled by setting up 'Choices' for this.
+    #
+    # def test_raxml_model_choice(self):
+    #     input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+    #     input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+    #     with redirected_stdio(stderr=os.devnull):
+    #         obs = raxml(input_sequences, substitution_model='GTRCAT')
+    #     obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+    #     # run raxml manually and pasted resulting newick tree below
+    #     # then compare them. Alternatively, capture a set of branchlengths.
+    #     exp_tree = ''
+    #
+    # def test_raxml_invalid_model_choice(self):
+    #     input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+    #     input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+    #     with redirected_stdio(stderr=os.devnull):
+    #         obs = raxml(input_sequences, substitution_model='JC69')
 
-#class RunCommandTests(TestPluginBase):
-#    package = 'q2_phylogeny.tests'
-#
-#    def test_failed_run(self):
-#        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-#        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-#        result = NewickFormat()
-#        aligned_fp = str(input_sequences)
-#        tree_fp = str(result)
-#
-#        cmd = ['raxmlHPC', '-m', 'GTRGAMMA', '-p', '1723', '-s', aligned_fp, '-n', 'TEST01', '-not-a-real-parameter']
-#        with self.assertRaises(subprocess.CalledProcessError):
-#            with redirected_stdio(stderr=os.devnull):
-#                run_command(cmd)
-#
-#     def test_failed_run_not_verbose(self):
-#         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-#         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-#         result = NewickFormat()
-#         aligned_fp = str(input_sequences)
-#         tree_fp = str(result)
-#
-#         cmd = ['raxmlHPC', '-m', 'GTRGAMMA', '-p', '1723', '-s', aligned_fp, '-n', 'TESTverbose', '-not-a-real-parameter']
-#         with self.assertRaises(subprocess.CalledProcessError):
-#             with redirected_stdio(stderr=os.devnull):
-#                 run_command(cmd, verbose=False)
+
+
 
 
 if __name__ == "__main__":
