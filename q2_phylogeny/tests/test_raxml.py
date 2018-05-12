@@ -52,39 +52,36 @@ class RaxmlTests(TestPluginBase):
         'GCA_001045515_1', 'GCA_000454205_1', 'GCA_000473545_1',
         'GCA_000196255_1', 'GCA_002142615_1', 'GCA_000686145_1',
         'GCA_001950115_1','GCA_001971985_1', 'GCA_900007555_1']))
+
+    def test_raxml_n_threads(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml(input_sequences)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids (the branch lengths can vary)
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+        self.assertEqual(set(tip_names), set(['GCA001510755','GCA001045515','GCA000454205',
+            'GCA000473545','GCA000196255','GCA002142615','GCA000686145',
+            'GCA001950115','GCA001971985','GCA900007555']))
+
+
+#class RunCommandTests(TestPluginBase):
+#    package = 'q2_phylogeny.tests'
 #
-#     def test_raxml_n_threads(self):
-#         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-#         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-#         obs = raxml(input_sequences, n_threads=2)
-#         # load the resulting tree and test that it has the right number of
-#         # tips and the right tip ids (the branch lengths can vary with
-#         # different versions of FastTree, and threading can produce
-#         # non-deterministic trees)
-#         obs_tree = skbio.TreeNode.read(str(obs))
-#         tips = list(obs_tree.tips())
-#         tip_names = [t.name for t in tips]
-#         tip_names.sort()
-#         self.assertEqual(tip_names, ['GCA001510755','GCA001045515','GCA000454205',
-#             'GCA000473545','GCA000196255','GCA002142615','GCA000686145',
-#             'GCA001950115','GCA001971985','GCA900007555'])
+#    def test_failed_run(self):
+#        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+#        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+#        result = NewickFormat()
+#        aligned_fp = str(input_sequences)
+#        tree_fp = str(result)
 #
-#
-# class RunCommandTests(TestPluginBase):
-#
-#     package = 'q2_phylogeny.tests'
-#
-#     def test_failed_run(self):
-#         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-#         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-#         result = NewickFormat()
-#         aligned_fp = str(input_sequences)
-#         tree_fp = str(result)
-#
-#         cmd = ['raxmlHPC', '-m', 'GTRGAMMA', '-p', '1723', '-s', aligned_fp, '-n', 'TEST01', '-not-a-real-parameter']
-#         with self.assertRaises(subprocess.CalledProcessError):
-#             with redirected_stdio(stderr=os.devnull):
-#                 run_command(cmd)
+#        cmd = ['raxmlHPC', '-m', 'GTRGAMMA', '-p', '1723', '-s', aligned_fp, '-n', 'TEST01', '-not-a-real-parameter']
+#        with self.assertRaises(subprocess.CalledProcessError):
+#            with redirected_stdio(stderr=os.devnull):
+#                run_command(cmd)
 #
 #     def test_failed_run_not_verbose(self):
 #         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
