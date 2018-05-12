@@ -14,7 +14,7 @@ setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(),
-    author="Greg Caporaso",
+    author="Greg Caporaso and Michael Robeson",
     author_email="gregcaporaso@gmail.com",
     description="Create and work with Phylogenetic trees in QIIME 2.",
     license="BSD-3-Clause",
