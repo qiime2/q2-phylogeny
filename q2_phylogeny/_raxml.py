@@ -39,7 +39,6 @@ def raxml(alignment: AlignedDNAFASTAFormat,
         cmd = ['raxmlHPC']
     else:
         cmd = ['raxmlHPC-PTHREADS', '-T %s' % n_threads]
-        #cmd = ['raxmlHPC-PTHREADS']
 
     runname = 'q2'
     with tempfile.TemporaryDirectory() as temp_dir:
