@@ -65,8 +65,8 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=q2_phylogeny.raxml,
     inputs={'alignment': FeatureData[AlignedSequence]},
-    parameters={'n_threads': Int % Range(-1, None),
-                'substitution_model': Str % 
+    parameters={'n_threads': Int % Range(1, None),
+                'substitution_model': Str %
 		                      Choices(_RAXML_MODEL_OPT),
 	        'seed': Int
 		},

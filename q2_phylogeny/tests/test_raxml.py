@@ -68,7 +68,7 @@ class RaxmlTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences)
+            obs = raxml(input_sequences, n_threads=2)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
