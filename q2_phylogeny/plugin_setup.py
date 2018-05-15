@@ -67,7 +67,7 @@ plugin.methods.register_function(
     inputs={
             'alignment': FeatureData[AlignedSequence]},
     parameters={
-            'seed': Int, 
+            'seed': Int,
             'n_threads': Int % Range(1, None),
             'substitution_model': Str %
 		                      Choices(_RAXML_MODEL_OPT),
@@ -82,7 +82,7 @@ plugin.methods.register_function(
                      'will enable the PTHREADS version of RAxML'),
         'substitution_model': ('Model of Nucleotide Substitution'),
         'seed': ('Random number seed for the parsimony starting tree.'
-	         'This allows you to reproduce your results'),
+	         'This allows you to reproduce your results.'),
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with RAxML.',

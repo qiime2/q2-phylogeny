@@ -35,7 +35,7 @@ class RaxmlTests(TestPluginBase):
             obs = raxml(input_sequences, seed=1723)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
-        # tips and the right tip ids (the branch lengths can vary with)
+        # tips and the right tip ids
         tips = list(obs_tree.tips())
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names), set(['GCA001510755','GCA001045515',

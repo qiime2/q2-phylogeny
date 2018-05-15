@@ -9,7 +9,6 @@
 import os
 import tempfile
 import subprocess
-
 import skbio
 
 from q2_types.feature_data import AlignedDNAFASTAFormat
@@ -25,7 +24,6 @@ def run_command(cmd, verbose=True, env=None):
               "no longer exist.")
         print("\nCommand:", end=' ')
         print(" ".join(cmd), end='\n\n')
-
     subprocess.run(cmd, check=True, env=env)
 
 
