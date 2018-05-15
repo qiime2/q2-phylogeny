@@ -64,11 +64,13 @@ plugin.methods.register_function(
 
 plugin.methods.register_function(
     function=q2_phylogeny.raxml,
-    inputs={'alignment': FeatureData[AlignedSequence]},
-    parameters={'n_threads': Int % Range(1, None),
-                'substitution_model': Str %
+    inputs={
+            'alignment': FeatureData[AlignedSequence]},
+    parameters={
+            'seed': Int, 
+            'n_threads': Int % Range(1, None),
+            'substitution_model': Str %
 		                      Choices(_RAXML_MODEL_OPT),
-	        'seed': Int
 		},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
@@ -79,7 +81,7 @@ plugin.methods.register_function(
         'n_threads': ('The number of threads. Using more than one thread '
                      'will enable the PTHREADS version of RAxML'),
         'substitution_model': ('Model of Nucleotide Substitution'),
-	'seed': ('Random number seed for the parsimony starting tree.'
+        'seed': ('Random number seed for the parsimony starting tree.'
 	         'This allows you to reproduce your results'),
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},

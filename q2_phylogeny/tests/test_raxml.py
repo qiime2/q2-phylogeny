@@ -32,7 +32,7 @@ class RaxmlTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences)
+            obs = raxml(input_sequences, seed=1723)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids (the branch lengths can vary with)
@@ -51,7 +51,7 @@ class RaxmlTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-4.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences)
+            obs = raxml(input_sequences, seed=1723)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
@@ -68,7 +68,7 @@ class RaxmlTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences, n_threads=2)
+            obs = raxml(input_sequences, seed=1723, n_threads=2)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
@@ -79,7 +79,7 @@ class RaxmlTests(TestPluginBase):
             'GCA001950115','GCA001971985','GCA900007555']))
 
 
-    def test_raxml_default_seed(self):
+    def test_raxml_with_seed(self):
         """Test tip-to-tip dists are identical to manually run RAxML output.
         This test is comparing an ordered series of tip-to-tip distances
         to a tree output from a manual run of the default command:
@@ -90,7 +90,7 @@ class RaxmlTests(TestPluginBase):
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences)
+            obs = raxml(input_sequences, seed=1723)
             obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
             obs_series = set(obs_tree.tip_tip_distances().to_series())
 
@@ -111,19 +111,19 @@ class RaxmlTests(TestPluginBase):
 
         # default GTRGAMMA
         with redirected_stdio(stderr=os.devnull):
-            gtrg = raxml(input_sequences)
+            gtrg = raxml(input_sequences, seed=1723)
             gtrg_tree = skbio.TreeNode.read(str(gtrg), convert_underscores=False)
             gtrg_td = set(gtrg_tree.tip_tip_distances().to_series())
 
         # set GTRGAMMAI
         with redirected_stdio(stderr=os.devnull):
-            gtrgi = raxml(input_sequences, substitution_model='GTRGAMMAI')
+            gtrgi = raxml(input_sequences, seed=1723, substitution_model='GTRGAMMAI')
             gtrgi_tree = skbio.TreeNode.read(str(gtrgi), convert_underscores=False)
             gtrgi_td = set(gtrgi_tree.tip_tip_distances().to_series())
 
         # set GTRCAT
         with redirected_stdio(stderr=os.devnull):
-            gtrcat = raxml(input_sequences, substitution_model='GTRCAT')
+            gtrcat = raxml(input_sequences, seed=1723, substitution_model='GTRCAT')
             gtrcat_tree = skbio.TreeNode.read(str(gtrcat), convert_underscores=False)
             gtrcat_td = set(gtrcat_tree.tip_tip_distances().to_series())
             # compare trees, each should have different branch lengths

@@ -30,7 +30,8 @@ def run_command(cmd, verbose=True, env=None):
 
 
 def raxml(alignment: AlignedDNAFASTAFormat,
-             n_threads: int=1, seed: int=1723,
+             seed: int,
+             n_threads: int=1,
 	     substitution_model: str='GTRGAMMA') -> NewickFormat:
     aligned_fp = str(alignment)
     result = NewickFormat()
