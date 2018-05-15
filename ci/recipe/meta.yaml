@@ -25,7 +25,6 @@ requirements:
     - q2-types {{ release }}.*
     - fasttree
     - raxml
-    - iqtree
 
 test:
   imports:
