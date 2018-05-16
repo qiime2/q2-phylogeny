@@ -16,7 +16,8 @@ from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
-from q2_phylogeny._raxml import raxml, run_command
+from q2_phylogeny import raxml
+from q2_phylogeny._raxml import run_command
 
 
 class RaxmlTests(TestPluginBase):
