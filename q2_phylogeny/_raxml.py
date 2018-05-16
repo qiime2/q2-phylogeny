@@ -30,7 +30,7 @@ def run_command(cmd, verbose=True, env=None):
 def raxml(alignment: AlignedDNAFASTAFormat,
              seed: int,
              n_threads: int=1,
-	     substitution_model: str='GTRGAMMA') -> NewickFormat:
+         substitution_model: str='GTRGAMMA') -> NewickFormat:
     aligned_fp = str(alignment)
     result = NewickFormat()
 
@@ -42,11 +42,11 @@ def raxml(alignment: AlignedDNAFASTAFormat,
     runname = 'q2'
     with tempfile.TemporaryDirectory() as temp_dir:
         cmd += ['-m', str(substitution_model),
-	        '-p', str(seed),
-	        '-s', aligned_fp,
-	        '-w', temp_dir,
-	        '-n', runname
-	       ]
+            '-p', str(seed),
+            '-s', aligned_fp,
+            '-w', temp_dir,
+            '-n', runname
+           ]
         run_command(cmd)
 
         tree_tmp_fp = os.path.join(temp_dir, 'RAxML_bestTree.%s' % runname)

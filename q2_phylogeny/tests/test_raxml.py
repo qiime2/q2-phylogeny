@@ -75,8 +75,8 @@ class RaxmlTests(TestPluginBase):
         tips = list(obs_tree.tips())
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names), set(['GCA001510755','GCA001045515',
-	    'GCA000454205', 'GCA000473545','GCA000196255','GCA002142615',
-	    'GCA000686145', 'GCA001950115','GCA001971985','GCA900007555']))
+        'GCA000454205', 'GCA000473545','GCA000196255','GCA002142615',
+        'GCA000686145', 'GCA001950115','GCA001971985','GCA900007555']))
 
 
     def test_raxml_with_seed(self):
@@ -112,24 +112,24 @@ class RaxmlTests(TestPluginBase):
         # default GTRGAMMA
         with redirected_stdio(stderr=os.devnull):
             gtrg = raxml(input_sequences, seed=1723)
-            gtrg_tree = skbio.TreeNode.read(str(gtrg), 
-	                convert_underscores=False)
+            gtrg_tree = skbio.TreeNode.read(str(gtrg),
+                    convert_underscores=False)
             gtrg_td = set(gtrg_tree.tip_tip_distances().to_series())
 
         # set GTRGAMMAI
         with redirected_stdio(stderr=os.devnull):
-            gtrgi = raxml(input_sequences, seed=1723, 
-	            substitution_model='GTRGAMMAI')
-            gtrgi_tree = skbio.TreeNode.read(str(gtrgi), 
-	                    convert_underscores=False)
+            gtrgi = raxml(input_sequences, seed=1723,
+                substitution_model='GTRGAMMAI')
+            gtrgi_tree = skbio.TreeNode.read(str(gtrgi),
+                        convert_underscores=False)
             gtrgi_td = set(gtrgi_tree.tip_tip_distances().to_series())
 
         # set GTRCAT
         with redirected_stdio(stderr=os.devnull):
-            gtrcat = raxml(input_sequences, seed=1723, 
-	                substitution_model='GTRCAT')
-            gtrcat_tree = skbio.TreeNode.read(str(gtrcat), 
-	                    convert_underscores=False)
+            gtrcat = raxml(input_sequences, seed=1723,
+                    substitution_model='GTRCAT')
+            gtrcat_tree = skbio.TreeNode.read(str(gtrcat),
+                        convert_underscores=False)
             gtrcat_td = set(gtrcat_tree.tip_tip_distances().to_series())
 
         # test pairs are not equivalent
