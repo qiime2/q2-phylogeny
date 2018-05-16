@@ -69,9 +69,7 @@ plugin.methods.register_function(
     parameters={
             'seed': Int,
             'n_threads': Int % Range(1, None),
-            'substitution_model': Str %
-		                      Choices(_RAXML_MODEL_OPT),
-		},
+            'substitution_model': Str % Choices(_RAXML_MODEL_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
@@ -79,11 +77,10 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_threads': ('The number of threads. Using more than one thread '
-                     'will enable the PTHREADS version of RAxML'),
+                      'will enable the PTHREADS version of RAxML'),
         'substitution_model': ('Model of Nucleotide Substitution'),
         'seed': ('Random number seed for the parsimony starting tree.'
-	         'This allows you to reproduce your results.'),
-    },
+                 'This allows you to reproduce your results.')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with RAxML.',
     description=("Construct a phylogenetic tree with RAxML."),
