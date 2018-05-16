@@ -14,4 +14,4 @@ from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 
-__all__ = ["midpoint_root", "fasttree", "filter_table"]
+__all__ = ["midpoint_root", "fasttree", "raxml", "filter_table"]
