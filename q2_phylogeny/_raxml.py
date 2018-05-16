@@ -40,8 +40,8 @@ def raxml(alignment: AlignedDNAFASTAFormat,
     else:
         cmd = ['raxmlHPC-PTHREADS', '-T %s' % n_threads]
 
-    if seed == None:
-        seed = randint(1000,10000)
+    if seed is None:
+        seed = randint(1000, 10000)
 
     runname = 'q2'
     with tempfile.TemporaryDirectory() as temp_dir:
