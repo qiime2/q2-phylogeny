@@ -18,6 +18,7 @@ from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_phylogeny import raxml
 from q2_phylogeny._raxml import run_command
 
+
 class RaxmlTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
@@ -144,6 +145,7 @@ class RaxmlTests(TestPluginBase):
         self.assertNotEqual(gtrg_td, gtrcat_td)
         self.assertNotEqual(gtrgi_td, gtrcat_td)
 
+
 class RaxmlRunCommandTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
@@ -166,7 +168,7 @@ class RaxmlRunCommandTests(TestPluginBase):
 
             obs_tree_fp = os.path.join(temp_dir, 'RAxML_bestTree.q2')
             obs_tree = skbio.TreeNode.read(str(obs_tree_fp),
-                                       convert_underscores=False)
+                                           convert_underscores=False)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
         tips = list(obs_tree.tips())
