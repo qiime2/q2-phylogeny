@@ -9,13 +9,14 @@
 import os
 import unittest
 import skbio
+import tempfile
 
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
 
 from q2_phylogeny import raxml
-
+from q2_phylogeny._raxml import run_command
 
 class RaxmlTests(TestPluginBase):
 
@@ -142,6 +143,40 @@ class RaxmlTests(TestPluginBase):
         self.assertNotEqual(gtrg_td, gtrgi_td)
         self.assertNotEqual(gtrg_td, gtrcat_td)
         self.assertNotEqual(gtrgi_td, gtrcat_td)
+
+class RaxmlRunCommandTests(TestPluginBase):
+
+    package = 'q2_phylogeny.tests'
+
+    def test_failed_run_not_verbose(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        aligned_fp = str(input_sequences)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cmd = ['raxmlHPC',
+                   '-m', 'GTRGAMMA',
+                   '-p', '1723',
+                   '-s', aligned_fp,
+                   '-w', temp_dir,
+                   '-n', 'q2']
+
+            with redirected_stdio(stderr=os.devnull):
+                run_command(cmd, verbose=False)
+
+            obs_tree_fp = os.path.join(temp_dir, 'RAxML_bestTree.q2')
+            obs_tree = skbio.TreeNode.read(str(obs_tree_fp),
+                                       convert_underscores=False)
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515',
+                              'GCA000454205', 'GCA000473545',
+                              'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115',
+                              'GCA001971985', 'GCA900007555']))
 
 
 if __name__ == "__main__":

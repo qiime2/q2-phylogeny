@@ -14,7 +14,7 @@ from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
 
-def run_command(cmd, verbose=True, env=None):
+def run_command(cmd, verbose=True):
     if verbose:
         print("Running external command line application. This may print "
               "messages to stdout and/or stderr.")
@@ -23,7 +23,7 @@ def run_command(cmd, verbose=True, env=None):
               "no longer exist.")
         print("\nCommand:", end=' ')
         print(" ".join(cmd), end='\n\n')
-    subprocess.run(cmd, check=True, env=env)
+    subprocess.run(cmd, check=True)
 
 
 def raxml(alignment: AlignedDNAFASTAFormat,
