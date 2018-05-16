@@ -148,7 +148,7 @@ class RaxmlRunCommandTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
 
-    def test_failed_run_not_verbose(self):
+    def test_run_not_verbose(self):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         aligned_fp = str(input_sequences)
