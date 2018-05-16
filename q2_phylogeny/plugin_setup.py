@@ -80,7 +80,8 @@ plugin.methods.register_function(
                       'will enable the PTHREADS version of RAxML'),
         'substitution_model': ('Model of Nucleotide Substitution'),
         'seed': ('Random number seed for the parsimony starting tree.'
-                 'This allows you to reproduce your results.')},
+                 'This allows you to reproduce tree results.'
+                 'If not supplied then one will be randomly chosen.')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with RAxML.',
     description=("Construct a phylogenetic tree with RAxML."),

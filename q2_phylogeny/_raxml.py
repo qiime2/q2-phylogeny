@@ -10,6 +10,8 @@ import os
 import tempfile
 import subprocess
 
+from random import randint
+
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
@@ -27,7 +29,7 @@ def run_command(cmd, verbose=True):
 
 
 def raxml(alignment: AlignedDNAFASTAFormat,
-          seed: int,
+          seed: int=None,
           n_threads: int=1,
           substitution_model: str='GTRGAMMA') -> NewickFormat:
     aligned_fp = str(alignment)
@@ -37,6 +39,9 @@ def raxml(alignment: AlignedDNAFASTAFormat,
         cmd = ['raxmlHPC']
     else:
         cmd = ['raxmlHPC-PTHREADS', '-T %s' % n_threads]
+
+    if seed == None:
+        seed = randint(1000,10000)
 
     runname = 'q2'
     with tempfile.TemporaryDirectory() as temp_dir:

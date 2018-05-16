@@ -30,7 +30,7 @@ class RaxmlTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences, seed=1723)
+            obs = raxml(input_sequences)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
@@ -50,7 +50,7 @@ class RaxmlTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-4.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences, seed=1723)
+            obs = raxml(input_sequences)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
@@ -69,7 +69,7 @@ class RaxmlTests(TestPluginBase):
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
         with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences, seed=1723, n_threads=2)
+            obs = raxml(input_sequences, n_threads=2)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
 
         # load the resulting tree and test that it has the right number of
@@ -111,8 +111,9 @@ class RaxmlTests(TestPluginBase):
     def test_raxml_model_choice(self):
         """Tip to tip dists should NOT be identical under different models.
         Default is GTRGAMMA, we'll compare ouput to GRTGAMMAI & GTRCAT.
-
         This test is comparing an ordered series of tip-to-tip distances.
+        Take note, that for this comparison to work, all must have the same
+        seed value set.
         """
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
