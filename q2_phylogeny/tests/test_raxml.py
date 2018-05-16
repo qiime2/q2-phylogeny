@@ -88,7 +88,8 @@ class RaxmlTests(TestPluginBase):
         raxmlHPC -m GTRGAMMA -p 1723 -s aligned-dna-sequences-3.fasta -n q2
 
         NOTE: I cleanly rounded the tip-to-tip dists (i.e. `%.4f`) as RAxML
-              may return slightly different rounding errors.
+              may return slightly different rounding errors on different
+              systems.
         """
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
