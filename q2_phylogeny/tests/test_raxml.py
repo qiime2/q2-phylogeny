@@ -62,7 +62,7 @@ class RaxmlTests(TestPluginBase):
                               'GCA_001971985_1', 'GCA_900007555_1']))
 
     def test_raxml_n_threads(self):
-        #Test that an output tree is made when invoking threads.
+        # Test that an output tree is made when invoking threads.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
@@ -87,8 +87,8 @@ class RaxmlTests(TestPluginBase):
         # to a tree output from a manual run of the default command:
         # raxmlHPC -m GTRGAMMA -p 1723 -s aligned-dna-sequences-3.fasta -n q2
         # NOTE: I cleanly rounded the tip-to-tip dists (i.e. `%.4f`) as RAxML
-        #      may return slightly different rounding errors on different
-        #      systems.
+        # may return slightly different rounding errors on different
+        # systems.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
