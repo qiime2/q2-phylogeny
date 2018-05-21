@@ -24,9 +24,8 @@ class RaxmlTests(TestPluginBase):
     package = 'q2_phylogeny.tests'
 
     def test_raxml(self):
-        """Test that output tree is made.
-        Reads tree output and compares tip labels to expected labels.
-        """
+        # Test that output tree is made.
+        # Reads tree output and compares tip labels to expected labels.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
@@ -43,10 +42,9 @@ class RaxmlTests(TestPluginBase):
                               'GCA900007555']))
 
     def test_raxml_underscore_ids(self):
-        """Test that output tree is made with underscores in tip IDs.
-        Some programs and python wrappers may strip underscores.
-        Reads tree output and compares tip labels to expected labels.
-        """
+        # Test that output tree is made with underscores in tip IDs.
+        # Some programs and python wrappers may strip underscores.
+        # Reads tree output and compares tip labels to expected labels.
         input_fp = self.get_data_path('aligned-dna-sequences-4.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
@@ -64,7 +62,7 @@ class RaxmlTests(TestPluginBase):
                               'GCA_001971985_1', 'GCA_900007555_1']))
 
     def test_raxml_n_threads(self):
-        """Test that an output tree is made when invoking threads."""
+        #Test that an output tree is made when invoking threads.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
@@ -84,15 +82,13 @@ class RaxmlTests(TestPluginBase):
                               'GCA900007555']))
 
     def test_raxml_with_seed(self):
-        """Test tip-to-tip dists are identical to manually run RAxML output.
-        This test is comparing an ordered series of tip-to-tip distances
-        to a tree output from a manual run of the default command:
-        raxmlHPC -m GTRGAMMA -p 1723 -s aligned-dna-sequences-3.fasta -n q2
-
-        NOTE: I cleanly rounded the tip-to-tip dists (i.e. `%.4f`) as RAxML
-              may return slightly different rounding errors on different
-              systems.
-        """
+        # Test tip-to-tip dists are identical to manually run RAxML output.
+        # This test is comparing an ordered series of tip-to-tip distances
+        # to a tree output from a manual run of the default command:
+        # raxmlHPC -m GTRGAMMA -p 1723 -s aligned-dna-sequences-3.fasta -n q2
+        # NOTE: I cleanly rounded the tip-to-tip dists (i.e. `%.4f`) as RAxML
+        #      may return slightly different rounding errors on different
+        #      systems.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
@@ -109,12 +105,11 @@ class RaxmlTests(TestPluginBase):
         self.assertEqual(obs_series, exp_series)
 
     def test_raxml_model_choice(self):
-        """Tip to tip dists should NOT be identical under different models.
-        Default is GTRGAMMA, we'll compare ouput to GRTGAMMAI & GTRCAT.
-        This test is comparing an ordered series of tip-to-tip distances.
-        Take note, that for this comparison to work, all must have the same
-        seed value set.
-        """
+        # Tip to tip dists should NOT be identical under different models.
+        # Default is GTRGAMMA, we'll compare ouput to GRTGAMMAI & GTRCAT.
+        # This test is comparing an ordered series of tip-to-tip distances.
+        # Take note, that for this comparison to work, all must have the same
+        # seed value set.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
