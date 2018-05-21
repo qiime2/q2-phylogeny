@@ -76,12 +76,13 @@ plugin.methods.register_function(
                       'reconstruction.'),
     },
     parameter_descriptions={
-        'n_threads': ('The number of threads. Using more than one thread '
-                      'will enable the PTHREADS version of RAxML'),
+        'n_threads': ('The number of threads to use for multithreaded '
+                      'processing. Using more than one thread '
+                      'will enable the PTHREADS version of RAxML.'),
         'substitution_model': ('Model of Nucleotide Substitution'),
-        'seed': ('Random number seed for the parsimony starting tree.'
-                 'This allows you to reproduce tree results.'
-                 'If not supplied then one will be randomly chosen.')},
+        'seed': ('Random number seed for the parsimony starting tree. '
+                 'This allows you to reproduce tree results. '
+                 'If not supplied then one will be randomly chosen. ')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with RAxML.',
     description=("Construct a phylogenetic tree with RAxML."),
