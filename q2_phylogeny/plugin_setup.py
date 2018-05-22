@@ -121,7 +121,7 @@ plugin.methods.register_function(
         'bootstrap_replicates': ('The number of bootstrap searches to '
                                  'perform. ')},
     output_descriptions={'tree': 'The resulting phylogenetic tree. '},
-    name='Construct a phylogenetic tree with RAxML.',
+    name='Construct a phylogenetic tree with bootstrap supports using RAxML.',
     description=('Construct a phylogenetic tree with RAxML with the addition '
                  'of rapid bootstrapping support values'),
     citations=[citations['Stamatakis2014raxml'],
