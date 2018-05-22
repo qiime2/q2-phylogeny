@@ -15,7 +15,7 @@ from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
 
-from q2_phylogeny import raxml
+from q2_phylogeny import raxml, raxml_rapid_bootstrap
 from q2_phylogeny._raxml import run_command
 
 
@@ -94,9 +94,9 @@ class RaxmlTests(TestPluginBase):
 
         with redirected_stdio(stderr=os.devnull):
             obs = raxml(input_sequences, seed=1723)
-            obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
-            obs_tl = list(obs_tree.tip_tip_distances().to_series())
-            obs_series = set(['%.4f' % e for e in obs_tl])
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+        obs_tl = list(obs_tree.tip_tip_distances().to_series())
+        obs_series = set(['%.4f' % e for e in obs_tl])
 
         exp_tree = skbio.TreeNode.read(self.get_data_path('test.tre'))
         exp_tl = list(exp_tree.tip_tip_distances().to_series())
@@ -141,6 +141,77 @@ class RaxmlTests(TestPluginBase):
         self.assertNotEqual(gtrg_td, gtrcat_td)
         self.assertNotEqual(gtrgi_td, gtrcat_td)
 
+    def test_raxml_rapid_bootstrap(self):
+        # Test that output tree is made.
+        # Reads tree output and compares tip labels to expected labels.
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml_rapid_bootstrap(input_sequences)
+        obs_tree = skbio.TreeNode.read(str(obs))
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515', 'GCA000454205',
+                              'GCA000473545', 'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
+
+    def test_raxml_rapid_bootstrap_n_threads(self):
+        # Test that an output tree is made when invoking threads.
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml_rapid_bootstrap(input_sequences, n_threads=2)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515', 'GCA000454205',
+                              'GCA000473545', 'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
+
+    def test_raxml_rapid_bootstrap_with_seed(self):
+        # Test tip-to-tip dists are identical to manually run RAxML output.
+        # This test is comparing an ordered series of tip-to-tip distances
+        # to a tree output from a manual run of the default command:
+        #     raxmlHPC -f a -m GTRGAMMA -p 1723 -x 3871
+        #         -s aligned-dna-sequences-3.fasta -n q2
+        # NOTE: I cleanly rounded the tip-to-tip dists (i.e. `%.4f`) as RAxML
+        # may return slightly different rounding errors on different
+        # systems (and at times, between conda environments).
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+
+        # test that branchlengths are identical
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml_rapid_bootstrap(input_sequences, seed=1723,
+                                        rapid_bootstrap_seed=3871,
+                                        bootstrap_replicates=10)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+        # sometimes we lose the last set of numbers on long floats
+        obs_tl = list(obs_tree.tip_tip_distances().to_series())
+        obs_series = set(['%.4f' % e for e in obs_tl])
+
+        exp_tree = skbio.TreeNode.read(self.get_data_path('test2.tre'),
+                                       convert_underscores=True)
+        exp_tl = list(exp_tree.tip_tip_distances().to_series())
+        exp_series = set(['%.4f' % e for e in exp_tl])
+        self.assertEqual(obs_series, exp_series)
+
+        # test that bootstrap supports are identical
+        obs_bs = [node.name for node in obs_tree.non_tips()].sort()
+        exp_bs = [node.name for node in exp_tree.non_tips()].sort()
+        self.assertEqual(obs_bs, exp_bs)
+
 
 class RaxmlRunCommandTests(TestPluginBase):
 
@@ -161,8 +232,40 @@ class RaxmlRunCommandTests(TestPluginBase):
 
             with redirected_stdio(stderr=os.devnull):
                 run_command(cmd, verbose=False)
-
             obs_tree_fp = os.path.join(temp_dir, 'RAxML_bestTree.q2')
+            obs_tree = skbio.TreeNode.read(str(obs_tree_fp),
+                                           convert_underscores=False)
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515',
+                              'GCA000454205', 'GCA000473545',
+                              'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115',
+                              'GCA001971985', 'GCA900007555']))
+
+    def test_run_rapid_bs_not_verbose(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        aligned_fp = str(input_sequences)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cmd = ['raxmlHPC',
+                   '-m', 'GTRGAMMA',
+                   '-p', '1723',
+                   '-s', aligned_fp,
+                   '-w', temp_dir,
+                   '-n', 'q2',
+                   '-f', 'a',
+                   '-x', '9834',
+                   '-N', '10']
+
+            with redirected_stdio(stderr=os.devnull):
+                run_command(cmd, verbose=False)
+
+            obs_tree_fp = os.path.join(temp_dir, 'RAxML_bipartitions.q2')
             obs_tree = skbio.TreeNode.read(str(obs_tree_fp),
                                            convert_underscores=False)
         # load the resulting tree and test that it has the right number of

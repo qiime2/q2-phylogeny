@@ -56,3 +56,41 @@ def raxml(alignment: AlignedDNAFASTAFormat,
         os.rename(tree_tmp_fp, str(result))
 
     return result
+
+
+def raxml_rapid_bootstrap(alignment: AlignedDNAFASTAFormat,
+                          seed: int=None,
+                          rapid_bootstrap_seed: int=None,
+                          bootstrap_replicates: int=100,
+                          n_threads: int=1,
+                          substitution_model: str='GTRGAMMA') -> NewickFormat:
+    aligned_fp = str(alignment)
+    result = NewickFormat()
+
+    if n_threads == 1:
+        cmd = ['raxmlHPC']
+    else:
+        cmd = ['raxmlHPC-PTHREADS', '-T %s' % n_threads]
+
+    if seed is None:
+        seed = randint(1000, 10000)
+
+    if rapid_bootstrap_seed is None:
+        rapid_bootstrap_seed = randint(1000, 10000)
+
+    runname = 'q2bootstrap'
+    with tempfile.TemporaryDirectory() as temp_dir:
+        cmd += ['-f', 'a',  # always set, rapid bootstrapping
+                '-m', str(substitution_model),
+                '-p', str(seed),
+                '-x', str(rapid_bootstrap_seed),
+                '-N', str(bootstrap_replicates),
+                '-s', aligned_fp,
+                '-w', temp_dir,
+                '-n', runname]
+        run_command(cmd)
+
+        tree_tmp_fp = os.path.join(temp_dir, 'RAxML_bipartitions.%s' % runname)
+        os.rename(tree_tmp_fp, str(result))
+
+    return result

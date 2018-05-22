@@ -89,6 +89,44 @@ plugin.methods.register_function(
     citations=[citations['Stamatakis2014raxml']]
 )
 
+plugin.methods.register_function(
+    function=q2_phylogeny.raxml_rapid_bootstrap,
+    inputs={
+            'alignment': FeatureData[AlignedSequence]},
+    parameters={
+            'seed': Int,
+            'rapid_bootstrap_seed': Int,
+            'bootstrap_replicates': Int,
+            'n_threads': Int % Range(1, None),
+            'substitution_model': Str % Choices(_RAXML_MODEL_OPT)},
+    outputs=[('tree', Phylogeny[Unrooted])],
+    input_descriptions={
+        'alignment': ('Aligned sequences to be used for phylogenetic '
+                      'reconstruction.'),
+    },
+    parameter_descriptions={
+        'n_threads': ('The number of threads to use for multithreaded '
+                      'processing. Using more than one thread '
+                      'will enable the PTHREADS version of RAxML.'),
+        'substitution_model': ('Model of Nucleotide Substitution'),
+        'seed': ('Random number seed for the parsimony starting tree. '
+                 'This allows you to reproduce tree results. '
+                 'If not supplied then one will be randomly chosen. '),
+        'rapid_bootstrap_seed': ('Specify a random seed for rapid '
+                                 'bootstrapping. '
+                                 'This allows you to reproduce rapid bootstrap'
+                                 ' results. '
+                                 'If not supplied then one will be randomly '
+                                 'chosen.'),
+        'bootstrap_replicates': ('The number of bootstrap searches to '
+                                 'perform. ')},
+    output_descriptions={'tree': 'The resulting phylogenetic tree. '},
+    name='Construct a phylogenetic tree with RAxML.',
+    description=('Construct a phylogenetic tree with RAxML with the addition '
+                 'of rapid bootstrapping support values'),
+    citations=[citations['Stamatakis2014raxml'],
+               citations['Stamatakis2008raxml']]
+)
 
 plugin.methods.register_function(
     function=q2_phylogeny.filter_table,

@@ -8,11 +8,12 @@
 
 from ._util import midpoint_root
 from ._fasttree import fasttree
-from ._raxml import raxml
+from ._raxml import raxml, raxml_rapid_bootstrap
 from ._filter import filter_table
 from ._version import get_versions
 
 __version__ = get_versions()['version']
 del get_versions
 
-__all__ = ["midpoint_root", "fasttree", "raxml", "filter_table"]
+__all__ = ["midpoint_root", "fasttree", "raxml", "raxml_rapid_bootstrap",
+           "filter_table"]
