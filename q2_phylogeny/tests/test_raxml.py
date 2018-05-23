@@ -16,7 +16,7 @@ from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
 
 from q2_phylogeny import raxml, raxml_rapid_bootstrap
-from q2_phylogeny._raxml import run_command
+from q2_phylogeny._raxml import run_command, _build_rapid_bootstrap_command
 
 
 class RaxmlTests(TestPluginBase):
@@ -140,6 +140,36 @@ class RaxmlTests(TestPluginBase):
         self.assertNotEqual(gtrg_td, gtrgi_td)
         self.assertNotEqual(gtrg_td, gtrcat_td)
         self.assertNotEqual(gtrgi_td, gtrcat_td)
+
+    def test_raxml_num_searches(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml(input_sequences, seed=1723, n_searches=5)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+        obs_tl = list(obs_tree.tip_tip_distances().to_series())
+        obs_series = set(['%.4f' % e for e in obs_tl])
+
+        exp_tree = skbio.TreeNode.read(self.get_data_path('test3.tre'))
+        exp_tl = list(exp_tree.tip_tip_distances().to_series())
+        exp_series = set(['%.4f' % e for e in exp_tl])
+        self.assertEqual(obs_series, exp_series)
+
+    def test_rapid_bootstrap_command(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with tempfile.TemporaryDirectory() as temp_dir:
+            with redirected_stdio(stderr=os.devnull):
+                obs = _build_rapid_bootstrap_command(input_sequences, 1723,
+                                                     8752, 15, 'GTRGAMMA',
+                                                     temp_dir, 'bs')
+        self.assertTrue(str(input_sequences) in str(obs[11]))
+        self.assertTrue('1723' in obs[5])
+        self.assertTrue('8752' in obs[7])
+        self.assertTrue('15' in obs[9])
+        self.assertTrue('GTRGAMMA' in obs[3])
+        self.assertTrue(str(temp_dir) in obs[13])
+        self.assertTrue('bs' in obs[15])
 
     def test_raxml_rapid_bootstrap(self):
         # Test that output tree is made.

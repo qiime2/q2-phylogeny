@@ -68,6 +68,7 @@ plugin.methods.register_function(
             'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
+            'n_searches': Int,
             'n_threads': Int % Range(1, None),
             'substitution_model': Str % Choices(_RAXML_MODEL_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
@@ -76,13 +77,16 @@ plugin.methods.register_function(
                       'reconstruction.'),
     },
     parameter_descriptions={
+        'n_searches': ('The number of independent maximum likelihood '
+                       'searches to perform. The single best scoring '
+                       'tree is returned.'),
         'n_threads': ('The number of threads to use for multithreaded '
                       'processing. Using more than one thread '
                       'will enable the PTHREADS version of RAxML.'),
-        'substitution_model': ('Model of Nucleotide Substitution'),
+        'substitution_model': ('Model of Nucleotide Substitution.'),
         'seed': ('Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
-                 'If not supplied then one will be randomly chosen. ')},
+                 'If not supplied then one will be randomly chosen.')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with RAxML.',
     description=("Construct a phylogenetic tree with RAxML."),
@@ -96,7 +100,7 @@ plugin.methods.register_function(
     parameters={
             'seed': Int,
             'rapid_bootstrap_seed': Int,
-            'bootstrap_replicates': Int,
+            'bootstrap_replicates': Int % Range(10, None),
             'n_threads': Int % Range(1, None),
             'substitution_model': Str % Choices(_RAXML_MODEL_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
@@ -111,19 +115,17 @@ plugin.methods.register_function(
         'substitution_model': ('Model of Nucleotide Substitution'),
         'seed': ('Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
-                 'If not supplied then one will be randomly chosen. '),
+                 'If not supplied then one will be randomly chosen.'),
         'rapid_bootstrap_seed': ('Specify a random seed for rapid '
-                                 'bootstrapping. '
-                                 'This allows you to reproduce rapid bootstrap'
-                                 ' results. '
-                                 'If not supplied then one will be randomly '
-                                 'chosen.'),
+                                 'bootstrapping. This allows you to reproduce '
+                                 'rapid bootstrap results. If not supplied '
+                                 'then one will be randomly chosen.'),
         'bootstrap_replicates': ('The number of bootstrap searches to '
-                                 'perform. ')},
-    output_descriptions={'tree': 'The resulting phylogenetic tree. '},
+                                 'perform.')},
+    output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with bootstrap supports using RAxML.',
     description=('Construct a phylogenetic tree with RAxML with the addition '
-                 'of rapid bootstrapping support values'),
+                 'of rapid bootstrapping support values.'),
     citations=[citations['Stamatakis2014raxml'],
                citations['Stamatakis2008raxml']]
 )
