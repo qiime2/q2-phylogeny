@@ -6,7 +6,7 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-from qiime2.plugin import Plugin, Citations, Int, Range, Str, Choices
+from qiime2.plugin import Plugin, Citations, Int, Range, Str, Choices, Bool
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence
 from q2_types.feature_table import FeatureTable, Frequency
@@ -173,15 +173,12 @@ plugin.methods.register_function(
 
 plugin.methods.register_function(
     function=q2_phylogeny.iqtree,
-    inputs={
-            'alignment': FeatureData[AlignedSequence]},
+    inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
             'n_threads': Int % Range(1, None),
-            'safe': Str,
-            'fast': Str,
-            'substitution_model': Str},
-            #'show_substituion_models': Str},
+            'substitution_model': Str,
+            'safe': Bool},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
@@ -193,12 +190,9 @@ plugin.methods.register_function(
         'substitution_model': ('Model of Nucleotide Substitution.'
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically. '),
-        #'show_substituion_models': ('Show the substitution models that can '
-        #'be supplied to --substitution-model.')
         'seed': ('Random number seed. This allows you to reproduce tree '
                  'results. If not supplied then one will be randomly chosen.'),
-        'safe': ('Safe likelihood kernel to avoid numerical underflow'),
-        'fast': ('Fast search to resemble FastTree')},
+        'safe': ('Safe likelihood kernel to avoid numerical underflow')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with IQ-TREE.',
     description=('Construct a phylogenetic tree with IQ-TREE with automatic '
