@@ -16,4 +16,4 @@ __version__ = get_versions()['version']
 del get_versions
 
 __all__ = ["midpoint_root", "fasttree", "raxml", "raxml_rapid_bootstrap",
-           "filter_table"]
+           "iqtree", "filter_table"]
