@@ -198,8 +198,7 @@ plugin.methods.register_function(
         'seed': ('Random number seed. This allows you to reproduce tree '
                  'results. If not supplied then one will be randomly chosen.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow'),
-        'fast': ('Fast search to resemble FastTree'),
-    },
+        'fast': ('Fast search to resemble FastTree')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with IQ-TREE.',
     description=('Construct a phylogenetic tree with IQ-TREE with automatic '

@@ -16,7 +16,7 @@ from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
 from q2_phylogeny._raxml import run_command
-frim q2_phylogeny._iqtree import _IQTREE_DNA_MODELS
+from q2_phylogeny._iqtree import _IQTREE_DNA_MODELS
 
 _iqtree_defaults = {
     'seed': randint(1000, 10000),

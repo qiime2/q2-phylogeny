@@ -9,6 +9,7 @@
 from ._util import midpoint_root
 from ._fasttree import fasttree
 from ._raxml import raxml, raxml_rapid_bootstrap
+from ._iqtree import iqtree
 from ._filter import filter_table
 from ._version import get_versions
 
