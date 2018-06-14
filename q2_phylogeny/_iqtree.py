@@ -41,18 +41,20 @@ def _build_iqtree_command(alignment, seed,
         '-s', str(alignment),
         '-st', str(dtype),
         '-pre', str(run_prefix),
-        '-seed', str(seed)
             ]
 
     if safe:
         cmd += ['-safe']
+
+    if seed is None:
+        cmd += ['-seed', str(randint(1000, 10000))]
 
     #test if substitution_model not in _IQTREE_DNA_MODELS:
     return cmd
 
 
 def iqtree(alignment: AlignedDNAFASTAFormat,
-          seed: int=randint(1000, 10000),
+          seed: int=None,
           n_threads: int=1,
           substitution_model: str='MFP',
           safe: bool=False) -> NewickFormat:
