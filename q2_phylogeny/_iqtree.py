@@ -38,12 +38,6 @@ def _build_iqtree_command(alignment, seed,
     if seed is None:
         cmd += ['-seed', str(randint(1000, 10000))]
 
-    # if substitution_model not in _IQTREE_DNA_MODELS:
-    #     print("\'%s\' is not one of the allowed models."
-    #             %(substitution_model))
-    #     print("Allowed substitution models are:\n%s"
-    #             %('\n'.join(_IQTREE_DNA_MODELS)))
-
     return cmd
 
 
@@ -61,6 +55,55 @@ def iqtree(alignment: AlignedDNAFASTAFormat,
                                      substitution_model=substitution_model,
                                      run_prefix=run_prefix, safe=safe)
 
+        run_command(cmd)
+
+        tree_tmp_fp = os.path.join(temp_dir, '%s.treefile' % run_prefix)
+        os.rename(tree_tmp_fp, str(result))
+
+    return result
+
+
+def _build_iqtree_ultrafast_bootstrap_command(alignment, seed,
+                          n_threads=1,
+                          substitution_model='MFP',
+                          bootstrap_replicates=1000,
+                          run_prefix='q2iqtree',
+                          dtype='DNA',
+                          safe=False):
+    cmd = [
+        'iqtree',
+        '-m', str(substitution_model),
+        '-nt', str(n_threads),
+        '-s', str(alignment),
+        '-st', str(dtype),
+        '-pre', str(run_prefix),
+        '-bb', str(bootstrap_replicates)
+            ]
+
+    if safe:
+        cmd += ['-safe']
+
+    if seed is None:
+        cmd += ['-seed', str(randint(1000, 10000))]
+
+    return cmd
+
+
+def iqtree_ultrafast_bootstrap(alignment: AlignedDNAFASTAFormat,
+          seed: int=None,
+          n_threads: int=1,
+          substitution_model: str='MFP',
+          bootstrap_replicates: int=1000,
+          safe: bool=False) -> NewickFormat:
+    result = NewickFormat()
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        run_prefix = os.path.join(temp_dir, 'q2iqtreeufboot')
+        cmd = _build_iqtree_ultrafast_bootstrap_command(alignment, seed,
+                                    n_threads=n_threads,
+                                    substitution_model=substitution_model,
+                                    bootstrap_replicates=bootstrap_replicates,
+                                    run_prefix=run_prefix, safe=safe)
         run_command(cmd)
 
         tree_tmp_fp = os.path.join(temp_dir, '%s.treefile' % run_prefix)

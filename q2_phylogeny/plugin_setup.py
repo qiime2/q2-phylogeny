@@ -201,6 +201,40 @@ plugin.methods.register_function(
                citations['Kalyaanamoorthy2017modelfinder']]
 )
 
+plugin.methods.register_function(
+    function=q2_phylogeny.iqtree_ultrafast_bootstrap,
+    inputs={'alignment': FeatureData[AlignedSequence]},
+    parameters={
+            'seed': Int,
+            'n_threads': Int % Range(1, None),
+            'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
+            'bootstrap_replicates': Int % Range(1000, None),
+            'safe': Bool},
+    outputs=[('tree', Phylogeny[Unrooted])],
+    input_descriptions={
+        'alignment': ('Aligned sequences to be used for phylogenetic '
+                      'reconstruction.'),
+    },
+    parameter_descriptions={
+        'n_threads': ('The number of threads to use for multithreaded '
+                      'processing.'),
+        'substitution_model': ('Model of Nucleotide Substitution.'
+                               'If not provided, IQ-TREE will determine the '
+                               'best fit substitution model automatically. '),
+        'seed': ('Random number seed. This allows you to reproduce tree '
+                 'results. If not supplied then one will be randomly chosen.'),
+        'bootstrap_replicates': ('The number of bootstrap searches to '
+                                 'perform. '),
+        'safe': ('Safe likelihood kernel to avoid numerical underflow')},
+    output_descriptions={'tree': 'The resulting phylogenetic tree.'},
+    name=('Construct a phylogenetic tree with IQ-TREE with bootstrap '
+          'supports.'),
+    description=('Construct a phylogenetic tree with IQ-TREE with automatic '
+                 'model selection and bootstrap supports.'),
+    citations=[citations['Nguyen2015iqtree'],
+               citations['Kalyaanamoorthy2017modelfinder'],
+               citations['Minh2013ultrafastbootstrap']]
+)
 
 plugin.methods.register_function(
     function=q2_phylogeny.filter_table,
