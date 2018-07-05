@@ -6,7 +6,8 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-from qiime2.plugin import Plugin, Citations, Int, Range, Str, Choices, Bool
+from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
+                           Float)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence
 from q2_types.feature_table import FeatureTable, Frequency
@@ -194,6 +195,14 @@ plugin.methods.register_function(
             'seed': Int,
             'n_threads': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
+            'n_init_pars_trees': Int % Range(10, 1000),
+            'n_top_init_trees': Int % Range(1, 100),
+            'n_best_retain_trees': Int % Range(1, 100),
+            'n_iter': Int % Range(10, 1000),
+            'stop_iter': Int % Range(10, 1000),
+            'perturb_nni_strength': Float % Range(0.01, 99),
+            'spr_radius': Int % Range(1, 100),
+            'allnni': Bool,
             'safe': Bool},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
@@ -208,6 +217,27 @@ plugin.methods.register_function(
                                'best fit substitution model automatically. '),
         'seed': ('Random number seed. This allows you to reproduce tree '
                  'results. If not supplied then one will be randomly chosen.'),
+        'n_init_pars_trees': ('Number of initial parsimony trees. If not '
+                              'set, program defaults will be used. See '
+                              'IQ-TREE manual for details.'),
+        'n_top_init_trees': ('Number of top initial trees. If not set, '
+                             'program defaults will be used. See IQ-TREE '
+                             'manual for details.'),
+        'n_best_retain_trees': ('Number of best trees retained during '
+                                'search. If not set, program defaults will '
+                                'be used. See IQ-TREE manual for details.'),
+        'n_iter': ('Fix number of iterations to stop. If not set, program '
+                   'defaults will be used. See IQ-TREE manual for details.'),
+        'stop_iter': ('Number of unsuccessful iterations to stop. If not '
+                      'set, program defaults will be used. See IQ-TREE '
+                      'manual for details.'),
+        'perturb_nni_strength': ('Perturbation strength for randomized NNI. '
+                                 'If not set, program defaults will be used. '
+                                 'See IQ-TREE manual for details.'),
+        'spr_radius': ('Radius for parsimony SPR search. If not set, '
+                       'program defaults will be used. See IQ-TREE manual '
+                       'for details.'),
+        'allnni': ('Perform more thorough NNI search.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with IQ-TREE.',
@@ -224,7 +254,19 @@ plugin.methods.register_function(
             'seed': Int,
             'n_threads': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
+            'n_init_pars_trees': Int % Range(10, 1000),
+            'n_top_init_trees': Int % Range(1, 100),
+            'n_best_retain_trees': Int % Range(1, 100),
+            'n_iter': Int % Range(10, 1000),
+            'stop_iter': Int % Range(10, 1000),
+            'perturb_nni_strength': Float % Range(0.01, 99),
+            'spr_radius': Int % Range(1, 100),
             'bootstrap_replicates': Int % Range(1000, None),
+            'n_max_ufboot_iter': Int % Range(500, 5000),
+            'n_ufboot_steps': Int % Range(50, 500),
+            'min_cor_ufboot': Float % Range(0.51, 0.99),
+            'ep_break_ufboot': Float % Range(0.01, 0.99),
+            'allnni': Bool,
             'safe': Bool},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
@@ -241,6 +283,39 @@ plugin.methods.register_function(
                  'results. If not supplied then one will be randomly chosen.'),
         'bootstrap_replicates': ('The number of bootstrap searches to '
                                  'perform. '),
+        'n_init_pars_trees': ('Number of initial parsimony trees. If not '
+                              'set, program defaults will be used. See '
+                              'IQ-TREE manual for details.'),
+        'n_top_init_trees': ('Number of top initial trees. If not set, '
+                             'program defaults will be used. See IQ-TREE '
+                             'manual for details.'),
+        'n_best_retain_trees': ('Number of best trees retained during '
+                                'search. If not set, program defaults will '
+                                'be used. See IQ-TREE manual for details.'),
+        'n_iter': ('Fix number of iterations to stop. If not set, program '
+                   'defaults will be used. See IQ-TREE manual for details.'),
+        'stop_iter': ('Number of unsuccessful iterations to stop. If not '
+                      'set, program defaults will be used. See IQ-TREE '
+                      'manual for details.'),
+        'perturb_nni_strength': ('Perturbation strength for randomized NNI. '
+                                 'If not set, program defaults will be used. '
+                                 'See IQ-TREE manual for details.'),
+        'spr_radius': ('Radius for parsimony SPR search. If not set, '
+                       'program defaults will be used. See IQ-TREE manual '
+                       'for details.'),
+        'n_max_ufboot_iter': ('Maximum number of iterations. If not set, '
+                              'program defaults will be used. See IQ-TREE '
+                              'manual for details.'),
+        'n_ufboot_steps': ('Number of iterations for UFBoot stopping rule. '
+                           'If not set, program defaults will be used.'
+                           'See IQ-TREE manual for details.'),
+        'min_cor_ufboot': ('Minimum correlation coefficient. '
+                           'If not set, program defaults will be used.'
+                           'See IQ-TREE manual for details.'),
+        'ep_break_ufboot': ('Epsilon value to break tie. If not set, program '
+                            'defaults will be used. See IQ-TREE manual for '
+                            'details.'),
+        'allnni': ('Perform more thorough NNI search.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name=('Construct a phylogenetic tree with IQ-TREE with bootstrap '

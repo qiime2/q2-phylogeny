@@ -159,8 +159,11 @@ class IqtreeTests(TestPluginBase):
             run_prefix = os.path.join(temp_dir, 'q2iqtree')
             with redirected_stdio(stderr=os.devnull):
                 obs = _build_iqtree_command(input_sequences, 1723,
-                                            1, 'MFP', run_prefix, 'DNA',
-                                            'True')
+                                            n_threads=1,
+                                            substitution_model='MFP',
+                                            run_prefix=run_prefix,
+                                            dtype='DNA',
+                                            safe='True')
         self.assertTrue('1723' in obs[4])
         self.assertTrue('DNA' in obs[6])
         self.assertTrue(str(input_sequences) in str(obs[8]))
