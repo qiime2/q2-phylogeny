@@ -140,7 +140,6 @@ def _build_iqtree_ufbs_command(alignment, seed,
             '-st', str(dtype),
             '-s', str(alignment),
             '-m', str(substitution_model),
-            '-bb', str(bootstrap_replicates),
             '-pre', str(run_prefix)]
 
     if safe:
