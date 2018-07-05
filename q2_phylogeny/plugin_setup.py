@@ -257,7 +257,6 @@ plugin.methods.register_function(
             'n_init_pars_trees': Int % Range(10, 1000),
             'n_top_init_trees': Int % Range(1, 100),
             'n_best_retain_trees': Int % Range(1, 100),
-            'n_iter': Int % Range(10, 1000),
             'stop_iter': Int % Range(10, 1000),
             'perturb_nni_strength': Float % Range(0.01, 99),
             'spr_radius': Int % Range(1, 100),
@@ -292,8 +291,6 @@ plugin.methods.register_function(
         'n_best_retain_trees': ('Number of best trees retained during '
                                 'search. If not set, program defaults will '
                                 'be used. See IQ-TREE manual for details.'),
-        'n_iter': ('Fix number of iterations to stop. If not set, program '
-                   'defaults will be used. See IQ-TREE manual for details.'),
         'stop_iter': ('Number of unsuccessful iterations to stop. If not '
                       'set, program defaults will be used. See IQ-TREE '
                       'manual for details.'),

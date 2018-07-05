@@ -92,7 +92,15 @@ def iqtree(alignment: AlignedDNAFASTAFormat,
         cmd = _build_iqtree_command(alignment, seed,
                                     n_threads=n_threads,
                                     substitution_model=substitution_model,
-                                    run_prefix=run_prefix, allnni=allnni,
+                                    run_prefix=run_prefix,
+                                    n_init_pars_trees=n_init_pars_trees,
+                                    n_top_init_trees=n_top_init_trees,
+                                    n_best_retain_trees=n_best_retain_trees,
+                                    n_iter=n_iter,
+                                    stop_iter=stop_iter,
+                                    perturb_nni_strength=perturb_nni_strength,
+                                    spr_radius=spr_radius,
+                                    allnni=allnni,
                                     safe=safe)
         run_command(cmd)
 
@@ -111,7 +119,6 @@ def _build_iqtree_ufbs_command(alignment, seed,
                                n_init_pars_trees=None,
                                n_top_init_trees=None,
                                n_best_retain_trees=None,
-                               n_iter=None,
                                stop_iter=None,
                                perturb_nni_strength=None,
                                spr_radius=None,
@@ -151,9 +158,6 @@ def _build_iqtree_ufbs_command(alignment, seed,
     if n_best_retain_trees:
         cmd += ['-nbest', str(n_best_retain_trees)]
 
-    if n_iter:
-        cmd += ['-n', str(n_iter)]
-
     if stop_iter:
         cmd += ['-nstop', str(stop_iter)]
 
@@ -186,7 +190,6 @@ def iqtree_ultrafast_bootstrap(alignment: AlignedDNAFASTAFormat,
                                n_init_pars_trees: int=None,
                                n_top_init_trees: int=None,
                                n_best_retain_trees: int=None,
-                               n_iter: int=None,
                                stop_iter: int=None,
                                perturb_nni_strength: float=None,
                                spr_radius: int=None,
@@ -196,6 +199,8 @@ def iqtree_ultrafast_bootstrap(alignment: AlignedDNAFASTAFormat,
                                ep_break_ufboot: float=None,
                                allnni: bool=False,
                                safe: bool=False) -> NewickFormat:
+    # NOTE: the IQ-TREE command `-n` (called as `n_iter` in the `iqtree`
+    # method) is not compatable with ultrafast_bootstrap `-bb`
     result = NewickFormat()
 
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -205,7 +210,19 @@ def iqtree_ultrafast_bootstrap(alignment: AlignedDNAFASTAFormat,
                     n_threads=n_threads,
                     substitution_model=substitution_model,
                     bootstrap_replicates=bootstrap_replicates,
-                    run_prefix=run_prefix, safe=safe)
+                    run_prefix=run_prefix,
+                    n_init_pars_trees=n_init_pars_trees,
+                    n_top_init_trees=n_top_init_trees,
+                    n_best_retain_trees=n_best_retain_trees,
+                    stop_iter=stop_iter,
+                    perturb_nni_strength=perturb_nni_strength,
+                    spr_radius=spr_radius,
+                    n_max_ufboot_iter=n_max_ufboot_iter,
+                    n_ufboot_steps=n_ufboot_steps,
+                    min_cor_ufboot=min_cor_ufboot,
+                    ep_break_ufboot=ep_break_ufboot,
+                    allnni=allnni,
+                    safe=safe)
         run_command(cmd)
         tree_tmp_fp = os.path.join(temp_dir, '%s.treefile' % run_prefix)
         os.rename(tree_tmp_fp, str(result))
