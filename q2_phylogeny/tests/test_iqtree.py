@@ -17,7 +17,8 @@ from q2_types.feature_data import AlignedDNAFASTAFormat
 
 from q2_phylogeny import iqtree, iqtree_ultrafast_bootstrap
 from q2_phylogeny._raxml import run_command
-
+from q2_phylogeny._iqtree import (_build_iqtree_command,
+                                 _build_iqtree_ultrafast_bootstrap_command)
 
 class IqtreeTests(TestPluginBase):
 
@@ -33,6 +34,22 @@ class IqtreeTests(TestPluginBase):
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515', 'GCA000454205',
+                              'GCA000473545', 'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
+
+
+    def test_iqtree_safe(self):
+        # Same as `test_iqtree` but testing the `-safe` flag
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with redirected_stdio(stderr=os.devnull):
+            obs = iqtree(input_sequences, safe='True')
+        obs_tree = skbio.TreeNode.read(str(obs))
         tips = list(obs_tree.tips())
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
@@ -139,39 +156,39 @@ class IqtreeTests(TestPluginBase):
         self.assertNotEqual(gtrg_td, hky_td)
 
 
-    # def test_build_iqtree_command(self):
-    #     input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-    #     input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-    #     with tempfile.TemporaryDirectory() as temp_dir:
-    #         with redirected_stdio(stderr=os.devnull):
-    #             obs = _build_iqtree_command(input_sequences, 1723,
-    #                                                  8752, 15, 'GTRGAMMA',
-    #                                                  temp_dir, 'bs')
-    #     self.assertTrue(str(input_sequences) in str(obs[11]))
-    #     self.assertTrue('1723' in obs[5])
-    #     self.assertTrue('8752' in obs[7])
-    #     self.assertTrue('15' in obs[9])
-    #     self.assertTrue('GTRGAMMA' in obs[3])
-    #     self.assertTrue(str(temp_dir) in obs[13])
-    #     self.assertTrue('bs' in obs[15])
-    #
-    #
-    # def test_build_iqtree_ultrafast_bootstrap_command(self):
-    #     input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-    #     input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-    #     with tempfile.TemporaryDirectory() as temp_dir:
-    #         with redirected_stdio(stderr=os.devnull):
-    #             obs = _build_iqtree_ultrafast_bootstrap_command(
-    #                                                  input_sequences, 1723,
-    #                                                  8752, 15, 'GTRGAMMA',
-    #                                                  temp_dir, 'bs')
-    #     self.assertTrue(str(input_sequences) in str(obs[11]))
-    #     self.assertTrue('1723' in obs[5])
-    #     self.assertTrue('8752' in obs[7])
-    #     self.assertTrue('15' in obs[9])
-    #     self.assertTrue('GTRGAMMA' in obs[3])
-    #     self.assertTrue(str(temp_dir) in obs[13])
-    #     self.assertTrue('bs' in obs[15])
+    def test_build_iqtree_command(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with tempfile.TemporaryDirectory() as temp_dir:
+            run_prefix = os.path.join(temp_dir, 'q2iqtree')
+            with redirected_stdio(stderr=os.devnull):
+                obs = _build_iqtree_command(input_sequences, 1723,
+                                            1, 'MFP', run_prefix, 'DNA', 'True')
+        self.assertTrue('1723' in obs[4])
+        self.assertTrue('DNA' in obs[6])
+        self.assertTrue(str(input_sequences) in str(obs[8]))
+        self.assertTrue('MFP' in obs[10])
+        self.assertTrue(str(run_prefix) in obs[12])
+        self.assertTrue(str('-safe') in obs[13])
+
+
+
+    def test_build_iqtree_ultrafast_bootstrap_command(self):
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with tempfile.TemporaryDirectory() as temp_dir:
+            run_prefix = os.path.join(temp_dir, 'q2iqtreeufboot')
+            with redirected_stdio(stderr=os.devnull):
+                obs = _build_iqtree_ultrafast_bootstrap_command(
+                                                     input_sequences, 1723,
+                                                     1, 'MFP', 1000,
+                                                     run_prefix, 'DNA')
+        self.assertTrue('1723' in obs[6])
+        self.assertTrue('DNA' in obs[8])
+        self.assertTrue(str(input_sequences) in str(obs[10]))
+        self.assertTrue('MFP' in obs[12])
+        self.assertTrue('1000' in obs[14])
+        self.assertTrue(str(temp_dir) in obs[16])
 
 
     def test_iqtree_ultrafast_bootstrap(self):

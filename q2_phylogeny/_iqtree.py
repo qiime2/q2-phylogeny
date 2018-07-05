@@ -23,20 +23,20 @@ def _build_iqtree_command(alignment, seed,
                           run_prefix='q2iqtree',
                           dtype='DNA',
                           safe=False):
-    cmd = [
-        'iqtree',
-        '-m', str(substitution_model),
-        '-nt', str(n_threads),
-        '-s', str(alignment),
+
+    cmd = ['iqtree','-nt', '%i' % n_threads]
+
+    if seed is None:
+        seed = randint(1000, 10000)
+
+    cmd += ['-seed', str(seed),
         '-st', str(dtype),
-        '-pre', str(run_prefix),
-            ]
+        '-s', str(alignment),
+        '-m', str(substitution_model),
+        '-pre', str(run_prefix)]
 
     if safe:
         cmd += ['-safe']
-
-    if seed is None:
-        cmd += ['-seed', str(randint(1000, 10000))]
 
     return cmd
 
@@ -70,21 +70,22 @@ def _build_iqtree_ultrafast_bootstrap_command(alignment, seed,
                           run_prefix='q2iqtree',
                           dtype='DNA',
                           safe=False):
-    cmd = [
-        'iqtree',
-        '-m', str(substitution_model),
-        '-nt', str(n_threads),
-        '-s', str(alignment),
+    # This is a separate command becuase there are many other
+    # bootstrap specific option we may want to add later.
+    cmd = ['iqtree','-nt', '%i' % n_threads, '-bb', '%i' % bootstrap_replicates]
+
+    if seed is None:
+        seed = randint(1000, 10000)
+
+    cmd += ['-seed', str(seed),
         '-st', str(dtype),
-        '-pre', str(run_prefix),
-        '-bb', str(bootstrap_replicates)
-            ]
+        '-s', str(alignment),
+        '-m', str(substitution_model),
+        '-bb', str(bootstrap_replicates),
+        '-pre', str(run_prefix)]
 
     if safe:
         cmd += ['-safe']
-
-    if seed is None:
-        cmd += ['-seed', str(randint(1000, 10000))]
 
     return cmd
 
