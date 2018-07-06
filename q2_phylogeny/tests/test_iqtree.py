@@ -167,6 +167,7 @@ class IqtreeTests(TestPluginBase):
                                             n_init_pars_trees=200,
                                             n_top_init_trees=30,
                                             n_best_retain_trees=10,
+                                            n_iter=80,
                                             stop_iter=300,
                                             perturb_nni_strength=0.55,
                                             spr_radius=8,
@@ -182,9 +183,10 @@ class IqtreeTests(TestPluginBase):
         self.assertTrue(str('200') in obs[16])
         self.assertTrue(str('30') in obs[18])
         self.assertTrue(str('10') in obs[20])
-        self.assertTrue(str('300') in obs[22])
-        self.assertTrue(str('0.55') in obs[24])
-        self.assertTrue(str('8') in obs[26])
+        self.assertTrue(str('80') in obs[22])
+        self.assertTrue(str('300') in obs[24])
+        self.assertTrue(str('0.55') in obs[26])
+        self.assertTrue(str('8') in obs[28])
 
     def test_build_iqtree_ufbs_command(self):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
