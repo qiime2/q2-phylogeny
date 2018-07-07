@@ -15,7 +15,7 @@ from q2_phylogeny._raxml import run_command
 
 _iqtree_defaults = {
     'seed': None,
-    'n_threads': 1,
+    'n_cores': 1,
     'substitution_model': 'MFP',
     'run_prefix': 'q2iqtree',
     'dtype': 'DNA',
@@ -39,7 +39,7 @@ _iqtree_defaults = {
 def _build_iqtree_command(
         alignment,
         seed: int=_iqtree_defaults['seed'],
-        n_threads: int=_iqtree_defaults['n_threads'],
+        n_cores: int=_iqtree_defaults['n_cores'],
         substitution_model: str=_iqtree_defaults['substitution_model'],
         run_prefix: str=_iqtree_defaults['run_prefix'],
         dtype: str=_iqtree_defaults['dtype'],
@@ -60,10 +60,10 @@ def _build_iqtree_command(
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
 
-    if n_threads == 0:
+    if n_cores == 0:
         cmd += ['-nt', 'AUTO']
     else:
-        cmd += ['-nt', str(n_threads)]
+        cmd += ['-nt', str(n_cores)]
 
     if seed:
         cmd += ['-seed', str(seed)]
@@ -101,7 +101,7 @@ def _build_iqtree_command(
 def iqtree(
     alignment: AlignedDNAFASTAFormat,
     seed: int=_iqtree_defaults['seed'],
-    n_threads: int=_iqtree_defaults['n_threads'],
+    n_cores: int=_iqtree_defaults['n_cores'],
     substitution_model: str=_iqtree_defaults['substitution_model'],
     n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
     n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
@@ -119,7 +119,7 @@ def iqtree(
         run_prefix = os.path.join(temp_dir, 'q2iqtree')
         cmd = _build_iqtree_command(alignment,
                                     seed=seed,
-                                    n_threads=n_threads,
+                                    n_cores=n_cores,
                                     substitution_model=substitution_model,
                                     run_prefix=run_prefix,
                                     n_init_pars_trees=n_init_pars_trees,
@@ -142,7 +142,7 @@ def iqtree(
 def _build_iqtree_ufbs_command(
         alignment,
         seed: int=_iqtree_defaults['seed'],
-        n_threads: int=_iqtree_defaults['n_threads'],
+        n_cores: int=_iqtree_defaults['n_cores'],
         substitution_model: str=_iqtree_defaults['substitution_model'],
         bootstrap_replicates: int=_iqtree_defaults['bootstrap_replicates'],
         run_prefix: str=_iqtree_defaults['run_prefix'],
@@ -169,10 +169,10 @@ def _build_iqtree_ufbs_command(
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
 
-    if n_threads == 0:
+    if n_cores == 0:
         cmd += ['-nt', 'AUTO']
     else:
-        cmd += ['-nt', str(n_threads)]
+        cmd += ['-nt', str(n_cores)]
 
     if seed:
         cmd += ['-seed', str(seed)]
@@ -219,7 +219,7 @@ def _build_iqtree_ufbs_command(
 def iqtree_ultrafast_bootstrap(
     alignment: AlignedDNAFASTAFormat,
     seed: int=_iqtree_defaults['seed'],
-    n_threads: int=_iqtree_defaults['n_threads'],
+    n_cores: int=_iqtree_defaults['n_cores'],
     substitution_model: str=_iqtree_defaults['substitution_model'],
     bootstrap_replicates: int=_iqtree_defaults['bootstrap_replicates'],
     n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
@@ -244,7 +244,7 @@ def iqtree_ultrafast_bootstrap(
         cmd = _build_iqtree_ufbs_command(
                     alignment,
                     seed=seed,
-                    n_threads=n_threads,
+                    n_cores=n_cores,
                     substitution_model=substitution_model,
                     bootstrap_replicates=bootstrap_replicates,
                     run_prefix=run_prefix,
