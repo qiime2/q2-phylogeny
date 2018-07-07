@@ -193,7 +193,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_threads': Int % Range(1, None),
+            'n_threads': Int,
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
             'n_top_init_trees': Int % Range(1, None),
@@ -211,12 +211,13 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_threads': ('The number of threads to use for multithreaded '
-                      'processing.'),
-        'substitution_model': ('Model of Nucleotide Substitution.'
+                      'processing. Use \'0\' to let IQ-TREE automatically '
+                      'determine the optimal numbr of cores to use.'),
+        'substitution_model': ('Model of Nucleotide Substitution. '
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically. '),
-        'seed': ('Random number seed. This allows you to reproduce tree '
-                 'results. If not supplied then one will be randomly chosen.'),
+        'seed': ('Random number seed. If not set, program defaults will be '
+                 'used. See IQ-TREE manual for details.'),
         'n_init_pars_trees': ('Number of initial parsimony trees. If not '
                               'set, program defaults will be used. See '
                               'IQ-TREE manual for details.'),
@@ -241,8 +242,8 @@ plugin.methods.register_function(
         'safe': ('Safe likelihood kernel to avoid numerical underflow')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with IQ-TREE.',
-    description=('Construct a phylogenetic tree with IQ-TREE with automatic '
-                 'model selection.'),
+    description=('Construct a phylogenetic tree using IQ-TREE '
+                 '(http://www.iqtree.org/) with automatic model selection.'),
     citations=[citations['Nguyen2015iqtree'],
                citations['Kalyaanamoorthy2017modelfinder']]
 )
@@ -252,7 +253,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_threads': Int % Range(1, None),
+            'n_threads': Int,
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
             'n_top_init_trees': Int % Range(1, None),
@@ -274,12 +275,13 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_threads': ('The number of threads to use for multithreaded '
-                      'processing.'),
+                      'processing. Use \'0\' to let IQ-TREE automatically '
+                      'determine the optimal numbr of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution.'
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically. '),
-        'seed': ('Random number seed. This allows you to reproduce tree '
-                 'results. If not supplied then one will be randomly chosen.'),
+        'seed': ('Random number seed. If not set, program defaults will be '
+                 'used. See IQ-TREE manual for details.'),
         'bootstrap_replicates': ('The number of bootstrap searches to '
                                  'perform. '),
         'n_init_pars_trees': ('Number of initial parsimony trees. If not '
@@ -317,7 +319,8 @@ plugin.methods.register_function(
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name=('Construct a phylogenetic tree with IQ-TREE with bootstrap '
           'supports.'),
-    description=('Construct a phylogenetic tree with IQ-TREE with automatic '
+    description=('Construct a phylogenetic tree using IQ-TREE '
+                 '(http://www.iqtree.org/) with automatic '
                  'model selection and bootstrap supports.'),
     citations=[citations['Nguyen2015iqtree'],
                citations['Kalyaanamoorthy2017modelfinder'],

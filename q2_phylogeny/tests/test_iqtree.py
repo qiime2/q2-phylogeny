@@ -98,6 +98,26 @@ class IqtreeTests(TestPluginBase):
                               'GCA000686145', 'GCA001950115', 'GCA001971985',
                               'GCA900007555']))
 
+    def test_iqtree_n_threads_auto(self):
+        # Test that an output tree is made when invoking automatic threads.
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+
+        with redirected_stdio(stderr=os.devnull):
+            obs = iqtree(input_sequences, n_threads=0)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515', 'GCA000454205',
+                              'GCA000473545', 'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
+
     def test_iqtree_with_seed(self):
         # Test tip-to-tip dists are identical to manually run IQ-TREE output.
         # This test is comparing an ordered series of tip-to-tip distances
@@ -158,8 +178,9 @@ class IqtreeTests(TestPluginBase):
         with tempfile.TemporaryDirectory() as temp_dir:
             run_prefix = os.path.join(temp_dir, 'q2iqtree')
             with redirected_stdio(stderr=os.devnull):
-                obs = _build_iqtree_command(input_sequences, 1723,
-                                            n_threads=1,
+                obs = _build_iqtree_command(input_sequences,
+                                            seed=1723,
+                                            n_threads=0,
                                             substitution_model='MFP',
                                             run_prefix=run_prefix,
                                             dtype='DNA',
@@ -172,12 +193,12 @@ class IqtreeTests(TestPluginBase):
                                             perturb_nni_strength=0.55,
                                             spr_radius=8,
                                             allnni='True')
-        self.assertTrue('1' in obs[2])
-        self.assertTrue('1723' in obs[4])
-        self.assertTrue('DNA' in obs[6])
-        self.assertTrue(str(input_sequences) in str(obs[8]))
-        self.assertTrue('MFP' in obs[10])
-        self.assertTrue(str(run_prefix) in obs[12])
+        self.assertTrue('DNA' in obs[2])
+        self.assertTrue(str(input_sequences) in str(obs[4]))
+        self.assertTrue('MFP' in obs[6])
+        self.assertTrue(str(run_prefix) in obs[8])
+        self.assertTrue('AUTO' in obs[10])
+        self.assertTrue('1723' in obs[12])
         self.assertTrue(str('-safe') in obs[13])
         self.assertTrue(str('-allnni') in obs[14])
         self.assertTrue(str('200') in obs[16])
@@ -194,8 +215,9 @@ class IqtreeTests(TestPluginBase):
         with tempfile.TemporaryDirectory() as temp_dir:
             run_prefix = os.path.join(temp_dir, 'q2iqtreeufboot')
             with redirected_stdio(stderr=os.devnull):
-                obs = _build_iqtree_ufbs_command(input_sequences, 1723,
-                                                 n_threads=1,
+                obs = _build_iqtree_ufbs_command(input_sequences,
+                                                 seed=1723,
+                                                 n_threads=0,
                                                  bootstrap_replicates=2000,
                                                  substitution_model='MFP',
                                                  run_prefix=run_prefix,
@@ -212,13 +234,13 @@ class IqtreeTests(TestPluginBase):
                                                  n_ufboot_steps=80,
                                                  min_cor_ufboot=0.66,
                                                  ep_break_ufboot=0.51)
-        self.assertTrue('1' in obs[2])
-        self.assertTrue('2000' in obs[4])
-        self.assertTrue('1723' in obs[6])
-        self.assertTrue('DNA' in obs[8])
-        self.assertTrue(str(input_sequences) in str(obs[10]))
-        self.assertTrue('MFP' in obs[12])
-        self.assertTrue(str(run_prefix) in obs[14])
+        self.assertTrue('2000' in obs[2])
+        self.assertTrue('DNA' in obs[4])
+        self.assertTrue(str(input_sequences) in str(obs[6]))
+        self.assertTrue('MFP' in obs[8])
+        self.assertTrue(str(run_prefix) in obs[10])
+        self.assertTrue('AUTO' in obs[12])
+        self.assertTrue('1723' in obs[14])
         self.assertTrue('-safe' in obs[15])
         self.assertTrue('-allnni' in obs[16])
         self.assertTrue('200' in obs[18])
@@ -258,6 +280,24 @@ class IqtreeTests(TestPluginBase):
         with redirected_stdio(stderr=os.devnull):
             obs = iqtree_ultrafast_bootstrap(input_sequences, safe='True',
                                              allnni='True')
+        obs_tree = skbio.TreeNode.read(str(obs))
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515', 'GCA000454205',
+                              'GCA000473545', 'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
+
+    def test_iqtree_ultrafast_bootstrap_auto_threads(self):
+        # Test that output tree is made after auto optimizing threads.
+        # Reads tree output and compares tip labels to expected labels.
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with redirected_stdio(stderr=os.devnull):
+            obs = iqtree_ultrafast_bootstrap(input_sequences, n_threads=0)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids

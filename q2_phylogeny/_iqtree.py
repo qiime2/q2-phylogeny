@@ -9,38 +9,64 @@
 import os
 import tempfile
 
-from random import randint
-
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 from q2_phylogeny._raxml import run_command
 
+_iqtree_defaults = {
+    'seed': None,
+    'n_threads': 1,
+    'substitution_model': 'MFP',
+    'run_prefix': 'q2iqtree',
+    'dtype': 'DNA',
+    'n_init_pars_trees': None,
+    'n_top_init_trees': None,
+    'n_best_retain_trees': None,
+    'n_iter': None,
+    'stop_iter': None,
+    'perturb_nni_strength': None,
+    'spr_radius': None,
+    'allnni': False,
+    'safe': False,
+    'bootstrap_replicates': 1000,
+    'n_max_ufboot_iter': None,
+    'n_ufboot_steps': None,
+    'min_cor_ufboot': None,
+    'ep_break_ufboot': None,
+}
 
-def _build_iqtree_command(alignment, seed,
-                          n_threads=1,
-                          substitution_model='MFP',
-                          run_prefix='q2iqtree',
-                          dtype='DNA',
-                          n_init_pars_trees=None,
-                          n_top_init_trees=None,
-                          n_best_retain_trees=None,
-                          n_iter=None,
-                          stop_iter=None,
-                          perturb_nni_strength=None,
-                          spr_radius=None,
-                          allnni=False,
-                          safe=False):
 
-    cmd = ['iqtree', '-nt', '%i' % n_threads]
+def _build_iqtree_command(
+        alignment,
+        seed: int=_iqtree_defaults['seed'],
+        n_threads: int=_iqtree_defaults['n_threads'],
+        substitution_model: str=_iqtree_defaults['substitution_model'],
+        run_prefix: str=_iqtree_defaults['run_prefix'],
+        dtype: str=_iqtree_defaults['dtype'],
+        n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
+        n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
+        n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
+        n_iter: int=_iqtree_defaults['n_iter'],
+        stop_iter: int=_iqtree_defaults['stop_iter'],
+        perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
+        spr_radius: int=_iqtree_defaults['spr_radius'],
+        allnni: bool=_iqtree_defaults['allnni'],
+        safe: bool=_iqtree_defaults['safe']):
 
-    if seed is None:
-        seed = randint(1000, 10000)
+    cmd = ['iqtree']
 
-    cmd += ['-seed', str(seed),
-            '-st', str(dtype),
+    cmd += ['-st', str(dtype),
             '-s', str(alignment),
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
+
+    if n_threads == 0:
+        cmd += ['-nt', 'AUTO']
+    else:
+        cmd += ['-nt', str(n_threads)]
+
+    if seed:
+        cmd += ['-seed', str(seed)]
 
     if safe:
         cmd += ['-safe']
@@ -72,24 +98,27 @@ def _build_iqtree_command(alignment, seed,
     return cmd
 
 
-def iqtree(alignment: AlignedDNAFASTAFormat,
-           seed: int=None,
-           n_threads: int=1,
-           substitution_model: str='MFP',
-           n_init_pars_trees: int=None,
-           n_top_init_trees: int=None,
-           n_best_retain_trees: int=None,
-           n_iter: int=None,
-           stop_iter: int=None,
-           perturb_nni_strength: float=None,
-           spr_radius: int=None,
-           allnni: bool=False,
-           safe: bool=False) -> NewickFormat:
+def iqtree(
+    alignment: AlignedDNAFASTAFormat,
+    seed: int=_iqtree_defaults['seed'],
+    n_threads: int=_iqtree_defaults['n_threads'],
+    substitution_model: str=_iqtree_defaults['substitution_model'],
+    n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
+    n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
+    n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
+    n_iter: int=_iqtree_defaults['n_iter'],
+    stop_iter: int=_iqtree_defaults['stop_iter'],
+    perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
+    spr_radius: int=_iqtree_defaults['spr_radius'],
+    allnni: bool=_iqtree_defaults['allnni'],
+    safe: bool=_iqtree_defaults['safe'],
+            ) -> NewickFormat:
     result = NewickFormat()
 
     with tempfile.TemporaryDirectory() as temp_dir:
         run_prefix = os.path.join(temp_dir, 'q2iqtree')
-        cmd = _build_iqtree_command(alignment, seed,
+        cmd = _build_iqtree_command(alignment,
+                                    seed=seed,
                                     n_threads=n_threads,
                                     substitution_model=substitution_model,
                                     run_prefix=run_prefix,
@@ -110,37 +139,43 @@ def iqtree(alignment: AlignedDNAFASTAFormat,
     return result
 
 
-def _build_iqtree_ufbs_command(alignment, seed,
-                               n_threads=1,
-                               substitution_model='MFP',
-                               bootstrap_replicates=1000,
-                               run_prefix='q2iqtree',
-                               dtype='DNA',
-                               n_init_pars_trees=None,
-                               n_top_init_trees=None,
-                               n_best_retain_trees=None,
-                               stop_iter=None,
-                               perturb_nni_strength=None,
-                               spr_radius=None,
-                               n_max_ufboot_iter=None,
-                               n_ufboot_steps=None,
-                               min_cor_ufboot=None,
-                               ep_break_ufboot=None,
-                               allnni=False,
-                               safe=False):
+def _build_iqtree_ufbs_command(
+        alignment,
+        seed: int=_iqtree_defaults['seed'],
+        n_threads: int=_iqtree_defaults['n_threads'],
+        substitution_model: str=_iqtree_defaults['substitution_model'],
+        bootstrap_replicates: int=_iqtree_defaults['bootstrap_replicates'],
+        run_prefix: str=_iqtree_defaults['run_prefix'],
+        dtype: str=_iqtree_defaults['dtype'],
+        n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
+        n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
+        n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
+        stop_iter: int=_iqtree_defaults['stop_iter'],
+        perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
+        spr_radius: int=_iqtree_defaults['spr_radius'],
+        n_max_ufboot_iter: int=_iqtree_defaults['n_max_ufboot_iter'],
+        n_ufboot_steps: int=_iqtree_defaults['n_ufboot_steps'],
+        min_cor_ufboot: float=_iqtree_defaults['min_cor_ufboot'],
+        ep_break_ufboot: float=_iqtree_defaults['ep_break_ufboot'],
+        allnni: bool=_iqtree_defaults['allnni'],
+        safe: bool=_iqtree_defaults['safe']):
     # This is a separate command becuase there are several
     # bootstrap specific options.
-    cmd = ['iqtree', '-nt', '%i' % n_threads, '-bb',
-           '%i' % bootstrap_replicates]
 
-    if seed is None:
-        seed = randint(1000, 10000)
+    cmd = ['iqtree', '-bb', '%i' % bootstrap_replicates]
 
-    cmd += ['-seed', str(seed),
-            '-st', str(dtype),
+    cmd += ['-st', str(dtype),
             '-s', str(alignment),
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
+
+    if n_threads == 0:
+        cmd += ['-nt', 'AUTO']
+    else:
+        cmd += ['-nt', str(n_threads)]
+
+    if seed:
+        cmd += ['-seed', str(seed)]
 
     if safe:
         cmd += ['-safe']
@@ -181,23 +216,25 @@ def _build_iqtree_ufbs_command(alignment, seed,
     return cmd
 
 
-def iqtree_ultrafast_bootstrap(alignment: AlignedDNAFASTAFormat,
-                               seed: int=None,
-                               n_threads: int=1,
-                               substitution_model: str='MFP',
-                               bootstrap_replicates: int=1000,
-                               n_init_pars_trees: int=None,
-                               n_top_init_trees: int=None,
-                               n_best_retain_trees: int=None,
-                               stop_iter: int=None,
-                               perturb_nni_strength: float=None,
-                               spr_radius: int=None,
-                               n_max_ufboot_iter: int=None,
-                               n_ufboot_steps: int=None,
-                               min_cor_ufboot: float=None,
-                               ep_break_ufboot: float=None,
-                               allnni: bool=False,
-                               safe: bool=False) -> NewickFormat:
+def iqtree_ultrafast_bootstrap(
+    alignment: AlignedDNAFASTAFormat,
+    seed: int=_iqtree_defaults['seed'],
+    n_threads: int=_iqtree_defaults['n_threads'],
+    substitution_model: str=_iqtree_defaults['substitution_model'],
+    bootstrap_replicates: int=_iqtree_defaults['bootstrap_replicates'],
+    n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
+    n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
+    n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
+    stop_iter: int=_iqtree_defaults['stop_iter'],
+    perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
+    spr_radius: int=_iqtree_defaults['spr_radius'],
+    n_max_ufboot_iter: int=_iqtree_defaults['n_max_ufboot_iter'],
+    n_ufboot_steps: int=_iqtree_defaults['n_ufboot_steps'],
+    min_cor_ufboot: float=_iqtree_defaults['min_cor_ufboot'],
+    ep_break_ufboot: float=_iqtree_defaults['ep_break_ufboot'],
+    allnni: bool=_iqtree_defaults['allnni'],
+    safe: bool=_iqtree_defaults['safe']
+                                ) -> NewickFormat:
     # NOTE: the IQ-TREE command `-n` (called as `n_iter` in the `iqtree`
     # method) is not compatable with ultrafast_bootstrap `-bb`
     result = NewickFormat()
@@ -205,7 +242,8 @@ def iqtree_ultrafast_bootstrap(alignment: AlignedDNAFASTAFormat,
     with tempfile.TemporaryDirectory() as temp_dir:
         run_prefix = os.path.join(temp_dir, 'q2iqtreeufboot')
         cmd = _build_iqtree_ufbs_command(
-                    alignment, seed,
+                    alignment,
+                    seed=seed,
                     n_threads=n_threads,
                     substitution_model=substitution_model,
                     bootstrap_replicates=bootstrap_replicates,
