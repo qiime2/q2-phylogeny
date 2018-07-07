@@ -193,7 +193,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_threads': Int,
+            'n_cores': Int,
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
             'n_top_init_trees': Int % Range(1, None),
@@ -210,9 +210,9 @@ plugin.methods.register_function(
                       'reconstruction.'),
     },
     parameter_descriptions={
-        'n_threads': ('The number of threads to use for multithreaded '
+        'n_cores': ('The number of cores to use for multithreaded '
                       'processing. Use \'0\' to let IQ-TREE automatically '
-                      'determine the optimal numbr of cores to use.'),
+                      'determine the optimal number of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution. '
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically.'),
@@ -253,7 +253,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_threads': Int,
+            'n_cores': Int,
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
             'n_top_init_trees': Int % Range(1, None),
@@ -274,9 +274,9 @@ plugin.methods.register_function(
                       'reconstruction.'),
     },
     parameter_descriptions={
-        'n_threads': ('The number of threads to use for multithreaded '
+        'n_cores': ('The number of cores to use for multithreaded '
                       'processing. Use \'0\' to let IQ-TREE automatically '
-                      'determine the optimal numbr of cores to use.'),
+                      'determine the optimal number of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution.'
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically. '),
