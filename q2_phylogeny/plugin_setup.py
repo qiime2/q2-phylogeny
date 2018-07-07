@@ -215,7 +215,7 @@ plugin.methods.register_function(
                       'determine the optimal numbr of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution. '
                                'If not provided, IQ-TREE will determine the '
-                               'best fit substitution model automatically. '),
+                               'best fit substitution model automatically.'),
         'seed': ('Random number seed. If not set, program defaults will be '
                  'used. See IQ-TREE manual for details.'),
         'n_init_pars_trees': ('Number of initial parsimony trees. If not '
