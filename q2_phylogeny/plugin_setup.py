@@ -211,8 +211,8 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_cores': ('The number of cores to use for multithreaded '
-                      'processing. Use \'0\' to let IQ-TREE automatically '
-                      'determine the optimal number of cores to use.'),
+                    'processing. Use \'0\' to let IQ-TREE automatically '
+                    'determine the optimal number of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution. '
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically.'),
@@ -275,8 +275,8 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_cores': ('The number of cores to use for multithreaded '
-                      'processing. Use \'0\' to let IQ-TREE automatically '
-                      'determine the optimal number of cores to use.'),
+                    'processing. Use \'0\' to let IQ-TREE automatically '
+                    'determine the optimal number of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution.'
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically. '),
