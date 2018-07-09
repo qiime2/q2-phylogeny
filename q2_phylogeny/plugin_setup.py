@@ -356,14 +356,14 @@ plugin.pipelines.register_function(
         'min_conservation': Float % Range(0, 1, inclusive_end=True)
     },
     outputs=[
-        ('aligned_seq', FeatureData[AlignedSequence]),
-        ('masked_seq', FeatureData[AlignedSequence]),
-        ('unrooted_tree', Phylogeny[Unrooted]),
+        ('alignment', FeatureData[AlignedSequence]),
+        ('masked_alignment', FeatureData[AlignedSequence]),
+        ('tree', Phylogeny[Unrooted]),
         ('rooted_tree', Phylogeny[Rooted]),
     ],
     input_descriptions={
-        'sequences': 'The sequences to be used for creating a'
-        'fasttree based rooted phylogenetic tree.'
+        'sequences': 'The sequences to be used for creating a '
+                     'fasttree based rooted phylogenetic tree.'
     },
     parameter_descriptions={
         'n_threads': 'The number of threads. (Use -1 to automatically use all '
@@ -385,11 +385,15 @@ plugin.pipelines.register_function(
                              'present in at least 40% of the sequences.'
     },
     output_descriptions={
-        'aligned_seq': 'The aligned sequences.',
-        'masked_seq': 'The masked alignment.',
-        'unrooted_tree': 'The unrooted phylogenetic tree',
+        'alignment': 'The aligned sequences.',
+        'masked_alignment': 'The masked alignment.',
+        'tree': 'The unrooted phylogenetic tree',
         'rooted_tree': 'The rooted phylogenetic tree.',
     },
-    name='foo',
-    description=('')
+    name='Construct fasttree-mafft based rooted phylogenetic tree',
+    description=('This pipeline generates a rooted phylogenetic tree by '
+                 'wrapping up methods from q2-alignment and q2-phylogeny.'
+                 'The methods include mafft and mask from q2-alignment and '
+                 'fasttree and midpoint-root from q2-phylogeny.'
+                 )
 )
