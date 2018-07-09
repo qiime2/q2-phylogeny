@@ -210,7 +210,7 @@ plugin.methods.register_function(
                       'reconstruction.'),
     },
     parameter_descriptions={
-        'n_cores': ('The number of cores to use for multithreaded '
+        'n_cores': ('The number of cores to use for parallel '
                     'processing. Use \'0\' to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution. '
@@ -274,7 +274,7 @@ plugin.methods.register_function(
                       'reconstruction.'),
     },
     parameter_descriptions={
-        'n_cores': ('The number of cores to use for multithreaded '
+        'n_cores': ('The number of cores to use for parallel '
                     'processing. Use \'0\' to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
         'substitution_model': ('Model of Nucleotide Substitution.'
