@@ -387,13 +387,15 @@ plugin.pipelines.register_function(
     output_descriptions={
         'alignment': 'The aligned sequences.',
         'masked_alignment': 'The masked alignment.',
-        'tree': 'The unrooted phylogenetic tree',
+        'tree': 'The unrooted phylogenetic tree.',
         'rooted_tree': 'The rooted phylogenetic tree.',
     },
-    name='Construct fasttree-mafft based rooted phylogenetic tree',
+    name='Construct a phylogenetic tree using mafft and fasttree',
     description=('This pipeline generates a rooted phylogenetic tree by '
                  'wrapping up methods from q2-alignment and q2-phylogeny.'
                  'The methods include mafft and mask from q2-alignment and '
-                 'fasttree and midpoint-root from q2-phylogeny.'
+                 'fasttree and midpoint-root from q2-phylogeny. This Plugin '
+                 'returns outputs produced by those methods. The returned '
+                 'outputs are alingment, masked_alignment and tree.'
                  )
 )
