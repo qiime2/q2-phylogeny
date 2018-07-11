@@ -394,8 +394,7 @@ plugin.pipelines.register_function(
     description=('This pipeline generates a rooted phylogenetic tree by '
                  'wrapping up methods from q2-alignment and q2-phylogeny.'
                  'The methods include mafft and mask from q2-alignment and '
-                 'fasttree and midpoint-root from q2-phylogeny. This Plugin '
-                 'returns outputs produced by those methods. The returned '
-                 'outputs are alingment, masked_alignment and tree.'
+                 'fasttree and midpoint-root from q2-phylogeny. This pipeline '
+                 'returns outputs produced by those methods.'
                  )
 )
