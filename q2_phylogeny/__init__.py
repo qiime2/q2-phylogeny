@@ -12,11 +12,11 @@ from ._raxml import raxml, raxml_rapid_bootstrap
 from ._iqtree import iqtree, iqtree_ultrafast_bootstrap
 from ._filter import filter_table
 from ._version import get_versions
-from ._fasttree_with_mafft import fasttree_with_mafft
+from ._phylogeny_from_mafft import phylogeny_from_mafft
 
 __version__ = get_versions()['version']
 del get_versions
 
-__all__ = ["midpoint_root", "fasttree", "fasttree_with_mafft", "raxml",
+__all__ = ["midpoint_root", "fasttree", "phylogeny_from_mafft", "raxml",
            "raxml_rapid_bootstrap", "iqtree", "iqtree_ultrafast_bootstrap",
            "filter_table"]

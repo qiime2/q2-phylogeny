@@ -346,7 +346,7 @@ plugin.methods.register_function(
 )
 
 plugin.pipelines.register_function(
-    function=q2_phylogeny.fasttree_with_mafft,
+    function=q2_phylogeny.phylogeny_from_mafft,
     inputs={
         'sequences': FeatureData[Sequence],
     },
@@ -367,14 +367,18 @@ plugin.pipelines.register_function(
     },
     parameter_descriptions={
         'n_threads': 'The number of threads. (Use -1 to automatically use all '
-                     'available cores)',
+                     'available cores) '
+                     'This value is used when aligning the sequences and '
+                     'creating the tree with fasttree.',
         'max_gap_frequency':  'The maximum relative frequency of gap '
                               'characters in a column for the column to be '
                               'retained. This relative frequency must be a '
                               'number between 0.0 and 1.0 (inclusive), where '
                               '0.0 retains only those columns without gap '
                               'characters, and 1.0 retains all columns '
-                              'regardless of gap character frequency.',
+                              'regardless of gap character frequency.'
+                              'This value is used when masking the aligned '
+                              'sequences.',
         'min_conservation':  'The minimum relative frequency '
                              'of at least one non-gap character in a '
                              'column for that column to be retained. This '
@@ -383,6 +387,8 @@ plugin.pipelines.register_function(
                              '0.4 is provided, a column will only be retained '
                              'if it contains at least one character that is '
                              'present in at least 40% of the sequences.'
+                             'This value is used when masking the aligned '
+                             'sequences.'
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
@@ -390,7 +396,7 @@ plugin.pipelines.register_function(
         'tree': 'The unrooted phylogenetic tree.',
         'rooted_tree': 'The rooted phylogenetic tree.',
     },
-    name='Construct a phylogenetic tree using mafft and fasttree',
+    name='Build a phylogenetic tree using fasttree and mafft alignment',
     description=('This pipeline generates a rooted phylogenetic tree by '
                  'wrapping up methods from q2-alignment and q2-phylogeny.'
                  'The methods include mafft and mask from q2-alignment and '
