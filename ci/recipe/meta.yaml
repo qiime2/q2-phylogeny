@@ -23,6 +23,7 @@ requirements:
     - scikit-bio
     - qiime2 {{ release }}.*
     - q2-types {{ release }}.*
+    - q2-alignment {{ release }}.*
     - fasttree
     - raxml
     - iqtree
