@@ -346,14 +346,14 @@ plugin.methods.register_function(
 )
 
 plugin.pipelines.register_function(
-    function=q2_phylogeny.phylogeny_from_mafft,
+    function=q2_phylogeny.align_to_tree_mafft_fasttree,
     inputs={
         'sequences': FeatureData[Sequence],
     },
     parameters={
         'n_threads': Int % Range(1, None),
-        'max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
-        'min_conservation': Float % Range(0, 1, inclusive_end=True)
+        'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
+        'mask_min_conservation': Float % Range(0, 1, inclusive_end=True)
     },
     outputs=[
         ('alignment', FeatureData[AlignedSequence]),
@@ -370,25 +370,26 @@ plugin.pipelines.register_function(
                      'available cores) '
                      'This value is used when aligning the sequences and '
                      'creating the tree with fasttree.',
-        'max_gap_frequency':  'The maximum relative frequency of gap '
-                              'characters in a column for the column to be '
-                              'retained. This relative frequency must be a '
-                              'number between 0.0 and 1.0 (inclusive), where '
-                              '0.0 retains only those columns without gap '
-                              'characters, and 1.0 retains all columns '
-                              'regardless of gap character frequency.'
-                              'This value is used when masking the aligned '
-                              'sequences.',
-        'min_conservation':  'The minimum relative frequency '
-                             'of at least one non-gap character in a '
-                             'column for that column to be retained. This '
-                             'relative frequency must be a number between 0.0 '
-                             'and 1.0 (inclusive). For example, if a value of '
-                             '0.4 is provided, a column will only be retained '
-                             'if it contains at least one character that is '
-                             'present in at least 40% of the sequences.'
-                             'This value is used when masking the aligned '
-                             'sequences.'
+        'mask_max_gap_frequency': 'The maximum relative frequency of gap '
+                                  'characters in a column for the column '
+                                  'to be retained. This relative frequency '
+                                  'must be a number between 0.0 and 1.0 '
+                                  '(inclusive), where 0.0 retains only those '
+                                  'columns without gap characters, and 1.0 '
+                                  'retains all columns  regardless of gap '
+                                  'character frequency. This value is used '
+                                  'when masking the aligned sequences.',
+        'mask_min_conservation':  'The minimum relative frequency '
+                                  'of at least one non-gap character in a '
+                                  'column for that column to be retained. '
+                                  'This relative frequency must be a number '
+                                  'between 0.0 and 1.0 (inclusive). For '
+                                  'example, if a value of  0.4 is provided, a '
+                                  'column will only be retained  if it '
+                                  'contains at least one character that is '
+                                  'present in at least 40% of the sequences. '
+                                  'This value is used when masking the '
+                                  'aligned sequences.'
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
@@ -397,10 +398,15 @@ plugin.pipelines.register_function(
         'rooted_tree': 'The rooted phylogenetic tree.',
     },
     name='Build a phylogenetic tree using fasttree and mafft alignment',
-    description=('This pipeline generates a rooted phylogenetic tree by '
-                 'wrapping up methods from q2-alignment and q2-phylogeny.'
-                 'The methods include mafft and mask from q2-alignment and '
-                 'fasttree and midpoint-root from q2-phylogeny. This pipeline '
-                 'returns outputs produced by those methods.'
+    description=('This pipeline will start by creating a sequence alignment '
+                 'using MAFFT, after which any alignment columns that are '
+                 'phylogenetically uninformative or ambiguously aligned will '
+                 'be removed (masked). The resulting masked alignment will be '
+                 'used to infer a phylogenetic tree and then subsequently '
+                 'rooted at its midpoint. Output files from each step of the '
+                 'pipeline will be saved. This includes both the unmasked and '
+                 'masked MAFFT alignment from q2-alignment methods, and both '
+                 'the rooted and unrooted phylogenies from q2-phylogeny '
+                 'methods.'
                  )
 )

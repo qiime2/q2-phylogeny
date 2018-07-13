@@ -12,13 +12,13 @@ from qiime2.plugin.testing import TestPluginBase
 from qiime2 import Artifact
 
 
-class PhylogenyWithMafftPipelineTest(TestPluginBase):
+class AlignToTreeMafftFasttreePipelineTest(TestPluginBase):
     package = 'q2_phylogeny.tests'
 
     def setUp(self):
         super().setUp()
-        self.phylogeny_from_mafft = self.plugin.pipelines[
-                                    'phylogeny_from_mafft']
+        self.align_to_tree_mafft_fasttree = self.plugin.pipelines[
+                                    'align_to_tree_mafft_fasttree']
 
         input_sequences_fp = self.get_data_path('dna-sequences-1.fasta')
         self.input_sequences = Artifact.import_data('FeatureData[Sequence]',
@@ -26,10 +26,10 @@ class PhylogenyWithMafftPipelineTest(TestPluginBase):
 
     def test_execution(self):
         # Does it run?
-        self.phylogeny_from_mafft(self.input_sequences)
+        self.align_to_tree_mafft_fasttree(self.input_sequences)
 
     def test_outputs(self):
-        result = self.phylogeny_from_mafft(self.input_sequences)
+        result = self.align_to_tree_mafft_fasttree(self.input_sequences)
         self.assertEqual(4, len(result))
         aligned_seq, masked_seq, unrooted_tree, rooted_tree = result
         self.assertEqual('FeatureData[AlignedSequence]', str(aligned_seq.type))

@@ -7,8 +7,9 @@
 # ----------------------------------------------------------------------------
 
 
-def phylogeny_from_mafft(ctx, sequences, n_threads=1, max_gap_frequency=1.0,
-                         min_conservation=0.40):
+def align_to_tree_mafft_fasttree(ctx, sequences, n_threads=1,
+                                 mask_max_gap_frequency=1.0,
+                                 mask_min_conservation=0.40):
     mafft = ctx.get_action('alignment', 'mafft')
     mask = ctx.get_action('alignment', 'mask')
     fasttree = ctx.get_action('phylogeny', 'fasttree')
@@ -16,8 +17,8 @@ def phylogeny_from_mafft(ctx, sequences, n_threads=1, max_gap_frequency=1.0,
 
     aligned_seq, = mafft(sequences=sequences, n_threads=n_threads)
     masked_seq, = mask(alignment=aligned_seq,
-                       max_gap_frequency=max_gap_frequency,
-                       min_conservation=min_conservation)
+                       max_gap_frequency=mask_max_gap_frequency,
+                       min_conservation=mask_min_conservation)
     unrooted_tree, = fasttree(alignment=masked_seq, n_threads=n_threads)
     rooted_tree, = midpoint_root(tree=unrooted_tree)
 
