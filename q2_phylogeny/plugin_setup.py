@@ -253,7 +253,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_cores': % Range(0, None),
+            'n_cores': Int % Range(0, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
             'n_top_init_trees': Int % Range(1, None),
