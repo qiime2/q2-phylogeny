@@ -126,7 +126,7 @@ plugin.methods.register_function(
             'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_searches': Int,
+            'n_searches': Int % Range(1, None),
             'n_threads': Int % Range(1, None),
             'substitution_model': Str % Choices(_RAXML_MODEL_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
@@ -193,7 +193,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_cores': Int,
+            'n_cores': Int % Range(0, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
             'n_top_init_trees': Int % Range(1, None),
@@ -253,7 +253,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_cores': Int,
+            'n_cores': Int % Range(0, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
             'n_top_init_trees': Int % Range(1, None),
