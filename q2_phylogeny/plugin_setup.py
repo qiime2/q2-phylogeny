@@ -99,7 +99,7 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=q2_phylogeny.fasttree,
     inputs={'alignment': FeatureData[AlignedSequence]},
-    parameters={'n_threads': Int % Range(-1, None)},
+    parameters={'n_threads': Int % Range(0, None)},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
@@ -111,7 +111,7 @@ plugin.methods.register_function(
                      '(`FastTreeMP`), and may result in a different tree than '
                      'single-threading. See '
                      'http://www.microbesonline.org/fasttree/#OpenMP for '
-                     'details. (Use -1 to automatically use all available '
+                     'details. (Use 0 to automatically use all available '
                      'cores)'
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
@@ -351,7 +351,7 @@ plugin.pipelines.register_function(
         'sequences': FeatureData[Sequence],
     },
     parameters={
-        'n_threads': Int % Range(1, None),
+        'n_threads': Int % Range(0, None),
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True)
     },
@@ -366,7 +366,7 @@ plugin.pipelines.register_function(
                      'fasttree based rooted phylogenetic tree.'
     },
     parameter_descriptions={
-        'n_threads': 'The number of threads. (Use -1 to automatically use all '
+        'n_threads': 'The number of threads. (Use 0 to automatically use all '
                      'available cores) '
                      'This value is used when aligning the sequences and '
                      'creating the tree with fasttree.',
