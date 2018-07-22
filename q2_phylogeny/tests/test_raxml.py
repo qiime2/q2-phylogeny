@@ -17,7 +17,7 @@ from q2_types.feature_data import AlignedDNAFASTAFormat
 
 from q2_phylogeny import raxml, raxml_rapid_bootstrap
 from q2_phylogeny._raxml import (run_command, _build_rapid_bootstrap_command,
-                                _set_raxml_version)
+                                 _set_raxml_version)
 
 
 class RaxmlTests(TestPluginBase):
@@ -62,7 +62,6 @@ class RaxmlTests(TestPluginBase):
                               'GCA_000686145_1', 'GCA_001950115_1',
                               'GCA_001971985_1', 'GCA_900007555_1']))
 
-
     def test_set_raxml_version(self):
         obs_stand_1 = _set_raxml_version(raxml_version='Standard',
                                          n_threads=1)
@@ -93,7 +92,6 @@ class RaxmlTests(TestPluginBase):
         self.assertTrue('4' in str(obs_avx2_4[1]))
         self.assertTrue(len(obs_avx2_4) == 2)
 
-
     def test_raxml_version(self):
         # Test that an output tree is made when invoking threads.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
@@ -110,10 +108,9 @@ class RaxmlTests(TestPluginBase):
 
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                          'GCA000473545', 'GCA000196255', 'GCA002142615',
-                          'GCA000686145', 'GCA001950115', 'GCA001971985',
-                          'GCA900007555']))
-
+                              'GCA000473545', 'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
 
     def test_raxml_n_threads(self):
         # Test that an output tree is made when invoking threads.

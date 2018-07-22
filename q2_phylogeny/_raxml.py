@@ -27,6 +27,7 @@ def run_command(cmd, verbose=True):
         print(" ".join(cmd), end='\n\n')
     subprocess.run(cmd, check=True)
 
+
 def _set_raxml_version(raxml_version='Standard', n_threads=1):
     if raxml_version == 'Standard':
         if n_threads == 1:
@@ -43,6 +44,7 @@ def _set_raxml_version(raxml_version='Standard', n_threads=1):
             cmd = ['raxmlHPC-PTHREADS' + '-' + raxml_version,
                    '-T %i' % n_threads]
             return cmd
+
 
 def raxml(alignment: AlignedDNAFASTAFormat,
           seed: int=None,
@@ -93,8 +95,6 @@ def raxml_rapid_bootstrap(alignment: AlignedDNAFASTAFormat,
                           raxml_version: str='Standard',
                           substitution_model: str='GTRGAMMA') -> NewickFormat:
     result = NewickFormat()
-
-
     cmd = _set_raxml_version(raxml_version=raxml_version, n_threads=n_threads)
 
     if seed is None:

@@ -144,10 +144,10 @@ plugin.methods.register_function(
                       'processing. Using more than one thread '
                       'will enable the PTHREADS version of RAxML.'),
         'raxml_version': ('Select a specific CPU optimization of RAxML to '
-                    'use. The SSE3 verions will run approximately 40% '
-                    'faster than the non-SSE3 (standard) version. The AVX2 '
-                    'version will run 10-30% faster than the SSE3 '
-                    'version.'),
+                          'use. The SSE3 verions will run approximately 40% '
+                          'faster than the standard version. The AVX2 '
+                          'version will run 10-30% faster than the '
+                          'SSE3 version.'),
         'substitution_model': ('Model of Nucleotide Substitution.'),
         'seed': ('Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
@@ -179,10 +179,10 @@ plugin.methods.register_function(
                       'processing. Using more than one thread '
                       'will enable the PTHREADS version of RAxML.'),
         'raxml_version': ('Select a specific CPU optimization of RAxML to '
-                    'use. The SSE3 verions will run approximately 40% '
-                    'faster than the non-SSE3 (standard) version. The AVX2 '
-                    'version will run 10-30% faster than the SSE3 '
-                    'version.'),
+                          'use. The SSE3 verions will run approximately 40% '
+                          'faster than the standard version. The AVX2 '
+                          'version will run 10-30% faster than the '
+                          'SSE3 version.'),
         'substitution_model': ('Model of Nucleotide Substitution'),
         'seed': ('Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
