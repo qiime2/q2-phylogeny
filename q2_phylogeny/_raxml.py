@@ -27,18 +27,32 @@ def run_command(cmd, verbose=True):
         print(" ".join(cmd), end='\n\n')
     subprocess.run(cmd, check=True)
 
+def _set_raxml_version(raxml_version='Standard', n_threads=1):
+    if raxml_version == 'Standard':
+        if n_threads == 1:
+            cmd = ['raxmlHPC']
+            return cmd
+        else:
+            cmd = ['raxmlHPC-PTHREADS', '-T %i' % n_threads]
+            return cmd
+    else:
+        if n_threads == 1:
+            cmd = ['raxmlHPC' + '-' + raxml_version]
+            return cmd
+        else:
+            cmd = ['raxmlHPC-PTHREADS' + '-' + raxml_version,
+                   '-T %i' % n_threads]
+            return cmd
 
 def raxml(alignment: AlignedDNAFASTAFormat,
           seed: int=None,
           n_searches: int=1,
           n_threads: int=1,
+          raxml_version: str='Standard',
           substitution_model: str='GTRGAMMA') -> NewickFormat:
     result = NewickFormat()
 
-    if n_threads == 1:
-        cmd = ['raxmlHPC']
-    else:
-        cmd = ['raxmlHPC-PTHREADS', '-T %i' % n_threads]
+    cmd = _set_raxml_version(raxml_version=raxml_version, n_threads=n_threads)
 
     if seed is None:
         seed = randint(1000, 10000)
@@ -76,13 +90,12 @@ def _build_rapid_bootstrap_command(alignment, seed, rapid_bootstrap_seed,
 def raxml_rapid_bootstrap(alignment: AlignedDNAFASTAFormat,
                           seed: int=None, rapid_bootstrap_seed: int=None,
                           bootstrap_replicates: int=100, n_threads: int=1,
+                          raxml_version: str='Standard',
                           substitution_model: str='GTRGAMMA') -> NewickFormat:
     result = NewickFormat()
 
-    if n_threads == 1:
-        cmd = ['raxmlHPC']
-    else:
-        cmd = ['raxmlHPC-PTHREADS', '-T %i' % n_threads]
+
+    cmd = _set_raxml_version(raxml_version=raxml_version, n_threads=n_threads)
 
     if seed is None:
         seed = randint(1000, 10000)

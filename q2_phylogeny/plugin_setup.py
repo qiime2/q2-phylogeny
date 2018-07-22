@@ -15,6 +15,7 @@ from q2_types.feature_table import FeatureTable, Frequency
 import q2_phylogeny
 
 _RAXML_MODEL_OPT = ['GTRGAMMA', 'GTRGAMMAI', 'GTRCAT', 'GTRCATI']
+_RAXML_VERSION_OPT = ['Standard', 'SSE3', 'AVX2']
 _IQTREE_DNA_MODELS = ['JC', 'JC+I', 'JC+G', 'JC+I+G', 'JC+R2', 'JC+R3',
                       'JC+R4', 'JC+R5', 'JC+R6', 'JC+R7', 'JC+R8', 'JC+R9',
                       'JC+R10', 'F81', 'F81+I', 'F81+G', 'F81+I+G', 'F81+R2',
@@ -128,7 +129,8 @@ plugin.methods.register_function(
             'seed': Int,
             'n_searches': Int % Range(1, None),
             'n_threads': Int % Range(1, None),
-            'substitution_model': Str % Choices(_RAXML_MODEL_OPT)},
+            'substitution_model': Str % Choices(_RAXML_MODEL_OPT),
+            'raxml_version': Str % Choices(_RAXML_VERSION_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
@@ -141,6 +143,11 @@ plugin.methods.register_function(
         'n_threads': ('The number of threads to use for multithreaded '
                       'processing. Using more than one thread '
                       'will enable the PTHREADS version of RAxML.'),
+        'raxml_version': ('Select a specific CPU optimization of RAxML to '
+                    'use. The SSE3 verions will run approximately 40% '
+                    'faster than the non-SSE3 (standard) version. The AVX2 '
+                    'version will run 10-30% faster than the SSE3 '
+                    'version.'),
         'substitution_model': ('Model of Nucleotide Substitution.'),
         'seed': ('Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
@@ -160,7 +167,8 @@ plugin.methods.register_function(
             'rapid_bootstrap_seed': Int,
             'bootstrap_replicates': Int % Range(10, None),
             'n_threads': Int % Range(1, None),
-            'substitution_model': Str % Choices(_RAXML_MODEL_OPT)},
+            'substitution_model': Str % Choices(_RAXML_MODEL_OPT),
+            'raxml_version': Str % Choices(_RAXML_VERSION_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
@@ -170,6 +178,11 @@ plugin.methods.register_function(
         'n_threads': ('The number of threads to use for multithreaded '
                       'processing. Using more than one thread '
                       'will enable the PTHREADS version of RAxML.'),
+        'raxml_version': ('Select a specific CPU optimization of RAxML to '
+                    'use. The SSE3 verions will run approximately 40% '
+                    'faster than the non-SSE3 (standard) version. The AVX2 '
+                    'version will run 10-30% faster than the SSE3 '
+                    'version.'),
         'substitution_model': ('Model of Nucleotide Substitution'),
         'seed': ('Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
