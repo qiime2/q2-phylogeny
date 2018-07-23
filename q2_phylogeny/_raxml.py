@@ -15,6 +15,12 @@ from random import randint
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
+_raxml_versions = {
+                   'Standard': '',
+                   'SSE3': '-SSE3',
+                   'AVX2': '-AVX2'
+                   }
+
 
 def run_command(cmd, verbose=True):
     if verbose:
@@ -29,21 +35,13 @@ def run_command(cmd, verbose=True):
 
 
 def _set_raxml_version(raxml_version='Standard', n_threads=1):
-    if raxml_version == 'Standard':
-        if n_threads == 1:
-            cmd = ['raxmlHPC']
-            return cmd
-        else:
-            cmd = ['raxmlHPC-PTHREADS', '-T %i' % n_threads]
-            return cmd
+    if n_threads == 1:
+        cmd = ['raxmlHPC' + _raxml_versions[raxml_version]]
+        return cmd
     else:
-        if n_threads == 1:
-            cmd = ['raxmlHPC' + '-' + raxml_version]
-            return cmd
-        else:
-            cmd = ['raxmlHPC-PTHREADS' + '-' + raxml_version,
-                   '-T %i' % n_threads]
-            return cmd
+        cmd = ['raxmlHPC-PTHREADS' + _raxml_versions[raxml_version],
+               '-T %i' % n_threads]
+        return cmd
 
 
 def raxml(alignment: AlignedDNAFASTAFormat,
