@@ -144,7 +144,7 @@ plugin.methods.register_function(
                       'processing. Using more than one thread '
                       'will enable the PTHREADS version of RAxML.'),
         'raxml_version': ('Select a specific CPU optimization of RAxML to '
-                          'use. The SSE3 verions will run approximately 40% '
+                          'use. The SSE3 versions will run approximately 40% '
                           'faster than the standard version. The AVX2 '
                           'version will run 10-30% faster than the '
                           'SSE3 version.'),
@@ -154,7 +154,8 @@ plugin.methods.register_function(
                  'If not supplied then one will be randomly chosen.')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with RAxML.',
-    description=("Construct a phylogenetic tree with RAxML."),
+    description=('Construct a phylogenetic tree with RAxML. See: '
+                 'https://sco.h-its.org/exelixis/web/software/raxml/'),
     citations=[citations['Stamatakis2014raxml']]
 )
 
@@ -179,7 +180,7 @@ plugin.methods.register_function(
                       'processing. Using more than one thread '
                       'will enable the PTHREADS version of RAxML.'),
         'raxml_version': ('Select a specific CPU optimization of RAxML to '
-                          'use. The SSE3 verions will run approximately 40% '
+                          'use. The SSE3 versions will run approximately 40% '
                           'faster than the standard version. The AVX2 '
                           'version will run 10-30% faster than the '
                           'SSE3 version.'),
@@ -196,7 +197,8 @@ plugin.methods.register_function(
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with bootstrap supports using RAxML.',
     description=('Construct a phylogenetic tree with RAxML with the addition '
-                 'of rapid bootstrapping support values.'),
+                 'of rapid bootstrapping support values. See: '
+                 'https://sco.h-its.org/exelixis/web/software/raxml/'),
     citations=[citations['Stamatakis2014raxml'],
                citations['Stamatakis2008raxml']]
 )
