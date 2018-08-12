@@ -16,7 +16,8 @@ from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
 
 from q2_phylogeny import raxml, raxml_rapid_bootstrap
-from q2_phylogeny._raxml import run_command, _build_rapid_bootstrap_command
+from q2_phylogeny._raxml import (run_command, _build_rapid_bootstrap_command,
+                                 _set_raxml_version)
 
 
 class RaxmlTests(TestPluginBase):
@@ -60,6 +61,56 @@ class RaxmlTests(TestPluginBase):
                               'GCA_000196255_1', 'GCA_002142615_1',
                               'GCA_000686145_1', 'GCA_001950115_1',
                               'GCA_001971985_1', 'GCA_900007555_1']))
+
+    def test_set_raxml_version(self):
+        obs_stand_1 = _set_raxml_version(raxml_version='Standard',
+                                         n_threads=1)
+        self.assertTrue('raxmlHPC' in str(obs_stand_1[0]))
+        self.assertTrue(len(obs_stand_1) == 1)
+
+        obs_sse3_1 = _set_raxml_version(raxml_version='SSE3', n_threads=1)
+        self.assertTrue('raxmlHPC-SSE3' in str(obs_sse3_1[0]))
+        self.assertTrue(len(obs_sse3_1) == 1)
+
+        obs_avx2_1 = _set_raxml_version(raxml_version='AVX2', n_threads=1)
+        self.assertTrue('raxmlHPC-AVX2' in str(obs_avx2_1[0]))
+        self.assertTrue(len(obs_avx2_1) == 1)
+
+        obs_stand_4 = _set_raxml_version(raxml_version='Standard',
+                                         n_threads=4)
+        self.assertTrue('raxmlHPC-PTHREADS' in str(obs_stand_4[0]))
+        self.assertTrue('4' in str(obs_stand_4[1]))
+        self.assertTrue(len(obs_stand_4) == 2)
+
+        obs_sse3_4 = _set_raxml_version(raxml_version='SSE3', n_threads=4)
+        self.assertTrue('raxmlHPC-PTHREADS-SSE3' in str(obs_sse3_4[0]))
+        self.assertTrue('4' in str(obs_sse3_4[1]))
+        self.assertTrue(len(obs_sse3_4) == 2)
+
+        obs_avx2_4 = _set_raxml_version(raxml_version='AVX2', n_threads=4)
+        self.assertTrue('raxmlHPC-PTHREADS-AVX2' in str(obs_avx2_4[0]))
+        self.assertTrue('4' in str(obs_avx2_4[1]))
+        self.assertTrue(len(obs_avx2_4) == 2)
+
+    def test_raxml_version(self):
+        # Test that an output tree is made when invoking threads.
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml(input_sequences, raxml_version='SSE3')
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+
+        # load the resulting tree and test that it has the right number of
+        # tips and the right tip ids
+        tips = list(obs_tree.tips())
+        tip_names = [t.name for t in tips]
+
+        self.assertEqual(set(tip_names),
+                         set(['GCA001510755', 'GCA001045515', 'GCA000454205',
+                              'GCA000473545', 'GCA000196255', 'GCA002142615',
+                              'GCA000686145', 'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
 
     def test_raxml_n_threads(self):
         # Test that an output tree is made when invoking threads.

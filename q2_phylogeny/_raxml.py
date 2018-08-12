@@ -15,6 +15,12 @@ from random import randint
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
+_raxml_versions = {
+                   'Standard': '',
+                   'SSE3': '-SSE3',
+                   'AVX2': '-AVX2'
+                   }
+
 
 def run_command(cmd, verbose=True):
     if verbose:
@@ -28,17 +34,25 @@ def run_command(cmd, verbose=True):
     subprocess.run(cmd, check=True)
 
 
+def _set_raxml_version(raxml_version='Standard', n_threads=1):
+    if n_threads == 1:
+        cmd = ['raxmlHPC' + _raxml_versions[raxml_version]]
+        return cmd
+    else:
+        cmd = ['raxmlHPC-PTHREADS' + _raxml_versions[raxml_version],
+               '-T %i' % n_threads]
+        return cmd
+
+
 def raxml(alignment: AlignedDNAFASTAFormat,
           seed: int=None,
           n_searches: int=1,
           n_threads: int=1,
+          raxml_version: str='Standard',
           substitution_model: str='GTRGAMMA') -> NewickFormat:
     result = NewickFormat()
 
-    if n_threads == 1:
-        cmd = ['raxmlHPC']
-    else:
-        cmd = ['raxmlHPC-PTHREADS', '-T %i' % n_threads]
+    cmd = _set_raxml_version(raxml_version=raxml_version, n_threads=n_threads)
 
     if seed is None:
         seed = randint(1000, 10000)
@@ -76,13 +90,10 @@ def _build_rapid_bootstrap_command(alignment, seed, rapid_bootstrap_seed,
 def raxml_rapid_bootstrap(alignment: AlignedDNAFASTAFormat,
                           seed: int=None, rapid_bootstrap_seed: int=None,
                           bootstrap_replicates: int=100, n_threads: int=1,
+                          raxml_version: str='Standard',
                           substitution_model: str='GTRGAMMA') -> NewickFormat:
     result = NewickFormat()
-
-    if n_threads == 1:
-        cmd = ['raxmlHPC']
-    else:
-        cmd = ['raxmlHPC-PTHREADS', '-T %i' % n_threads]
+    cmd = _set_raxml_version(raxml_version=raxml_version, n_threads=n_threads)
 
     if seed is None:
         seed = randint(1000, 10000)
