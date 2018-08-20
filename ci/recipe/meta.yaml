@@ -24,7 +24,7 @@ requirements:
     - qiime2 {{ release }}.*
     - q2-types {{ release }}.*
     - q2-alignment {{ release }}.*
-    - fasttree
+    - fasttree 2.1.10=0
     - raxml
     - iqtree
 
