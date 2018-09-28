@@ -234,8 +234,8 @@ plugin.methods.register_function(
                     'processing. Use \'0\' to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
         'n_runs': ('Number of indepedent runs. Multiple  independent runs '
-                  '(e.g. 10) can outperform a single run in terms of '
-                  'likelihood maximisation.'),
+                   '(e.g. 10) can outperform a single run in terms of '
+                   'likelihood maximisation.'),
         'substitution_model': ('Model of Nucleotide Substitution. '
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically.'),
@@ -319,8 +319,8 @@ plugin.methods.register_function(
                     'processing. Use \'0\' to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
         'n_runs': ('Number of indepedent runs. Multiple  independent runs '
-                  '(e.g. 10) can outperform a single run in terms of '
-                  'likelihood maximisation.'),
+                   '(e.g. 10) can outperform a single run in terms of '
+                   'likelihood maximisation.'),
         'substitution_model': ('Model of Nucleotide Substitution.'
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically. '),
