@@ -261,7 +261,7 @@ plugin.methods.register_function(
         'spr_radius': ('Radius for parsimony SPR search. If not set, '
                        'program defaults will be used. See IQ-TREE manual '
                        'for details.'),
-        'fast': ('Fast search to resemble FastTree'),
+        'fast': ('Fast search to resemble FastTree.'),
         'allnni': ('Perform more thorough NNI search.'),
         'alrt': ('Single branch test method. Performs an SH-like approximate '
                  'likelihood ratio test (SH-aLRT). Set to \'0\' for '

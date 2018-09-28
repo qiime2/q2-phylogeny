@@ -67,7 +67,7 @@ def _build_iqtree_command(
     cmd = ['iqtree']
 
     cmd += ['-st', str(dtype),
-            '--runs', str(n_runs),
+            '--runs', '%i' % n_runs,
             '-s', str(alignment),
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
@@ -75,10 +75,10 @@ def _build_iqtree_command(
     if n_cores == 0:
         cmd += ['-nt', 'AUTO']
     else:
-        cmd += ['-nt', str(n_cores)]
+        cmd += ['-nt', '%i' % n_cores]
 
     if seed:
-        cmd += ['-seed', str(seed)]
+        cmd += ['-seed', '%i' % seed]
 
     if safe:
         cmd += ['-safe']
@@ -99,25 +99,25 @@ def _build_iqtree_command(
         cmd += ['-allnni']
 
     if n_init_pars_trees:
-        cmd += ['-ninit', str(n_init_pars_trees)]
+        cmd += ['-ninit', '%i' % n_init_pars_trees]
 
     if n_top_init_trees:
-        cmd += ['-ntop', str(n_top_init_trees)]
+        cmd += ['-ntop', '%i' % n_top_init_trees]
 
     if n_best_retain_trees:
-        cmd += ['-nbest', str(n_best_retain_trees)]
+        cmd += ['-nbest', '%i' % n_best_retain_trees]
 
     if n_iter:
-        cmd += ['-n', str(n_iter)]
+        cmd += ['-n', '%i' % n_iter]
 
     if stop_iter:
-        cmd += ['-nstop', str(stop_iter)]
+        cmd += ['-nstop', '%i' % stop_iter]
 
     if perturb_nni_strength:
-        cmd += ['-pers', str(perturb_nni_strength)]
+        cmd += ['-pers', '%f' % perturb_nni_strength]
 
     if spr_radius:
-        cmd += ['-sprrad', str(spr_radius)]
+        cmd += ['-sprrad', '%i' % spr_radius]
 
     return cmd
 
@@ -204,7 +204,7 @@ def _build_iqtree_ufbs_command(
     cmd = ['iqtree', '-bb', '%i' % bootstrap_replicates]
 
     cmd += ['-st', str(dtype),
-            '--runs', str(n_runs),
+            '--runs', '%i' % n_runs,
             '-s', str(alignment),
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
@@ -212,10 +212,10 @@ def _build_iqtree_ufbs_command(
     if n_cores == 0:
         cmd += ['-nt', 'AUTO']
     else:
-        cmd += ['-nt', str(n_cores)]
+        cmd += ['-nt', '%i' % n_cores]
 
     if seed:
-        cmd += ['-seed', str(seed)]
+        cmd += ['-seed', '%i' % seed]
 
     if safe:
         cmd += ['-safe']
@@ -236,22 +236,22 @@ def _build_iqtree_ufbs_command(
         cmd += ['-bnni']
 
     if n_init_pars_trees:
-        cmd += ['-ninit', str(n_init_pars_trees)]
+        cmd += ['-ninit', '%i' % n_init_pars_trees]
 
     if n_top_init_trees:
-        cmd += ['-ntop', str(n_top_init_trees)]
+        cmd += ['-ntop', '%i' % n_top_init_trees]
 
     if n_best_retain_trees:
-        cmd += ['-nbest', str(n_best_retain_trees)]
+        cmd += ['-nbest', '%i' % n_best_retain_trees]
 
     if stop_iter:
-        cmd += ['-nstop', str(stop_iter)]
+        cmd += ['-nstop', '%i' % stop_iter]
 
     if perturb_nni_strength:
-        cmd += ['-pers', str(perturb_nni_strength)]
+        cmd += ['-pers', '%f' % perturb_nni_strength]
 
     if spr_radius:
-        cmd += ['-sprrad', str(spr_radius)]
+        cmd += ['-sprrad', '%i' % spr_radius]
 
     if n_max_ufboot_iter:
         cmd += ['-nm', '%i' % n_max_ufboot_iter]
