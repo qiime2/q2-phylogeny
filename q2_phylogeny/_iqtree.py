@@ -293,7 +293,7 @@ def iqtree_ultrafast_bootstrap(
     safe: bool=_iqtree_defaults['safe']
                                 ) -> NewickFormat:
     # NOTE: the IQ-TREE commands `-n` (called as `n_iter` in the `iqtree`
-    # method)and `-fast` is not compatable with ultrafast_bootstrap `-bb`.  
+    # method) and `-fast` is not compatable with ultrafast_bootstrap `-bb`.  
     result = NewickFormat()
 
     with tempfile.TemporaryDirectory() as temp_dir:
