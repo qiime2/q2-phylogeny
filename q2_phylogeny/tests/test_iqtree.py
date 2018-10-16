@@ -292,6 +292,32 @@ class IqtreeTests(TestPluginBase):
                               'GCA000686145', 'GCA001950115', 'GCA001971985',
                               'GCA900007555']))
 
+    def test_iqtree_ultrafast_bootstrap_singlebranch_methods(self):
+        # Comparing branch support to manually constructed tree
+        # using the following command:
+        #  iqtree -s aligned-dna-sequences-3.fasta -alrt 1500 -lbp 1500
+        #         -abayes -bb 1500 -m 'HKY' -seed 1723
+        # Here I am simply checking if the support values are identical
+        # to the manual run. Also check for number of values.
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+
+        with redirected_stdio(stderr=os.devnull):
+            obs = iqtree_ultrafast_bootstrap(input_sequences, seed=1723,
+                                             substitution_model='HKY',
+                                             alrt=1500, lbp=1500,
+                                             abayes=True,
+                                             bootstrap_replicates=1500)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+        obs_supp = [node.name for node in obs_tree.non_tips()]
+
+        exp_tree = skbio.TreeNode.read(self.get_data_path('test5.tre'))
+        exp_supp = [node.name for node in exp_tree.non_tips()]
+
+        self.assertEqual(set(obs_supp), set(exp_supp))
+        self.assertEqual(len(obs_supp[0].split('/')), 4)  # should be 4 values
+        self.assertEqual(len(exp_supp[0].split('/')), 4)  # should be 4 values
+
     def test_iqtree_ultrafast_bootstrap_safe_allnni(self):
         # Test that output tree is made.
         # Reads tree output and compares tip labels to expected labels.
