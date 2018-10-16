@@ -369,7 +369,7 @@ plugin.methods.register_function(
                  '(SH-aLRT). Minimum of 1000 replicates is recomended. Set '
                  'to \'0\' for parametric aLRT test. Can be used with other '
                  '\'single branch test methods\'. Values reported in the '
-                 'order of: alrt, lbp, abayes.'),
+                 'order of: alrt, lbp, abayes, ufboot.'),
         'abayes': ('Single branch test method. Performs an '
                    'approximate Bayes test. Can be used with other '
                    '\'single branch test methods\' and ultrafast bootstrap. '
@@ -379,7 +379,7 @@ plugin.methods.register_function(
                 'to perform a fast local bootstrap probability method. '
                 'Minimum of 1000 replicates is recomended. Can be used with '
                 'other \'single branch test methods\'. Values reported in '
-                'the order of: alrt, lbp, abayes.'),
+                'the order of: alrt, lbp, abayes, ufboot.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow.')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name=('Construct a phylogenetic tree with IQ-TREE with bootstrap '
