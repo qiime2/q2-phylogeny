@@ -219,9 +219,9 @@ plugin.methods.register_function(
             'perturb_nni_strength': Float % Range(0.01, 99),
             'spr_radius': Int % Range(1, None),
             'fast': Bool,
-            'alrt': Int % Range(0, None),
+            'alrt': Int % Range(1000, None),
             'abayes': Bool,
-            'lbp': Int % Range(1, None),
+            'lbp': Int % Range(1000, None),
             'allnni': Bool,
             'safe': Bool},
     outputs=[('tree', Phylogeny[Unrooted])],
@@ -263,18 +263,20 @@ plugin.methods.register_function(
                        'for details.'),
         'fast': ('Fast search to resemble FastTree.'),
         'allnni': ('Perform more thorough NNI search.'),
-        'alrt': ('Single branch test method. Performs an SH-like approximate '
-                 'likelihood ratio test (SH-aLRT). Set to \'0\' for '
-                 'parametric aLRT test. Can be used with other \'single '
-                 'branch test methods\'. Values reported in the '
+        'alrt': ('Single branch test method. Number of bootstrap replicates '
+                 'to perform an SH-like approximate likelihood ratio test '
+                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Set '
+                 'to \'0\' for parametric aLRT test. Can be used with other '
+                 '\'single branch test methods\'. Values reported in the '
                  'order of: alrt, lbp, abayes.'),
         'abayes': ('Single branch test method. Approximate Bayes test. '
                    'Can be used with other \'single branch test methods\'. '
                    'Values reported in the order of: alrt, lbp, abayes.'),
-        'lbp': ('Single branch test method. Computes fast local bootstrap '
-                'probabilities. Can be used with other \'single branch test '
-                'methods\'. Values reported in the order of: alrt, lbp, '
-                'abayes.'),
+        'lbp': ('Single branch test method. Number of bootstrap replicates '
+                'to perform a fast local bootstrap probability method. '
+                'Minimum of 1000 replicates is recomended. Can be used with '
+                'other \'single branch test methods\'. Values reported in '
+                'the order of: alrt, lbp, abayes.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow.')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name='Construct a phylogenetic tree with IQ-TREE.',
@@ -303,9 +305,9 @@ plugin.methods.register_function(
             'n_ufboot_steps': Int % Range(1, None),
             'min_cor_ufboot': Float % Range(0.51, 0.99),
             'ep_break_ufboot': Float % Range(0.01, 0.99),
-            'alrt': Int % Range(0, None),
+            'alrt': Int % Range(1000, None),
             'abayes': Bool,
-            'lbp': Int % Range(1, None),
+            'lbp': Int % Range(1000, None),
             'bnni': Bool,
             'allnni': Bool,
             'safe': Bool},
@@ -327,7 +329,7 @@ plugin.methods.register_function(
         'seed': ('Random number seed. If not set, program defaults will be '
                  'used. See IQ-TREE manual for details.'),
         'bootstrap_replicates': ('The number of bootstrap searches to '
-                                 'perform. '),
+                                 'perform. Minimum of 1000 recomended. '),
         'n_init_pars_trees': ('Number of initial parsimony trees. If not '
                               'set, program defaults will be used. See '
                               'IQ-TREE manual for details.'),
@@ -362,22 +364,22 @@ plugin.methods.register_function(
                  'This option reduces the risk of overestimating branch '
                  'supports with UFBoot due to severe model violations.'),
         'allnni': ('Perform more thorough NNI search.'),
-        'alrt': ('Single branch test method. Performs an SH-like '
-                 'approximate likelihood ratio test (SH-aLRT). '
-                 'Set to \'0\' for parametric aLRT test. '
-                 'Can be used with other \'single branch test methods\' and '
-                 'ultrafast bootstrap. Values reported in the order of: '
-                 'alrt, lbp, abayes, ufboot.'),
+        'alrt': ('Single branch test method. Number of bootstrap replicates '
+                 'to perform an SH-like approximate likelihood ratio test '
+                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Set '
+                 'to \'0\' for parametric aLRT test. Can be used with other '
+                 '\'single branch test methods\'. Values reported in the '
+                 'order of: alrt, lbp, abayes.'),
         'abayes': ('Single branch test method. Performs an '
                    'approximate Bayes test. Can be used with other '
                    '\'single branch test methods\' and ultrafast bootstrap. '
                    'Values reported in the order of: alrt, lbp, abayes, '
                    'ufboot.'),
-        'lbp': ('Single branch test method. Computes fast local '
-                'bootstrap probabilities. Can be used with other '
-                '\'single branch test methods\' and ultrafast bootstrap. '
-                'Values reported in the order of: alrt, lbp, abayes, '
-                'ufboot.'),
+        'lbp': ('Single branch test method. Number of bootstrap replicates '
+                'to perform a fast local bootstrap probability method. '
+                'Minimum of 1000 replicates is recomended. Can be used with '
+                'other \'single branch test methods\'. Values reported in '
+                'the order of: alrt, lbp, abayes.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow.')},
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
     name=('Construct a phylogenetic tree with IQ-TREE with bootstrap '
