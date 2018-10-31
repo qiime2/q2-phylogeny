@@ -38,20 +38,20 @@ _iqtree_defaults = {
 
 def _build_iqtree_command(
         alignment,
-        seed: int=_iqtree_defaults['seed'],
-        n_cores: int=_iqtree_defaults['n_cores'],
-        substitution_model: str=_iqtree_defaults['substitution_model'],
-        run_prefix: str=_iqtree_defaults['run_prefix'],
-        dtype: str=_iqtree_defaults['dtype'],
-        n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
-        n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
-        n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
-        n_iter: int=_iqtree_defaults['n_iter'],
-        stop_iter: int=_iqtree_defaults['stop_iter'],
-        perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
-        spr_radius: int=_iqtree_defaults['spr_radius'],
-        allnni: bool=_iqtree_defaults['allnni'],
-        safe: bool=_iqtree_defaults['safe']):
+        seed: int = _iqtree_defaults['seed'],
+        n_cores: int = _iqtree_defaults['n_cores'],
+        substitution_model: str = _iqtree_defaults['substitution_model'],
+        run_prefix: str = _iqtree_defaults['run_prefix'],
+        dtype: str = _iqtree_defaults['dtype'],
+        n_init_pars_trees: int = _iqtree_defaults['n_init_pars_trees'],
+        n_top_init_trees: int = _iqtree_defaults['n_top_init_trees'],
+        n_best_retain_trees: int = _iqtree_defaults['n_best_retain_trees'],
+        n_iter: int = _iqtree_defaults['n_iter'],
+        stop_iter: int = _iqtree_defaults['stop_iter'],
+        perturb_nni_strength: float = _iqtree_defaults['perturb_nni_strength'],
+        spr_radius: int = _iqtree_defaults['spr_radius'],
+        allnni: bool = _iqtree_defaults['allnni'],
+        safe: bool = _iqtree_defaults['safe']):
 
     cmd = ['iqtree']
 
@@ -100,18 +100,18 @@ def _build_iqtree_command(
 
 def iqtree(
     alignment: AlignedDNAFASTAFormat,
-    seed: int=_iqtree_defaults['seed'],
-    n_cores: int=_iqtree_defaults['n_cores'],
-    substitution_model: str=_iqtree_defaults['substitution_model'],
-    n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
-    n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
-    n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
-    n_iter: int=_iqtree_defaults['n_iter'],
-    stop_iter: int=_iqtree_defaults['stop_iter'],
-    perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
-    spr_radius: int=_iqtree_defaults['spr_radius'],
-    allnni: bool=_iqtree_defaults['allnni'],
-    safe: bool=_iqtree_defaults['safe'],
+    seed: int = _iqtree_defaults['seed'],
+    n_cores: int = _iqtree_defaults['n_cores'],
+    substitution_model: str = _iqtree_defaults['substitution_model'],
+    n_init_pars_trees: int = _iqtree_defaults['n_init_pars_trees'],
+    n_top_init_trees: int = _iqtree_defaults['n_top_init_trees'],
+    n_best_retain_trees: int = _iqtree_defaults['n_best_retain_trees'],
+    n_iter: int = _iqtree_defaults['n_iter'],
+    stop_iter: int = _iqtree_defaults['stop_iter'],
+    perturb_nni_strength: float = _iqtree_defaults['perturb_nni_strength'],
+    spr_radius: int = _iqtree_defaults['spr_radius'],
+    allnni: bool = _iqtree_defaults['allnni'],
+    safe: bool = _iqtree_defaults['safe'],
             ) -> NewickFormat:
     result = NewickFormat()
 
@@ -141,24 +141,24 @@ def iqtree(
 
 def _build_iqtree_ufbs_command(
         alignment,
-        seed: int=_iqtree_defaults['seed'],
-        n_cores: int=_iqtree_defaults['n_cores'],
-        substitution_model: str=_iqtree_defaults['substitution_model'],
-        bootstrap_replicates: int=_iqtree_defaults['bootstrap_replicates'],
-        run_prefix: str=_iqtree_defaults['run_prefix'],
-        dtype: str=_iqtree_defaults['dtype'],
-        n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
-        n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
-        n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
-        stop_iter: int=_iqtree_defaults['stop_iter'],
-        perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
-        spr_radius: int=_iqtree_defaults['spr_radius'],
-        n_max_ufboot_iter: int=_iqtree_defaults['n_max_ufboot_iter'],
-        n_ufboot_steps: int=_iqtree_defaults['n_ufboot_steps'],
-        min_cor_ufboot: float=_iqtree_defaults['min_cor_ufboot'],
-        ep_break_ufboot: float=_iqtree_defaults['ep_break_ufboot'],
-        allnni: bool=_iqtree_defaults['allnni'],
-        safe: bool=_iqtree_defaults['safe']):
+        seed: int = _iqtree_defaults['seed'],
+        n_cores: int = _iqtree_defaults['n_cores'],
+        substitution_model: str = _iqtree_defaults['substitution_model'],
+        bootstrap_replicates: int = _iqtree_defaults['bootstrap_replicates'],
+        run_prefix: str = _iqtree_defaults['run_prefix'],
+        dtype: str = _iqtree_defaults['dtype'],
+        n_init_pars_trees: int = _iqtree_defaults['n_init_pars_trees'],
+        n_top_init_trees: int = _iqtree_defaults['n_top_init_trees'],
+        n_best_retain_trees: int = _iqtree_defaults['n_best_retain_trees'],
+        stop_iter: int = _iqtree_defaults['stop_iter'],
+        perturb_nni_strength: float = _iqtree_defaults['perturb_nni_strength'],
+        spr_radius: int = _iqtree_defaults['spr_radius'],
+        n_max_ufboot_iter: int = _iqtree_defaults['n_max_ufboot_iter'],
+        n_ufboot_steps: int = _iqtree_defaults['n_ufboot_steps'],
+        min_cor_ufboot: float = _iqtree_defaults['min_cor_ufboot'],
+        ep_break_ufboot: float = _iqtree_defaults['ep_break_ufboot'],
+        allnni: bool = _iqtree_defaults['allnni'],
+        safe: bool = _iqtree_defaults['safe']):
     # This is a separate command becuase there are several
     # bootstrap specific options.
 
@@ -218,22 +218,22 @@ def _build_iqtree_ufbs_command(
 
 def iqtree_ultrafast_bootstrap(
     alignment: AlignedDNAFASTAFormat,
-    seed: int=_iqtree_defaults['seed'],
-    n_cores: int=_iqtree_defaults['n_cores'],
-    substitution_model: str=_iqtree_defaults['substitution_model'],
-    bootstrap_replicates: int=_iqtree_defaults['bootstrap_replicates'],
-    n_init_pars_trees: int=_iqtree_defaults['n_init_pars_trees'],
-    n_top_init_trees: int=_iqtree_defaults['n_top_init_trees'],
-    n_best_retain_trees: int=_iqtree_defaults['n_best_retain_trees'],
-    stop_iter: int=_iqtree_defaults['stop_iter'],
-    perturb_nni_strength: float=_iqtree_defaults['perturb_nni_strength'],
-    spr_radius: int=_iqtree_defaults['spr_radius'],
-    n_max_ufboot_iter: int=_iqtree_defaults['n_max_ufboot_iter'],
-    n_ufboot_steps: int=_iqtree_defaults['n_ufboot_steps'],
-    min_cor_ufboot: float=_iqtree_defaults['min_cor_ufboot'],
-    ep_break_ufboot: float=_iqtree_defaults['ep_break_ufboot'],
-    allnni: bool=_iqtree_defaults['allnni'],
-    safe: bool=_iqtree_defaults['safe']
+    seed: int = _iqtree_defaults['seed'],
+    n_cores: int = _iqtree_defaults['n_cores'],
+    substitution_model: str = _iqtree_defaults['substitution_model'],
+    bootstrap_replicates: int = _iqtree_defaults['bootstrap_replicates'],
+    n_init_pars_trees: int = _iqtree_defaults['n_init_pars_trees'],
+    n_top_init_trees: int = _iqtree_defaults['n_top_init_trees'],
+    n_best_retain_trees: int = _iqtree_defaults['n_best_retain_trees'],
+    stop_iter: int = _iqtree_defaults['stop_iter'],
+    perturb_nni_strength: float = _iqtree_defaults['perturb_nni_strength'],
+    spr_radius: int = _iqtree_defaults['spr_radius'],
+    n_max_ufboot_iter: int = _iqtree_defaults['n_max_ufboot_iter'],
+    n_ufboot_steps: int = _iqtree_defaults['n_ufboot_steps'],
+    min_cor_ufboot: float = _iqtree_defaults['min_cor_ufboot'],
+    ep_break_ufboot: float = _iqtree_defaults['ep_break_ufboot'],
+    allnni: bool = _iqtree_defaults['allnni'],
+    safe: bool = _iqtree_defaults['safe']
                                 ) -> NewickFormat:
     # NOTE: the IQ-TREE command `-n` (called as `n_iter` in the `iqtree`
     # method) is not compatable with ultrafast_bootstrap `-bb`

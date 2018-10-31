@@ -45,11 +45,11 @@ def _set_raxml_version(raxml_version='Standard', n_threads=1):
 
 
 def raxml(alignment: AlignedDNAFASTAFormat,
-          seed: int=None,
-          n_searches: int=1,
-          n_threads: int=1,
-          raxml_version: str='Standard',
-          substitution_model: str='GTRGAMMA') -> NewickFormat:
+          seed: int = None,
+          n_searches: int = 1,
+          n_threads: int = 1,
+          raxml_version: str = 'Standard',
+          substitution_model: str = 'GTRGAMMA') -> NewickFormat:
     result = NewickFormat()
 
     cmd = _set_raxml_version(raxml_version=raxml_version, n_threads=n_threads)
@@ -88,10 +88,11 @@ def _build_rapid_bootstrap_command(alignment, seed, rapid_bootstrap_seed,
 
 
 def raxml_rapid_bootstrap(alignment: AlignedDNAFASTAFormat,
-                          seed: int=None, rapid_bootstrap_seed: int=None,
-                          bootstrap_replicates: int=100, n_threads: int=1,
-                          raxml_version: str='Standard',
-                          substitution_model: str='GTRGAMMA') -> NewickFormat:
+                          seed: int = None, rapid_bootstrap_seed: int = None,
+                          bootstrap_replicates: int = 100, n_threads: int = 1,
+                          raxml_version: str = 'Standard',
+                          substitution_model: str = 'GTRGAMMA'
+                          ) -> NewickFormat:
     result = NewickFormat()
     cmd = _set_raxml_version(raxml_version=raxml_version, n_threads=n_threads)
 
