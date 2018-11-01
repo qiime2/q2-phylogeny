@@ -28,7 +28,7 @@ def run_command(cmd, output_fp, verbose=True, env=None):
 
 
 def fasttree(alignment: AlignedDNAFASTAFormat,
-             n_threads: int=1) -> NewickFormat:
+             n_threads: int = 1) -> NewickFormat:
     result = NewickFormat()
     aligned_fp = str(alignment)
     tree_fp = str(result)
