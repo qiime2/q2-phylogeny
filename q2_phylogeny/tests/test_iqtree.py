@@ -181,10 +181,15 @@ class IqtreeTests(TestPluginBase):
                 obs = _build_iqtree_command(input_sequences,
                                             seed=1723,
                                             n_cores=0,
+                                            n_runs=2,
                                             substitution_model='MFP',
                                             run_prefix=run_prefix,
                                             dtype='DNA',
                                             safe='True',
+                                            fast='True',
+                                            alrt=1000,
+                                            abayes=True,
+                                            lbp=1000,
                                             n_init_pars_trees=200,
                                             n_top_init_trees=30,
                                             n_best_retain_trees=10,
@@ -194,20 +199,25 @@ class IqtreeTests(TestPluginBase):
                                             spr_radius=8,
                                             allnni='True')
         self.assertTrue('DNA' in obs[2])
-        self.assertTrue(str(input_sequences) in str(obs[4]))
-        self.assertTrue('MFP' in obs[6])
-        self.assertTrue(str(run_prefix) in obs[8])
-        self.assertTrue('AUTO' in obs[10])
-        self.assertTrue('1723' in obs[12])
-        self.assertTrue(str('-safe') in obs[13])
-        self.assertTrue(str('-allnni') in obs[14])
-        self.assertTrue(str('200') in obs[16])
-        self.assertTrue(str('30') in obs[18])
-        self.assertTrue(str('10') in obs[20])
-        self.assertTrue(str('80') in obs[22])
-        self.assertTrue(str('300') in obs[24])
-        self.assertTrue(str('0.55') in obs[26])
-        self.assertTrue(str('8') in obs[28])
+        self.assertTrue('2' in obs[4])
+        self.assertTrue(str(input_sequences) in str(obs[6]))
+        self.assertTrue('MFP' in obs[8])
+        self.assertTrue(str(run_prefix) in obs[10])
+        self.assertTrue('AUTO' in obs[12])
+        self.assertTrue('1723' in obs[14])
+        self.assertTrue(str('-safe') in obs[15])
+        self.assertTrue(str('-fast') in obs[16])
+        self.assertTrue(str('1000') in obs[18])
+        self.assertTrue(str('-abayes') in obs[19])
+        self.assertTrue(str('1000') in obs[21])
+        self.assertTrue(str('-allnni') in obs[22])
+        self.assertTrue(str('200') in obs[24])
+        self.assertTrue(str('30') in obs[26])
+        self.assertTrue(str('10') in obs[28])
+        self.assertTrue(str('80') in obs[30])
+        self.assertTrue(str('300') in obs[32])
+        self.assertTrue(str('0.55') in obs[34])
+        self.assertTrue(str('8') in obs[36])
 
     def test_build_iqtree_ufbs_command(self):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
@@ -218,12 +228,17 @@ class IqtreeTests(TestPluginBase):
                 obs = _build_iqtree_ufbs_command(input_sequences,
                                                  seed=1723,
                                                  n_cores=0,
+                                                 n_runs=5,
                                                  bootstrap_replicates=2000,
                                                  substitution_model='MFP',
                                                  run_prefix=run_prefix,
                                                  dtype='DNA',
                                                  safe='True',
                                                  allnni='True',
+                                                 alrt=500,
+                                                 abayes=True,
+                                                 lbp=400,
+                                                 bnni=True,
                                                  n_init_pars_trees=200,
                                                  n_top_init_trees=30,
                                                  n_best_retain_trees=10,
@@ -236,23 +251,28 @@ class IqtreeTests(TestPluginBase):
                                                  ep_break_ufboot=0.51)
         self.assertTrue('2000' in obs[2])
         self.assertTrue('DNA' in obs[4])
-        self.assertTrue(str(input_sequences) in str(obs[6]))
-        self.assertTrue('MFP' in obs[8])
-        self.assertTrue(str(run_prefix) in obs[10])
-        self.assertTrue('AUTO' in obs[12])
-        self.assertTrue('1723' in obs[14])
-        self.assertTrue('-safe' in obs[15])
-        self.assertTrue('-allnni' in obs[16])
-        self.assertTrue('200' in obs[18])
-        self.assertTrue(str('30') in obs[20])
-        self.assertTrue(str('10') in obs[22])
-        self.assertTrue(str('300') in obs[24])
-        self.assertTrue(str('0.55') in obs[26])
-        self.assertTrue(str('8') in obs[28])
-        self.assertTrue(str('600') in obs[30])
-        self.assertTrue(str('80') in obs[32])
-        self.assertTrue(str('0.66') in obs[34])
-        self.assertTrue(str('0.51') in obs[36])
+        self.assertTrue('5' in obs[6])
+        self.assertTrue(str(input_sequences) in str(obs[8]))
+        self.assertTrue('MFP' in obs[10])
+        self.assertTrue(str(run_prefix) in obs[12])
+        self.assertTrue('AUTO' in obs[14])
+        self.assertTrue('1723' in obs[16])
+        self.assertTrue('-safe' in obs[17])
+        self.assertTrue('-allnni' in obs[18])
+        self.assertTrue('500' in obs[20])
+        self.assertTrue('-abayes' in obs[21])
+        self.assertTrue('400' in obs[23])
+        self.assertTrue('-bnni' in obs[24])
+        self.assertTrue('200' in obs[26])
+        self.assertTrue(str('30') in obs[28])
+        self.assertTrue(str('10') in obs[30])
+        self.assertTrue(str('300') in obs[32])
+        self.assertTrue(str('0.55') in obs[34])
+        self.assertTrue(str('8') in obs[36])
+        self.assertTrue(str('600') in obs[38])
+        self.assertTrue(str('80') in obs[40])
+        self.assertTrue(str('0.66') in obs[42])
+        self.assertTrue(str('0.51') in obs[44])
 
     def test_iqtree_ultrafast_bootstrap(self):
         # Test that output tree is made.
@@ -271,6 +291,32 @@ class IqtreeTests(TestPluginBase):
                               'GCA000473545', 'GCA000196255', 'GCA002142615',
                               'GCA000686145', 'GCA001950115', 'GCA001971985',
                               'GCA900007555']))
+
+    def test_iqtree_ultrafast_bootstrap_singlebranch_methods(self):
+        # Comparing branch support to manually constructed tree
+        # using the following command:
+        #  iqtree -s aligned-dna-sequences-3.fasta -alrt 1500 -lbp 1500
+        #         -abayes -bb 1500 -m 'HKY' -seed 1723
+        # Here I am simply checking if the support values are identical
+        # to the manual run. Also check for number of values.
+        input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+
+        with redirected_stdio(stderr=os.devnull):
+            obs = iqtree_ultrafast_bootstrap(input_sequences, seed=1723,
+                                             substitution_model='HKY',
+                                             alrt=1500, lbp=1500,
+                                             abayes=True,
+                                             bootstrap_replicates=1500)
+        obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
+        obs_supp = [node.name for node in obs_tree.non_tips()]
+
+        exp_tree = skbio.TreeNode.read(self.get_data_path('test5.tre'))
+        exp_supp = [node.name for node in exp_tree.non_tips()]
+
+        self.assertEqual(set(obs_supp), set(exp_supp))
+        self.assertEqual(len(obs_supp[0].split('/')), 4)  # should be 4 values
+        self.assertEqual(len(exp_supp[0].split('/')), 4)  # should be 4 values
 
     def test_iqtree_ultrafast_bootstrap_safe_allnni(self):
         # Test that output tree is made.
