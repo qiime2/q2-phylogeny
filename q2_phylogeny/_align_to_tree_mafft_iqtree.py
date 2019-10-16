@@ -23,7 +23,8 @@ def align_to_tree_mafft_iqtree(ctx, sequences, n_threads=1,
                        max_gap_frequency=mask_max_gap_frequency,
                        min_conservation=mask_min_conservation)
     unrooted_tree, = iqtree(alignment=masked_seq, n_cores=n_threads,
-                            fast=fast, alrt=alrt, seed=seed)
+                            fast=fast, alrt=alrt, seed=seed,
+                            substitution_model=substitution_model)
     rooted_tree, = midpoint_root(tree=unrooted_tree)
 
     return (aligned_seq, masked_seq, unrooted_tree, rooted_tree)
