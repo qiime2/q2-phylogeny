@@ -219,7 +219,7 @@ plugin.methods.register_function(
             'perturb_nni_strength': Float % Range(0.01, 99),
             'spr_radius': Int % Range(1, None),
             'fast': Bool,
-            'alrt': Int % Range(1000, None),
+            'alrt': Int % Range(1000, None) or Int % 0,
             'abayes': Bool,
             'lbp': Int % Range(1000, None),
             'allnni': Bool,
@@ -305,7 +305,7 @@ plugin.methods.register_function(
             'n_ufboot_steps': Int % Range(1, None),
             'min_cor_ufboot': Float % Range(0.51, 0.99),
             'ep_break_ufboot': Float % Range(0.01, 0.99),
-            'alrt': Int % Range(1000, None),
+            'alrt': Int % Range(1000, None) or Int % 0,
             'abayes': Bool,
             'lbp': Int % Range(1000, None),
             'bnni': Bool,
@@ -464,6 +464,88 @@ plugin.pipelines.register_function(
         'rooted_tree': 'The rooted phylogenetic tree.',
     },
     name='Build a phylogenetic tree using fasttree and mafft alignment',
+    description=('This pipeline will start by creating a sequence alignment '
+                 'using MAFFT, after which any alignment columns that are '
+                 'phylogenetically uninformative or ambiguously aligned will '
+                 'be removed (masked). The resulting masked alignment will be '
+                 'used to infer a phylogenetic tree and then subsequently '
+                 'rooted at its midpoint. Output files from each step of the '
+                 'pipeline will be saved. This includes both the unmasked and '
+                 'masked MAFFT alignment from q2-alignment methods, and both '
+                 'the rooted and unrooted phylogenies from q2-phylogeny '
+                 'methods.'
+                 )
+)
+
+plugin.pipelines.register_function(
+    function=q2_phylogeny.align_to_tree_mafft_iqtree,
+    inputs={
+        'sequences': FeatureData[Sequence],
+    },
+    parameters={
+        'n_threads': Int % Range(0, None),
+        'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
+        'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
+        'seed': Int,
+        'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
+        'fast': Bool,
+        'alrt': Int % Range(1000, None) or Int % 0,
+    },
+    outputs=[
+        ('alignment', FeatureData[AlignedSequence]),
+        ('masked_alignment', FeatureData[AlignedSequence]),
+        ('tree', Phylogeny[Unrooted]),
+        ('rooted_tree', Phylogeny[Rooted]),
+    ],
+    input_descriptions={
+        'sequences': 'The sequences to be used for creating a '
+                     'iqtree based rooted phylogenetic tree.'
+    },
+    parameter_descriptions={
+        'n_threads': 'The number of threads. (Use 0 to automatically use all '
+                     'available cores '
+                     'This value is used when aligning the sequences and '
+                     'creating the tree with iqtree.',
+        'mask_max_gap_frequency': 'The maximum relative frequency of gap '
+                                  'characters in a column for the column '
+                                  'to be retained. This relative frequency '
+                                  'must be a number between 0.0 and 1.0 '
+                                  '(inclusive), where 0.0 retains only those '
+                                  'columns without gap characters, and 1.0 '
+                                  'retains all columns  regardless of gap '
+                                  'character frequency. This value is used '
+                                  'when masking the aligned sequences.',
+        'mask_min_conservation':  'The minimum relative frequency '
+                                  'of at least one non-gap character in a '
+                                  'column for that column to be retained. '
+                                  'This relative frequency must be a number '
+                                  'between 0.0 and 1.0 (inclusive). For '
+                                  'example, if a value of  0.4 is provided, a '
+                                  'column will only be retained  if it '
+                                  'contains at least one character that is '
+                                  'present in at least 40% of the sequences. '
+                                  'This value is used when masking the '
+                                  'aligned sequences.',
+        'seed':  'Random number seed for the iqtree parsimony starting tree. '
+                 'This allows you to reproduce tree results. '
+                 'If not supplied then one will be randomly chosen.',
+
+        'substitution_model':  'Model of Nucleotide Substitution. '
+                               'If not provided, IQ-TREE will determine the '
+                               'best fit substitution model automatically.',
+        'fast': 'Fast search to resemble FastTree.',
+        'alrt': 'Single branch test method. Number of bootstrap replicates '
+                 'to perform an SH-like approximate likelihood ratio test '
+                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Set '
+                 'to \'0\' for parametric aLRT test.'
+    },
+    output_descriptions={
+        'alignment': 'The aligned sequences.',
+        'masked_alignment': 'The masked alignment.',
+        'tree': 'The unrooted phylogenetic tree.',
+        'rooted_tree': 'The rooted phylogenetic tree.',
+    },
+    name='Build a phylogenetic tree using iqtree via mafft alignment.',
     description=('This pipeline will start by creating a sequence alignment '
                  'using MAFFT, after which any alignment columns that are '
                  'phylogenetically uninformative or ambiguously aligned will '
