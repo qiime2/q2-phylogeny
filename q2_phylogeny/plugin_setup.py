@@ -545,7 +545,7 @@ plugin.pipelines.register_function(
         'tree': 'The unrooted phylogenetic tree.',
         'rooted_tree': 'The rooted phylogenetic tree.',
     },
-    name='Build a phylogenetic tree using iqtree via mafft alignment.',
+    name='Build a phylogenetic tree using iqtree and mafft alignment.',
     description=('This pipeline will start by creating a sequence alignment '
                  'using MAFFT, after which any alignment columns that are '
                  'phylogenetically uninformative or ambiguously aligned will '
