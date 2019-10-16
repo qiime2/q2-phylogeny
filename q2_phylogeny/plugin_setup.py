@@ -486,6 +486,8 @@ plugin.pipelines.register_function(
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
         'seed': Int,
         'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
+        'stop_iter': Int % Range(1, None),
+        'perturb_nni_strength': Float % Range(0.01, 99),
         'fast': Bool,
         'alrt': Int % Range(1000, None),
     },
@@ -531,6 +533,12 @@ plugin.pipelines.register_function(
         'substitution_model':  'Model of Nucleotide Substitution. '
                                'If not provided, IQ-TREE will determine the '
                                'best fit substitution model automatically.',
+        'stop_iter': 'Number of unsuccessful iterations to stop. If not '
+                     'set, program defaults will be used. See IQ-TREE '
+                     'manual for details.',
+        'perturb_nni_strength': 'Perturbation strength for randomized NNI. '
+                                'If not set, program defaults will be used. '
+                                'See IQ-TREE manual for details.',
         'fast': 'Fast search to resemble FastTree.',
         'alrt': 'Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '

@@ -12,7 +12,8 @@ def align_to_tree_mafft_iqtree(ctx, sequences, n_threads=1,
                                mask_min_conservation=0.40,
                                substitution_model='MFP',
                                fast=False, alrt=None,
-                               seed=None):
+                               seed=None, stop_iter=None,
+                               perturb_nni_strength=None):
     mafft = ctx.get_action('alignment', 'mafft')
     mask = ctx.get_action('alignment', 'mask')
     iqtree = ctx.get_action('phylogeny', 'iqtree')
@@ -24,7 +25,9 @@ def align_to_tree_mafft_iqtree(ctx, sequences, n_threads=1,
                        min_conservation=mask_min_conservation)
     unrooted_tree, = iqtree(alignment=masked_seq, n_cores=n_threads,
                             fast=fast, alrt=alrt, seed=seed,
-                            substitution_model=substitution_model)
+                            substitution_model=substitution_model,
+                            stop_iter=stop_iter,
+                            perturb_nni_strength=perturb_nni_strength)
     rooted_tree, = midpoint_root(tree=unrooted_tree)
 
     return (aligned_seq, masked_seq, unrooted_tree, rooted_tree)
