@@ -219,7 +219,7 @@ plugin.methods.register_function(
             'perturb_nni_strength': Float % Range(0.01, 99),
             'spr_radius': Int % Range(1, None),
             'fast': Bool,
-            'alrt': Int % Range(1000, None) or Int % 0,
+            'alrt': Int % Range(1000, None),
             'abayes': Bool,
             'lbp': Int % Range(1000, None),
             'allnni': Bool,
@@ -265,10 +265,9 @@ plugin.methods.register_function(
         'allnni': ('Perform more thorough NNI search.'),
         'alrt': ('Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '
-                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Set '
-                 'to \'0\' for parametric aLRT test. Can be used with other '
-                 '\'single branch test methods\'. Values reported in the '
-                 'order of: alrt, lbp, abayes.'),
+                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Can '
+                 'be used with other \'single branch test methods\'. Values '
+                 'reported in the order of: alrt, lbp, abayes.'),
         'abayes': ('Single branch test method. Approximate Bayes test. '
                    'Can be used with other \'single branch test methods\'. '
                    'Values reported in the order of: alrt, lbp, abayes.'),
@@ -305,7 +304,7 @@ plugin.methods.register_function(
             'n_ufboot_steps': Int % Range(1, None),
             'min_cor_ufboot': Float % Range(0.51, 0.99),
             'ep_break_ufboot': Float % Range(0.01, 0.99),
-            'alrt': Int % Range(1000, None) or Int % 0,
+            'alrt': Int % Range(1000, None),
             'abayes': Bool,
             'lbp': Int % Range(1000, None),
             'bnni': Bool,
@@ -366,10 +365,9 @@ plugin.methods.register_function(
         'allnni': ('Perform more thorough NNI search.'),
         'alrt': ('Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '
-                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Set '
-                 'to \'0\' for parametric aLRT test. Can be used with other '
-                 '\'single branch test methods\'. Values reported in the '
-                 'order of: alrt, lbp, abayes, ufboot.'),
+                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Can '
+                 'be used with other \'single branch test methods\'. Values '
+                 'reported in the order of: alrt, lbp, abayes.'),
         'abayes': ('Single branch test method. Performs an '
                    'approximate Bayes test. Can be used with other '
                    '\'single branch test methods\' and ultrafast bootstrap. '
@@ -489,7 +487,7 @@ plugin.pipelines.register_function(
         'seed': Int,
         'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
         'fast': Bool,
-        'alrt': Int % Range(1000, None) or Int % 0,
+        'alrt': Int % Range(1000, None),
     },
     outputs=[
         ('alignment', FeatureData[AlignedSequence]),
@@ -536,8 +534,9 @@ plugin.pipelines.register_function(
         'fast': 'Fast search to resemble FastTree.',
         'alrt': 'Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '
-                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Set '
-                 'to \'0\' for parametric aLRT test.'
+                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Can '
+                 'be used with other \'single branch test methods\'. Values '
+                 'reported in the order of: alrt, lbp, abayes.'
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
