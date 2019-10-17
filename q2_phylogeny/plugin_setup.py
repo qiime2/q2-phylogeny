@@ -542,9 +542,7 @@ plugin.pipelines.register_function(
         'fast': 'Fast search to resemble FastTree.',
         'alrt': 'Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '
-                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Can '
-                 'be used with other \'single branch test methods\'. Values '
-                 'reported in the order of: alrt, lbp, abayes.'
+                 '(SH-aLRT). Minimum of 1000 replicates is recomended.'
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
@@ -557,11 +555,13 @@ plugin.pipelines.register_function(
                  'using MAFFT, after which any alignment columns that are '
                  'phylogenetically uninformative or ambiguously aligned will '
                  'be removed (masked). The resulting masked alignment will be '
-                 'used to infer a phylogenetic tree and then subsequently '
-                 'rooted at its midpoint. Output files from each step of the '
-                 'pipeline will be saved. This includes both the unmasked and '
-                 'masked MAFFT alignment from q2-alignment methods, and both '
-                 'the rooted and unrooted phylogenies from q2-phylogeny '
-                 'methods.'
+                 'used to infer a phylogenetic tree using IQ-TREE. By default '
+                 'the best fit substitution model will be determined by '
+                 'ModelFinder prior to phylogenetic inference. The resulting '
+                 'tree will be subsequently rooted at its midpoint. Output '
+                 'files from each step of the pipeline will be saved. This '
+                 'includes both the unmasked and masked MAFFT alignment from '
+                 'q2-alignment methods, and both the rooted and unrooted '
+                 'phylogenies from q2-phylogeny methods.'
                  )
 )
