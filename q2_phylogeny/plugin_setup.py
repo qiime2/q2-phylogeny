@@ -100,7 +100,7 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=q2_phylogeny.fasttree,
     inputs={'alignment': FeatureData[AlignedSequence]},
-    parameters={'n_threads': Int % Range(0, None)},
+    parameters={'n_threads': Int % Range(1, None) | Str % Choices(['auto'])},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
@@ -208,7 +208,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_cores': Int % Range(0, None),
+            'n_cores': Int % Range(1, None) | Str % Choices(['auto']),
             'n_runs': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
@@ -231,7 +231,7 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_cores': ('The number of cores to use for parallel '
-                    'processing. Use \'0\' to let IQ-TREE automatically '
+                    'processing. Use `auto` to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
         'n_runs': ('Number of indepedent runs. Multiple  independent runs '
                    '(e.g. 10) can outperform a single run in terms of '
@@ -291,7 +291,7 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_cores': Int % Range(0, None),
+            'n_cores': Int % Range(1, None) | Str % Choices(['auto']),
             'n_runs': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
@@ -318,7 +318,7 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         'n_cores': ('The number of cores to use for parallel '
-                    'processing. Use \'0\' to let IQ-TREE automatically '
+                    'processing. Use `auto` to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
         'n_runs': ('Number of indepedent runs. Multiple  independent runs '
                    '(e.g. 10) can outperform a single run in terms of '
@@ -417,7 +417,7 @@ plugin.pipelines.register_function(
         'sequences': FeatureData[Sequence],
     },
     parameters={
-        'n_threads': Int % Range(0, None),
+        'n_threads': Int % Range(1, None) | Str % Choices(['auto']),
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True)
     },
@@ -432,8 +432,8 @@ plugin.pipelines.register_function(
                      'fasttree based rooted phylogenetic tree.'
     },
     parameter_descriptions={
-        'n_threads': 'The number of threads. (Use 0 to automatically use all '
-                     'available cores) '
+        'n_threads': 'The number of threads. (Use `auto` to automatically use '
+                     'all available cores) '
                      'This value is used when aligning the sequences and '
                      'creating the tree with fasttree.',
         'mask_max_gap_frequency': 'The maximum relative frequency of gap '

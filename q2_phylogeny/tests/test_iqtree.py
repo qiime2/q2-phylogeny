@@ -104,7 +104,7 @@ class IqtreeTests(TestPluginBase):
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
         with redirected_stdio(stderr=os.devnull):
-            obs = iqtree(input_sequences, n_cores=0)
+            obs = iqtree(input_sequences, n_cores='auto')
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
 
         # load the resulting tree and test that it has the right number of
@@ -180,7 +180,7 @@ class IqtreeTests(TestPluginBase):
             with redirected_stdio(stderr=os.devnull):
                 obs = _build_iqtree_command(input_sequences,
                                             seed=1723,
-                                            n_cores=0,
+                                            n_cores='auto',
                                             n_runs=2,
                                             substitution_model='MFP',
                                             run_prefix=run_prefix,
@@ -227,7 +227,7 @@ class IqtreeTests(TestPluginBase):
             with redirected_stdio(stderr=os.devnull):
                 obs = _build_iqtree_ufbs_command(input_sequences,
                                                  seed=1723,
-                                                 n_cores=0,
+                                                 n_cores='auto',
                                                  n_runs=5,
                                                  bootstrap_replicates=2000,
                                                  substitution_model='MFP',
@@ -343,7 +343,7 @@ class IqtreeTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = iqtree_ultrafast_bootstrap(input_sequences, n_cores=0)
+            obs = iqtree_ultrafast_bootstrap(input_sequences, n_cores='auto')
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
