@@ -112,7 +112,7 @@ plugin.methods.register_function(
                      '(`FastTreeMP`), and may result in a different tree than '
                      'single-threading. See '
                      'http://www.microbesonline.org/fasttree/#OpenMP for '
-                     'details. (Use 0 to automatically use all available '
+                     'details. (Use `auto` to automatically use all available '
                      'cores)'
     },
     output_descriptions={'tree': 'The resulting phylogenetic tree.'},
