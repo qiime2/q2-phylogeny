@@ -56,7 +56,7 @@ class FastTreeTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-1.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = fasttree(input_sequences, n_threads=-1)
+            obs = fasttree(input_sequences, n_threads='auto')
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids (the branch lengths can vary with
         # different versions of FastTree, and threading can produce
