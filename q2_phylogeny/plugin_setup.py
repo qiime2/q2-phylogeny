@@ -481,7 +481,7 @@ plugin.pipelines.register_function(
         'sequences': FeatureData[Sequence],
     },
     parameters={
-        'n_threads': Int % Range(0, None),
+        'n_threads': Int % Range(1, None) | Str % Choices(['auto']),
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
         'seed': Int,

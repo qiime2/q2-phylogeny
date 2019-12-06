@@ -27,6 +27,7 @@ class AlignToTreeMafftFasttreePipelineTest(TestPluginBase):
     def test_execution(self):
         # Does it run?
         self.align_to_tree_mafft_iqtree(self.input_sequences)
+        self.assertTrue(True)
 
     def test_outputs(self):
         result = self.align_to_tree_mafft_iqtree(self.input_sequences)
