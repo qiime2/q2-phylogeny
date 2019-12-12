@@ -72,7 +72,7 @@ def _build_iqtree_command(
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
 
-    if n_cores == 0:
+    if n_cores == 'auto':
         cmd += ['-nt', 'AUTO']
     else:
         cmd += ['-nt', '%i' % n_cores]
@@ -209,7 +209,7 @@ def _build_iqtree_ufbs_command(
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
 
-    if n_cores == 0:
+    if n_cores == 'auto':
         cmd += ['-nt', 'AUTO']
     else:
         cmd += ['-nt', '%i' % n_cores]

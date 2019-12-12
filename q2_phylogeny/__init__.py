@@ -13,10 +13,11 @@ from ._iqtree import iqtree, iqtree_ultrafast_bootstrap
 from ._filter import filter_table
 from ._version import get_versions
 from ._align_to_tree_mafft_fasttree import align_to_tree_mafft_fasttree
+from ._align_to_tree_mafft_iqtree import align_to_tree_mafft_iqtree
 
 __version__ = get_versions()['version']
 del get_versions
 
 __all__ = ["midpoint_root", "fasttree", "align_to_tree_mafft_fasttree",
            "raxml", "raxml_rapid_bootstrap", "iqtree", "filter_table",
-           "iqtree_ultrafast_bootstrap"]
+           "iqtree_ultrafast_bootstrap", "align_to_tree_mafft_iqtree"]
