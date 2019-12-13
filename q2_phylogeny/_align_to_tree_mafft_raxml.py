@@ -8,10 +8,10 @@
 
 
 def align_to_tree_mafft_raxml(ctx, sequences, n_threads=1,
-                               mask_max_gap_frequency=1.0,
-                               mask_min_conservation=0.40,
-                               substitution_model='GTRGAMMA',
-                               seed=None, raxml_version='Standard'):
+                              mask_max_gap_frequency=1.0,
+                              mask_min_conservation=0.40,
+                              substitution_model='GTRGAMMA',
+                              seed=None, raxml_version='Standard'):
     mafft = ctx.get_action('alignment', 'mafft')
     mask = ctx.get_action('alignment', 'mask')
     raxml = ctx.get_action('phylogeny', 'raxml')
@@ -21,9 +21,9 @@ def align_to_tree_mafft_raxml(ctx, sequences, n_threads=1,
     masked_seq, = mask(alignment=aligned_seq,
                        max_gap_frequency=mask_max_gap_frequency,
                        min_conservation=mask_min_conservation)
-    unrooted_tree, = raxml(alignment=masked_seq, n_cores=n_threads,
-                            substitution_model=substitution_model,
-                            seed=seed, raxml_version=raxml_version)
+    unrooted_tree, = raxml(alignment=masked_seq, n_threads=n_threads,
+                           substitution_model=substitution_model,
+                           seed=seed, raxml_version=raxml_version)
     rooted_tree, = midpoint_root(tree=unrooted_tree)
 
     return (aligned_seq, masked_seq, unrooted_tree, rooted_tree)
