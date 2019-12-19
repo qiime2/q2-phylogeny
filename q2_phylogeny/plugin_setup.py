@@ -620,7 +620,7 @@ plugin.pipelines.register_function(
                     'NOTE: if using this option, it is recomended that only '
                     'the CAT-based substitution models of RAxML be '
                     'considered for this pipeline.',
-        'seed':  'Random number seed for the iqtree parsimony starting tree. '
+        'seed':  'Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
                  'If not supplied then one will be randomly chosen.',
         'raxml_version': ('Select a specific CPU optimization of RAxML to '
