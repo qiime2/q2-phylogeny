@@ -575,6 +575,7 @@ plugin.pipelines.register_function(
         'n_threads': Int % Range(1, None) | Str % Choices(['auto']),
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
+        'parttree': Bool,
         'seed': Int,
         'substitution_model': Str % Choices(_RAXML_MODEL_OPT),
         'raxml_version': Str % Choices(_RAXML_VERSION_OPT),
@@ -614,6 +615,11 @@ plugin.pipelines.register_function(
                                   'present in at least 40% of the sequences. '
                                   'This value is used when masking the '
                                   'aligned sequences.',
+        'parttree': 'This flag is required if the number of sequences being '
+                    'aligned are larger than 1000000. Disabled by default. '
+                    'NOTE: if using this option, it is recomended that only '
+                    'the CAT-based substitution models of RAxML be '
+                    'considered for this pipeline.',
         'seed':  'Random number seed for the iqtree parsimony starting tree. '
                  'This allows you to reproduce tree results. '
                  'If not supplied then one will be randomly chosen.',
