@@ -591,8 +591,8 @@ plugin.pipelines.register_function(
                      'iqtree based rooted phylogenetic tree.'
     },
     parameter_descriptions={
-        'n_threads': 'The number of threads. (Use 0 to automatically use all '
-                     'available cores '
+        'n_threads': 'The number of threads. (Use `all` to automatically use all '
+                     'available cores. '
                      'This value is used when aligning the sequences and '
                      'creating the tree with iqtree.',
         'mask_max_gap_frequency': 'The maximum relative frequency of gap '

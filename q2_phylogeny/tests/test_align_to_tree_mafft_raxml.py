@@ -24,11 +24,6 @@ class AlignToTreeMafftRaxmlPipelineTest(TestPluginBase):
         self.input_sequences = Artifact.import_data('FeatureData[Sequence]',
                                                     input_sequences_fp)
 
-    def test_execution(self):
-        # Does it run?
-        self.align_to_tree_mafft_raxml(self.input_sequences)
-        self.assertTrue(True)
-
     def test_outputs(self):
         result = self.align_to_tree_mafft_raxml(self.input_sequences)
         self.assertEqual(4, len(result))
