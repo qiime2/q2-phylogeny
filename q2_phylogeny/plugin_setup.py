@@ -456,7 +456,7 @@ plugin.pipelines.register_function(
                                   'This value is used when masking the '
                                   'aligned sequences.',
         'parttree': 'This flag is required if the number of sequences being '
-                    'aligned are larger than 1000000. Disabled by default. ',
+                    'aligned are larger than 1000000. Disabled by default.',
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
