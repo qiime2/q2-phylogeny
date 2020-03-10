@@ -25,7 +25,8 @@ requirements:
     - q2-alignment {{ release }}.*
     - fasttree 2.1.10=0
     - raxml
-    - iqtree >=1.6.4
+    # HACK: investigating build-related issues
+    # - iqtree >=1.6.4
 
 test:
   imports:
