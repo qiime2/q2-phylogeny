@@ -139,6 +139,15 @@ class TestRobinsonFoulds(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
+    def test_invalid_missing(self):
+        test_data = [
+            ['(A,(B,(H,(D,(J,(((G,E),(F,I,K,L)),C))))));'],
+        ]
+        trees = [skbio.TreeNode.read(nwk) for nwk in test_data]
+
+        with self.assertRaisesRegex(ValueError, "not-an-option"):
+            robinson_foulds(trees, missing_tips="not-an-option")
+
 
 if __name__ == "__main__":
     unittest.main()
