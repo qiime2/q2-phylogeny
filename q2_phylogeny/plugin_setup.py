@@ -430,8 +430,7 @@ plugin.methods.register_function(
         'missing_tips': 'How to handle tips that are not shared between trees.'
                         ' "error" will raise an error if any tip is absent,'
                         ' "intersect-all" will find the largest shared set of'
-                        ' tips between all trees, "intersect-pairs" will'
-                        ' do the same but only within a pairwise comparison.'
+                        ' tips between all trees.'
     },
     output_descriptions={
         'distance_matrix': 'The distances between trees as a symmetric matrix.'
