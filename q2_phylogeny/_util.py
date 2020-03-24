@@ -40,5 +40,5 @@ def robinson_foulds(trees: skbio.TreeNode, labels: str = None,
                          % missing_tips)
 
     return skbio.DistanceMatrix.from_iterable(
-        trees, metric=lambda a, b: a.compare_rfd(b),
+        trees, metric=skbio.TreeNode.compare_rfd,
         keys=labels, validate=False)
