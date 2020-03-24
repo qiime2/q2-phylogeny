@@ -11,3 +11,15 @@ import skbio
 
 def midpoint_root(tree: skbio.TreeNode) -> skbio.TreeNode:
     return tree.root_at_midpoint()
+
+
+def robinson_foulds(trees: skbio.TreeNode, labels: str=None) \
+        -> skbio.DistanceMatrix:
+    if labels is None:
+        labels = ['tree_%d' % d for d in range(1, len(trees) + 1)]
+    elif len(trees) != len(labels):
+        raise ValueError("The number of trees and labels must match.")
+
+    return skbio.DistanceMatrix.from_iterable(
+        trees, metric=lambda a, b: a.compare_rfd(b),
+        keys=labels, validate=False)

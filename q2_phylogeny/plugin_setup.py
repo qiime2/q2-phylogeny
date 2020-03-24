@@ -7,10 +7,11 @@
 # ----------------------------------------------------------------------------
 
 from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
-                           Float)
+                           Float, List)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
 from q2_types.feature_table import FeatureTable, Frequency
+from q2_types.distance_matrix import DistanceMatrix
 
 import q2_phylogeny
 
@@ -407,6 +408,29 @@ plugin.methods.register_function(
     name="Remove features from table if they're not present in tree.",
     description=("Remove features from a feature table if their identifiers "
                  "are not tip identifiers in tree.")
+)
+
+plugin.methods.register_function(
+    function=q2_phylogeny.robinson_foulds,
+    inputs={'trees': List[Phylogeny[Rooted | Unrooted]]},
+    parameters={'labels': List[Str]},
+    outputs=[('distance_matrix', DistanceMatrix)],
+    input_descriptions={
+        'trees': ('Phylogenetic trees to compare with Robinson-Foulds. Rooted'
+                  ' trees will be treated as unrooted by this metric.')
+    },
+    parameter_descriptions={
+        'labels': ('Labels to use for the tree names in the distance matrix.'
+                   ' If ommited, labels will be "tree_n" where "n" ranges from'
+                   ' 1..N. The number of labels must match the number of'
+                   ' trees.')
+    },
+    output_descriptions={
+        'distance_matrix': 'The distances between trees as a symmetric matrix.'
+    },
+    name="Calculate Robinson-Foulds distance between phylogenetic trees.",
+    description=(""),
+    citations=[citations['robinson1981comparison']]
 )
 
 plugin.pipelines.register_function(

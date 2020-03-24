@@ -6,7 +6,7 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-from ._util import midpoint_root
+from ._util import midpoint_root, robinson_foulds
 from ._fasttree import fasttree
 from ._raxml import raxml, raxml_rapid_bootstrap
 from ._iqtree import iqtree, iqtree_ultrafast_bootstrap
@@ -22,4 +22,4 @@ del get_versions
 __all__ = ["midpoint_root", "fasttree", "align_to_tree_mafft_fasttree",
            "raxml", "raxml_rapid_bootstrap", "iqtree", "filter_table",
            "iqtree_ultrafast_bootstrap", "align_to_tree_mafft_iqtree",
-           "align_to_tree_mafft_raxml"]
+           "align_to_tree_mafft_raxml", "robinson_foulds"]
