@@ -413,17 +413,25 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=q2_phylogeny.robinson_foulds,
     inputs={'trees': List[Phylogeny[Rooted | Unrooted]]},
-    parameters={'labels': List[Str]},
+    parameters={
+        'labels': List[Str],
+        'missing_tips': Str % Choices('error', 'intersect-all')
+    },
     outputs=[('distance_matrix', DistanceMatrix)],
     input_descriptions={
-        'trees': ('Phylogenetic trees to compare with Robinson-Foulds. Rooted'
-                  ' trees will be treated as unrooted by this metric.')
+        'trees': 'Phylogenetic trees to compare with Robinson-Foulds. Rooting'
+                 ' information and branch lengths are ignored by this metric.'
     },
     parameter_descriptions={
-        'labels': ('Labels to use for the tree names in the distance matrix.'
-                   ' If ommited, labels will be "tree_n" where "n" ranges from'
-                   ' 1..N. The number of labels must match the number of'
-                   ' trees.')
+        'labels': 'Labels to use for the tree names in the distance matrix.'
+                  ' If ommited, labels will be "tree_n" where "n" ranges from'
+                  ' 1..N. The number of labels must match the number of'
+                  ' trees.',
+        'missing_tips': 'How to handle tips that are not shared between trees.'
+                        ' "error" will raise an error if any tip is absent,'
+                        ' "intersect-all" will find the largest shared set of'
+                        ' tips between all trees, "intersect-pairs" will'
+                        ' do the same but only within a pairwise comparison.'
     },
     output_descriptions={
         'distance_matrix': 'The distances between trees as a symmetric matrix.'
