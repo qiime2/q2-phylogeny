@@ -22,6 +22,8 @@ def robinson_foulds(trees: skbio.TreeNode, labels: str = None,
 
     tips = [{t.name for t in tree.tips()} for tree in trees]
     shared_tips = set.intersection(*tips)
+    if not shared_tips:
+        raise ValueError("No tip names are shared between these trees.")
     if missing_tips == 'intersect-all':
         trees = [t.shear(shared_tips) for t in trees]
     elif missing_tips == 'error':

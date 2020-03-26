@@ -118,11 +118,21 @@ class TestRobinsonFoulds(unittest.TestCase):
     def test_missing_many_tips(self):
         test_data = [
             ['(A,(B,(H,(D,(J,(((G,E),(F,I,K,L)),C))))));'],
-            ['(,(,((,),(((,),(,)),))));'],
+            ['(A,(,((,),(((,),(,)),))));'],
         ]
         trees = [skbio.TreeNode.read(nwk) for nwk in test_data]
 
         with self.assertRaisesRegex(ValueError, "tips.*shared"):
+            robinson_foulds(trees)
+
+    def test_missing_all_tips(self):
+        test_data = [
+            ['(A,(B,(H,(D,(J,(((G,E),(F,I,K,L)),C))))));'],
+            ['(,(,((,),(((,),(,)),))));'],
+        ]
+        trees = [skbio.TreeNode.read(nwk) for nwk in test_data]
+
+        with self.assertRaisesRegex(ValueError, "No tip names.*shared"):
             robinson_foulds(trees)
 
     def test_missing_intersect_all(self):

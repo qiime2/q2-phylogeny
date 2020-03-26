@@ -428,15 +428,18 @@ plugin.methods.register_function(
                   ' 1..N. The number of labels must match the number of'
                   ' trees.',
         'missing_tips': 'How to handle tips that are not shared between trees.'
-                        ' "error" will raise an error if any tip is absent,'
-                        ' "intersect-all" will find the largest shared set of'
-                        ' tips between all trees.'
+                        ' "error" will raise an error if the set of tips is'
+                        ' not identical between all input trees.'
+                        ' "intersect-all" will remove tips that are not shared'
+                        ' between all trees before computing distances beteen'
+                        ' trees.'
     },
     output_descriptions={
         'distance_matrix': 'The distances between trees as a symmetric matrix.'
     },
     name="Calculate Robinson-Foulds distance between phylogenetic trees.",
-    description=(""),
+    description="Calculate the Robinson-Foulds symmetric distance between"
+                " two or more phylogenetic trees.",
     citations=[citations['robinson1981comparison']]
 )
 
