@@ -438,8 +438,8 @@ plugin.methods.register_function(
         'distance_matrix': 'The distances between trees as a symmetric matrix.'
     },
     name="Calculate Robinson-Foulds distance between phylogenetic trees.",
-    description="Calculate the Robinson-Foulds symmetric distance between"
-                " two or more phylogenetic trees.",
+    description="Calculate the Robinson-Foulds symmetric difference metric"
+                " between two or more phylogenetic trees.",
     citations=[citations['robinson1981comparison']]
 )
 
