@@ -7,10 +7,11 @@
 # ----------------------------------------------------------------------------
 
 from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
-                           Float)
+                           Float, List)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
 from q2_types.feature_table import FeatureTable, Frequency
+from q2_types.distance_matrix import DistanceMatrix
 
 import q2_phylogeny
 
@@ -409,6 +410,39 @@ plugin.methods.register_function(
                  "are not tip identifiers in tree.")
 )
 
+plugin.methods.register_function(
+    function=q2_phylogeny.robinson_foulds,
+    inputs={'trees': List[Phylogeny[Rooted | Unrooted]]},
+    parameters={
+        'labels': List[Str],
+        'missing_tips': Str % Choices('error', 'intersect-all')
+    },
+    outputs=[('distance_matrix', DistanceMatrix)],
+    input_descriptions={
+        'trees': 'Phylogenetic trees to compare with Robinson-Foulds. Rooting'
+                 ' information and branch lengths are ignored by this metric.'
+    },
+    parameter_descriptions={
+        'labels': 'Labels to use for the tree names in the distance matrix.'
+                  ' If ommited, labels will be "tree_n" where "n" ranges from'
+                  ' 1..N. The number of labels must match the number of'
+                  ' trees.',
+        'missing_tips': 'How to handle tips that are not shared between trees.'
+                        ' "error" will raise an error if the set of tips is'
+                        ' not identical between all input trees.'
+                        ' "intersect-all" will remove tips that are not shared'
+                        ' between all trees before computing distances beteen'
+                        ' trees.'
+    },
+    output_descriptions={
+        'distance_matrix': 'The distances between trees as a symmetric matrix.'
+    },
+    name="Calculate Robinson-Foulds distance between phylogenetic trees.",
+    description="Calculate the Robinson-Foulds symmetric difference metric"
+                " between two or more phylogenetic trees.",
+    citations=[citations['robinson1981comparison']]
+)
+
 plugin.pipelines.register_function(
     function=q2_phylogeny.align_to_tree_mafft_fasttree,
     inputs={
@@ -417,7 +451,8 @@ plugin.pipelines.register_function(
     parameters={
         'n_threads': Int % Range(1, None) | Str % Choices(['auto']),
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
-        'mask_min_conservation': Float % Range(0, 1, inclusive_end=True)
+        'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
+        'parttree': Bool,
     },
     outputs=[
         ('alignment', FeatureData[AlignedSequence]),
@@ -453,7 +488,9 @@ plugin.pipelines.register_function(
                                   'contains at least one character that is '
                                   'present in at least 40% of the sequences. '
                                   'This value is used when masking the '
-                                  'aligned sequences.'
+                                  'aligned sequences.',
+        'parttree': 'This flag is required if the number of sequences being '
+                    'aligned are larger than 1000000. Disabled by default.',
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
