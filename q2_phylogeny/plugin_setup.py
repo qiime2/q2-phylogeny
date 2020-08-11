@@ -210,6 +210,7 @@ plugin.methods.register_function(
     parameters={
             'seed': Int,
             'n_cores': Int % Range(1, None) | Str % Choices(['auto']),
+            'n_cores_max': Int % Range(2, None),
             'n_runs': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
@@ -234,6 +235,8 @@ plugin.methods.register_function(
         'n_cores': ('The number of cores to use for parallel '
                     'processing. Use `auto` to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
+        'n_cores_max': ('Limits the maximum number of cores to be used '
+                        'when \'n_cores\' is set to \'auto\'.'),
         'n_runs': ('Number of indepedent runs. Multiple  independent runs '
                    '(e.g. 10) can outperform a single run in terms of '
                    'likelihood maximisation.'),
@@ -282,7 +285,7 @@ plugin.methods.register_function(
     name='Construct a phylogenetic tree with IQ-TREE.',
     description=('Construct a phylogenetic tree using IQ-TREE '
                  '(http://www.iqtree.org/) with automatic model selection.'),
-    citations=[citations['Nguyen2015iqtree'],
+    citations=[citations['Minh2020iqtree'],
                citations['Kalyaanamoorthy2017modelfinder']]
 )
 
@@ -292,6 +295,7 @@ plugin.methods.register_function(
     parameters={
             'seed': Int,
             'n_cores': Int % Range(1, None) | Str % Choices(['auto']),
+            'n_cores_max': Int % Range(2, None),
             'n_runs': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
@@ -320,6 +324,8 @@ plugin.methods.register_function(
         'n_cores': ('The number of cores to use for parallel '
                     'processing. Use `auto` to let IQ-TREE automatically '
                     'determine the optimal number of cores to use.'),
+        'n_cores_max': ('Limits the maximum number of cores to be used '
+                        'when \'n_cores\' is set to \'auto\'.'),
         'n_runs': ('Number of indepedent runs. Multiple  independent runs '
                    '(e.g. 10) can outperform a single run in terms of '
                    'likelihood maximisation.'),
@@ -386,7 +392,7 @@ plugin.methods.register_function(
     description=('Construct a phylogenetic tree using IQ-TREE '
                  '(http://www.iqtree.org/) with automatic '
                  'model selection and bootstrap supports.'),
-    citations=[citations['Nguyen2015iqtree'],
+    citations=[citations['Minh2020iqtree'],
                citations['Kalyaanamoorthy2017modelfinder'],
                citations['Minh2013ultrafastbootstrap'],
                citations['Hoang2017ultrafastbootstrap2']]
