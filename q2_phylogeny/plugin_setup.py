@@ -286,7 +286,8 @@ plugin.methods.register_function(
     description=('Construct a phylogenetic tree using IQ-TREE '
                  '(http://www.iqtree.org/) with automatic model selection.'),
     citations=[citations['Minh2020iqtree'],
-               citations['Kalyaanamoorthy2017modelfinder']]
+               citations['Kalyaanamoorthy2017modelfinder']],
+    deprecated=True
 )
 
 plugin.methods.register_function(
@@ -395,7 +396,8 @@ plugin.methods.register_function(
     citations=[citations['Minh2020iqtree'],
                citations['Kalyaanamoorthy2017modelfinder'],
                citations['Minh2013ultrafastbootstrap'],
-               citations['Hoang2017ultrafastbootstrap2']]
+               citations['Hoang2017ultrafastbootstrap2']],
+    deprecated=True
 )
 
 plugin.methods.register_function(
@@ -606,7 +608,8 @@ plugin.pipelines.register_function(
                  'includes both the unmasked and masked MAFFT alignment from '
                  'q2-alignment methods, and both the rooted and unrooted '
                  'phylogenies from q2-phylogeny methods.'
-                 )
+                 ),
+    deprecated=True
 )
 
 plugin.pipelines.register_function(
