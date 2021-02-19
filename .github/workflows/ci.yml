@@ -47,9 +47,6 @@ jobs:
     - name: set up git repo for versioneer
       run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
-    - name: change permissions on data directory
-      run: chmod +rwx  /home/runner/work/q2-phylogeny/q2-phylogeny/testing/lib/python3.6/site-packages/q2_phylogeny/tests/data/
-
     - uses: qiime2/action-library-packaging@alpha1
       with:
         package-name: q2-phylogeny
