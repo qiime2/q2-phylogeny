@@ -7,6 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import os
+import shutil
 import unittest
 import skbio
 import tempfile
@@ -28,9 +29,12 @@ class RaxmlTests(TestPluginBase):
         # Test that output tree is made.
         # Reads tree output and compares tip labels to expected labels.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-        with redirected_stdio(stderr=os.devnull):
-            obs = raxml(input_sequences)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            shutil.copy(input_fp, temp_dir)
+            input_fp = os.path.join(temp_dir, 'aligned-dna-sequences-3.fasta')
+            input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+            with redirected_stdio(stderr=os.devnull):
+                obs = raxml(input_sequences)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
