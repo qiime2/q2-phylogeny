@@ -30,7 +30,6 @@ class RaxmlTests(TestPluginBase):
     def setUpClass(cls):
         """Copies test data to `data_dir` and defines it as an attribute on
         `RaxmlTests`."""
-        super(RaxmlTests, cls).setUpClass()
         tmpdir = tempfile.mkdtemp()
         src = pkg_resources.resource_filename(cls.package, 'data')
         dst = os.path.join(tmpdir, 'data')
