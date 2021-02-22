@@ -7,6 +7,8 @@
 # ----------------------------------------------------------------------------
 
 import os
+import pkg_resources
+import shutil
 import unittest
 import skbio
 import tempfile
@@ -23,6 +25,25 @@ from q2_phylogeny._raxml import (run_command, _build_rapid_bootstrap_command,
 class RaxmlTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
+
+    @classmethod
+    def setUpClass(cls):
+        super(TestPluginBase, cls).setUpClass()
+        tmpdir = tempfile.mkdtemp()
+        src = pkg_resources.resource_filename(cls.package, 'data')
+        dst = os.path.join(tmpdir, 'data')
+        shutil.copytree(src, dst)
+        cls.data_dir = dst
+
+    @classmethod
+    def tearDownClass(cls):
+        super(TestPluginBase, cls).setUpClass()
+        shutil.rmtree(cls.data_dir)
+
+    def get_data_path(self, filename):
+        # Override TestPluginBase.get_data_path so that it returns paths to
+        # temporary copies of test data.
+        return os.path.join(self.data_dir, filename)
 
     def test_raxml(self):
         # Test that output tree is made.
@@ -292,11 +313,6 @@ class RaxmlTests(TestPluginBase):
         obs_bs = [node.name for node in obs_tree.non_tips()].sort()
         exp_bs = [node.name for node in exp_tree.non_tips()].sort()
         self.assertEqual(obs_bs, exp_bs)
-
-
-class RaxmlRunCommandTests(TestPluginBase):
-
-    package = 'q2_phylogeny.tests'
 
     def test_run_not_verbose(self):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
