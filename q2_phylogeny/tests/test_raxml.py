@@ -28,8 +28,7 @@ class RaxmlTests(TestPluginBase):
 
     @classmethod
     def setUpClass(cls):
-        """Copies test data to `data_dir` and defines it as an attribute on
-        `RaxmlTests`."""
+        super(TestPluginBase, cls).setUpClass()
         tmpdir = tempfile.mkdtemp()
         src = pkg_resources.resource_filename(cls.package, 'data')
         dst = os.path.join(tmpdir, 'data')
@@ -38,11 +37,12 @@ class RaxmlTests(TestPluginBase):
 
     @classmethod
     def tearDownClass(cls):
+        super(TestPluginBase, cls).setUpClass()
         shutil.rmtree(cls.data_dir)
 
     def get_data_path(self, filename):
-        """Overrides qiime2.plugin.testing.TestPluginBase.get_data_path so that
-        it returns paths to temporary copies of test data."""
+        # Override TestPluginBase.get_data_path so that it returns paths to
+        # temporary copies of test data.
         return os.path.join(self.data_dir, filename)
 
     def test_raxml(self):
