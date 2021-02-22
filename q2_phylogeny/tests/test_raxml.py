@@ -7,11 +7,13 @@
 # ----------------------------------------------------------------------------
 
 import os
+import pkg_resources
 import shutil
 import unittest
 import skbio
 import tempfile
-from pathlib import Path
+
+import pytest
 
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
@@ -22,17 +24,24 @@ from q2_phylogeny._raxml import (run_command, _build_rapid_bootstrap_command,
                                  _set_raxml_version)
 
 
+@pytest.fixture(scope="class")
+def data_dir(request, tmpdir_factory):
+    """Copies test data to `data_dir` and defines it as an attribute on
+    `RaxmlTests`."""
+    src = pkg_resources.resource_filename(request.cls.package, 'data')
+    dst = str(tmpdir_factory.mktemp("raxml_tests").join("data"))
+    shutil.copytree(src, dst)
+    request.cls.data_dir = dst
+
+
+@pytest.mark.usefixtures("data_dir")
 class RaxmlTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
 
-    def setUp(self):
-        super().setUp()
-        src = Path(__file__).parent / "data"
-        self.data_dir = Path(self.temp_dir.name) / "data"
-        shutil.copytree(src, self.data_dir)
-
     def get_data_path(self, filename):
+        """Overrides qiime2.plugin.testing.TestPluginBase.get_data_path so that
+        it returns paths to temporary copies of test data."""
         return os.path.join(self.data_dir, filename)
 
     def test_raxml(self):
@@ -303,11 +312,6 @@ class RaxmlTests(TestPluginBase):
         obs_bs = [node.name for node in obs_tree.non_tips()].sort()
         exp_bs = [node.name for node in exp_tree.non_tips()].sort()
         self.assertEqual(obs_bs, exp_bs)
-
-
-class RaxmlRunCommandTests(TestPluginBase):
-
-    package = 'q2_phylogeny.tests'
 
     def test_run_not_verbose(self):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
