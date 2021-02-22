@@ -11,6 +11,7 @@ import shutil
 import unittest
 import skbio
 import tempfile
+from pathlib import Path
 
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
@@ -25,16 +26,22 @@ class RaxmlTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
 
+    def setUp(self):
+        super().setUp()
+        src = Path(__file__).parent / "data"
+        self.data_dir = Path(self.temp_dir.name) / "data"
+        shutil.copytree(src, self.data_dir)
+
+    def get_data_path(self, filename):
+        return os.path.join(self.data_dir, filename)
+
     def test_raxml(self):
         # Test that output tree is made.
         # Reads tree output and compares tip labels to expected labels.
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
-        with tempfile.TemporaryDirectory() as temp_dir:
-            shutil.copy(input_fp, temp_dir)
-            input_fp = os.path.join(temp_dir, 'aligned-dna-sequences-3.fasta')
-            input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
-            with redirected_stdio(stderr=os.devnull):
-                obs = raxml(input_sequences)
+        input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
+        with redirected_stdio(stderr=os.devnull):
+            obs = raxml(input_sequences)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
