@@ -24,17 +24,17 @@ from q2_phylogeny._raxml import (run_command, _build_rapid_bootstrap_command,
                                  _set_raxml_version)
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope='class')
 def data_dir(request, tmpdir_factory):
     """Copies test data to `data_dir` and defines it as an attribute on
     `RaxmlTests`."""
     src = pkg_resources.resource_filename(request.cls.package, 'data')
-    dst = str(tmpdir_factory.mktemp("raxml_tests").join("data"))
+    dst = str(tmpdir_factory.mktemp('raxml_tests').join('data'))
     shutil.copytree(src, dst)
     request.cls.data_dir = dst
 
 
-@pytest.mark.usefixtures("data_dir")
+@pytest.mark.usefixtures('data_dir')
 class RaxmlTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
