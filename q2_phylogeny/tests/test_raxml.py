@@ -13,8 +13,6 @@ import unittest
 import skbio
 import tempfile
 
-import pytest
-
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
@@ -24,20 +22,24 @@ from q2_phylogeny._raxml import (run_command, _build_rapid_bootstrap_command,
                                  _set_raxml_version)
 
 
-@pytest.fixture(scope='class')
-def data_dir(request, tmpdir_factory):
-    """Copies test data to `data_dir` and defines it as an attribute on
-    `RaxmlTests`."""
-    src = pkg_resources.resource_filename(request.cls.package, 'data')
-    dst = str(tmpdir_factory.mktemp('raxml_tests').join('data'))
-    shutil.copytree(src, dst)
-    request.cls.data_dir = dst
-
-
-@pytest.mark.usefixtures('data_dir')
 class RaxmlTests(TestPluginBase):
 
     package = 'q2_phylogeny.tests'
+
+    @classmethod
+    def setUpClass(cls):
+        """Copies test data to `data_dir` and defines it as an attribute on
+        `RaxmlTests`."""
+        super(RaxmlTests, cls).setUpClass()
+        tmpdir = tempfile.mkdtemp()
+        src = pkg_resources.resource_filename(cls.package, 'data')
+        dst = os.path.join(tmpdir, 'data')
+        shutil.copytree(src, dst)
+        cls.data_dir = dst
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.data_dir)
 
     def get_data_path(self, filename):
         """Overrides qiime2.plugin.testing.TestPluginBase.get_data_path so that
