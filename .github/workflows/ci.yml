@@ -52,3 +52,4 @@ jobs:
         package-name: q2-phylogeny
         build-target: staging
         additional-tests: py.test --pyargs q2_phylogeny
+        library-token: ${{ secrets.LIBRARY_TOKEN }}
