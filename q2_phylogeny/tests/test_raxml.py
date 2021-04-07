@@ -59,9 +59,8 @@ class RaxmlTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_raxml_underscore_ids(self):
         # Test that output tree is made with underscores in tip IDs.
@@ -129,9 +128,8 @@ class RaxmlTests(TestPluginBase):
 
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_raxml_n_threads(self):
         # Test that an output tree is made when invoking threads.
@@ -149,9 +147,8 @@ class RaxmlTests(TestPluginBase):
 
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_raxml_with_seed(self):
         # Test tip-to-tip dists are identical to manually run RAxML output.
@@ -257,9 +254,8 @@ class RaxmlTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_raxml_rapid_bootstrap_n_threads(self):
         # Test that an output tree is made when invoking threads.
@@ -277,15 +273,14 @@ class RaxmlTests(TestPluginBase):
 
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_raxml_rapid_bootstrap_with_seed(self):
         # Test tip-to-tip dists are identical to manually run RAxML output.
         # This test is comparing an ordered series of tip-to-tip distances
         # to a tree output from a manual run of the default command:
-        #     raxmlHPC -f a -m GTRGAMMA -p 1723 -x 3871
+        #     raxmlHPC -f a -m GTRGAMMA -p 1723 -x 3871 -N 10
         #         -s aligned-dna-sequences-3.fasta -n q2
         # NOTE: I cleanly rounded the tip-to-tip dists (i.e. `%.4f`) as RAxML
         # may return slightly different rounding errors on different
@@ -339,9 +334,9 @@ class RaxmlTests(TestPluginBase):
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515',
                               'GCA000454205', 'GCA000473545',
-                              'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115',
-                              'GCA001971985', 'GCA900007555']))
+                              'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
 
     def test_run_rapid_bs_not_verbose(self):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
@@ -372,9 +367,9 @@ class RaxmlTests(TestPluginBase):
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515',
                               'GCA000454205', 'GCA000473545',
-                              'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115',
-                              'GCA001971985', 'GCA900007555']))
+                              'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
 
 
 if __name__ == "__main__":
