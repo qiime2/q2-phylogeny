@@ -39,9 +39,8 @@ class IqtreeTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_safe_allnni(self):
         # Same as `test_iqtree` but testing the `-safe` and `-allnni `flags
@@ -54,9 +53,8 @@ class IqtreeTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_underscore_ids(self):
         # Test that output tree is made with underscores in tip IDs.
@@ -94,9 +92,8 @@ class IqtreeTests(TestPluginBase):
 
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_n_cores_auto(self):
         # Test that an output tree is made when invoking automatic threads.
@@ -114,9 +111,8 @@ class IqtreeTests(TestPluginBase):
 
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_n_cores_auto_max(self):
         # Test that an output tree is made when invoking automatic threads.
@@ -134,9 +130,8 @@ class IqtreeTests(TestPluginBase):
 
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_with_seed(self):
         # Test tip-to-tip dists are identical to manually run IQ-TREE output.
@@ -155,11 +150,11 @@ class IqtreeTests(TestPluginBase):
                          substitution_model='HKY')
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
         obs_tl = list(obs_tree.tip_tip_distances().to_series())
-        obs_series = set(['%.4f' % e for e in obs_tl])
+        obs_series = set(['%.3f' % e for e in obs_tl])
 
         exp_tree = skbio.TreeNode.read(self.get_data_path('test4.tre'))
         exp_tl = list(exp_tree.tip_tip_distances().to_series())
-        exp_series = set(['%.4f' % e for e in exp_tl])
+        exp_series = set(['%.3f' % e for e in exp_tl])
 
         self.assertEqual(obs_series, exp_series)
 
@@ -312,9 +307,8 @@ class IqtreeTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_ultrafast_bootstrap_singlebranch_methods(self):
         # Comparing branch support to manually constructed tree
@@ -357,9 +351,8 @@ class IqtreeTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_ultrafast_bootstrap_auto_threads(self):
         # Test that output tree is made after auto optimizing threads.
@@ -375,9 +368,8 @@ class IqtreeTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
     def test_iqtree_ultrafast_bootstrap_auto_threads_max(self):
         # Test that output tree is made after auto optimizing threads.
@@ -394,9 +386,8 @@ class IqtreeTests(TestPluginBase):
         tip_names = [t.name for t in tips]
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515', 'GCA000454205',
-                              'GCA000473545', 'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115', 'GCA001971985',
-                              'GCA900007555']))
+                              'GCA000473545', 'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985', 'GCA900007555']))
 
 
 class IqtreeRunCommandTests(TestPluginBase):
@@ -429,9 +420,9 @@ class IqtreeRunCommandTests(TestPluginBase):
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515',
                               'GCA000454205', 'GCA000473545',
-                              'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115',
-                              'GCA001971985', 'GCA900007555']))
+                              'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
 
     def test_run_ultrafast_bs_not_verbose(self):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
@@ -460,9 +451,9 @@ class IqtreeRunCommandTests(TestPluginBase):
         self.assertEqual(set(tip_names),
                          set(['GCA001510755', 'GCA001045515',
                               'GCA000454205', 'GCA000473545',
-                              'GCA000196255', 'GCA002142615',
-                              'GCA000686145', 'GCA001950115',
-                              'GCA001971985', 'GCA900007555']))
+                              'GCA000196255', 'GCA000686145',
+                              'GCA001950115', 'GCA001971985',
+                              'GCA900007555']))
 
 
 if __name__ == "__main__":
