@@ -40,7 +40,8 @@ def fasttree(alignment: AlignedDNAFASTAFormat,
         env = os.environ.copy()
         if n_threads == 'auto':
             n_threads = 0
-        env.update({'OMP_NUM_THREADS': str(n_threads)})
+        else:
+            env.update({'OMP_NUM_THREADS': str(n_threads)})
         cmd = ['FastTreeMP']
 
     cmd.extend(['-quote', '-nt', aligned_fp])
