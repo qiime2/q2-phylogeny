@@ -7,6 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import os
+from sys import stdout
 import unittest
 import skbio
 import subprocess
@@ -80,13 +81,16 @@ class FastTreeTests(TestPluginBase):
     #     with redirected_stdio(stderr=os.devnull):
     #         run_command(cmd, tree_fp, verbose=True)
     #         obs = fasttree(input_seqs, n_threads=1)
-    #         self.assertEqual()
+    #         self.assertTrue('FastTree (1 thread)', obs[stdout])
 
-    #     # n_threads>1
-    #     obs = fasttree(input_seqs, n_threads=20)
+        # # n_threads>1
+        # obs = fasttree(input_seqs, n_threads=20)
 
-    #     # n_threads='auto'
-    #     obs = fasttree(input_seqs, n_threads='auto')
+        # self.assertTrue('OpenMP (20 threads)', obs[stdout])
+
+        # # n_threads='auto'
+        # obs = fasttree(input_seqs, n_threads='auto')
+
 
 class RunCommandTests(TestPluginBase):
 
