@@ -67,6 +67,26 @@ class FastTreeTests(TestPluginBase):
         tip_names.sort()
         self.assertEqual(tip_names, ['seq1', 'seq2'])
 
+    ###########################################################
+    # def test_fasttree_num_threads(self):
+    #     input_fp = self.get_data_path('rep-seqs.qza')
+    #     input_seqs = AlignedDNAFASTAFormat(input_fp, mode='r')
+    #     result = NewickFormat()
+    #     aligned_fp = str(input_seqs)
+    #     tree_fp = str(result)
+
+    #     # n_threads=1
+    #     cmd = ['FastTree', '-nt', '-not-a-real-parameter', aligned_fp]
+    #     with redirected_stdio(stderr=os.devnull):
+    #         run_command(cmd, tree_fp, verbose=True)
+    #         obs = fasttree(input_seqs, n_threads=1)
+    #         self.assertEqual()
+
+    #     # n_threads>1
+    #     obs = fasttree(input_seqs, n_threads=20)
+
+    #     # n_threads='auto'
+    #     obs = fasttree(input_seqs, n_threads='auto')
 
 class RunCommandTests(TestPluginBase):
 
