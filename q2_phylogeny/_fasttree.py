@@ -39,7 +39,7 @@ def fasttree(alignment: AlignedDNAFASTAFormat,
     else:
         env = os.environ.copy()
         if n_threads == 'auto':
-            env.pop('OMP_NUM_THREADS')
+            env.pop('OMP_NUM_THREADS', 0)
         else:
             env.update({'OMP_NUM_THREADS': str(n_threads)})
         cmd = ['FastTreeMP']
