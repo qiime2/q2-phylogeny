@@ -70,12 +70,12 @@ class FastTreeTests(TestPluginBase):
         tip_names.sort()
         self.assertEqual(tip_names, ['seq1', 'seq2'])
 
-    def test_fasttree_num_threads(self):
-        input_fp = self.get_data_path('rep-seqs.qza')
-        input_seqs = AlignedDNAFASTAFormat(input_fp, mode='r')
-        result = NewickFormat()
-        aligned_fp = str(input_seqs)
-        tree_fp = str(result)
+    # def test_fasttree_num_threads(self):
+    #     input_fp = self.get_data_path('rep-seqs.qza')
+    #     input_seqs = AlignedDNAFASTAFormat(input_fp, mode='r')
+    #     result = NewickFormat()
+    #     aligned_fp = str(input_seqs)
+    #     tree_fp = str(result)
 
         # # n_threads=1
         # cmd = ['FastTree', '-nt', '-not-a-real-parameter', aligned_fp]
