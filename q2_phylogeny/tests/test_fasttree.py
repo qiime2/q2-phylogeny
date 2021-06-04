@@ -11,6 +11,8 @@ from sys import stdout
 import unittest
 import skbio
 import subprocess
+# import contextlib
+# import io
 
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
@@ -53,7 +55,7 @@ class FastTreeTests(TestPluginBase):
         tip_names.sort()
         self.assertEqual(tip_names, ['_s_e_q_1_', '_s_e_q_2_'])
 
-    def test_fasttree_n_threads(self):
+    def test_fasttree_n_tips(self):
         input_fp = self.get_data_path('aligned-dna-sequences-1.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
@@ -68,28 +70,38 @@ class FastTreeTests(TestPluginBase):
         tip_names.sort()
         self.assertEqual(tip_names, ['seq1', 'seq2'])
 
-    ###########################################################
-    # def test_fasttree_num_threads(self):
-    #     input_fp = self.get_data_path('rep-seqs.qza')
-    #     input_seqs = AlignedDNAFASTAFormat(input_fp, mode='r')
-    #     result = NewickFormat()
-    #     aligned_fp = str(input_seqs)
-    #     tree_fp = str(result)
+    def test_fasttree_num_threads(self):
+        input_fp = self.get_data_path('rep-seqs.qza')
+        input_seqs = AlignedDNAFASTAFormat(input_fp, mode='r')
+        result = NewickFormat()
+        aligned_fp = str(input_seqs)
+        tree_fp = str(result)
 
-    #     # n_threads=1
-    #     cmd = ['FastTree', '-nt', '-not-a-real-parameter', aligned_fp]
-    #     with redirected_stdio(stderr=os.devnull):
-    #         run_command(cmd, tree_fp, verbose=True)
-    #         obs = fasttree(input_seqs, n_threads=1)
-    #         self.assertTrue('FastTree (1 thread)', obs[stdout])
+        # # n_threads=1
+        # cmd = ['FastTree', '-nt', '-not-a-real-parameter', aligned_fp]
+        # with contextlib.redirect_stdout(io.StringIO()) as obs:
+        #     run_command(cmd, tree_fp, verbose=True)
+        #     obs = fasttree(input_seqs, n_threads=1)
+        #     obs_out = obs.getvalue()
+        #     self.assertTrue('FastTree (1 thread)' in obs_out)
 
         # # n_threads>1
-        # obs = fasttree(input_seqs, n_threads=20)
-
-        # self.assertTrue('OpenMP (20 threads)', obs[stdout])
+        # cmd = ['FastTree', '-nt', '-not-a-real-parameter', aligned_fp]
+        # with contextlib.redirect_stdout(io.StringIO()) as obs:
+        #     run_command(cmd, tree_fp, verbose=True)
+        #     obs = fasttree(input_seqs, n_threads=20)
+        #     obs_out = obs.getvalue()
+        #     self.assertTrue('OpenMP (20 threads)' in obs_out)
 
         # # n_threads='auto'
-        # obs = fasttree(input_seqs, n_threads='auto')
+        # OMP_NUM_THREADS=2560
+        # cmd = ['FastTree', '-nt', '-not-a-real-parameter', aligned_fp]
+        # with contextlib.redirect_stdout(io.StringIO()) as obs:
+        #     run_command(cmd, tree_fp, verbose=True)
+        #     obs = fasttree(input_seqs, n_threads='auto')
+        #     obs_out = obs.getvalue()
+        #     self.assertTrue('OpenMP' in obs_out)
+        #     self.assertFalse('OpenMP (2560 threads)' in obs_out)
 
 
 class RunCommandTests(TestPluginBase):
