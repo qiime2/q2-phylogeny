@@ -7,7 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import os
-from sys import stdout
+# from sys import stdout
 import unittest
 import skbio
 import subprocess
