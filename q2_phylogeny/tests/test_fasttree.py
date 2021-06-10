@@ -98,7 +98,7 @@ def test_fasttree_num_threads(capfd):
     #         [ -out output_newick_file | > newick_tree]
     fasttree('-expert', n_threads=1)
     captured = capfd.readouterr()
-    assert 'FastTree' in captured.err
+    assert 'OpenMP' not in captured.err
 
     fasttree('-expert', n_threads=20)
     captured = capfd.readouterr()
