@@ -12,8 +12,9 @@ import subprocess
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
+
 def run_command(cmd, output_fp, verbose=True, env=None):
-    
+
     if verbose:
         print("Running external command line application. This may print "
               "messages to stdout and/or stderr.")
@@ -25,6 +26,7 @@ def run_command(cmd, output_fp, verbose=True, env=None):
 
     with open(output_fp, 'w') as output_f:
         subprocess.run(cmd, stdout=output_f, check=True, env=env)
+
 
 def fasttree(alignment: AlignedDNAFASTAFormat,
              n_threads: int = 1) -> NewickFormat:
