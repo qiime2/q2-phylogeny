@@ -28,6 +28,7 @@ requirements:
     - fasttree ==2.1.10=0
     - raxml
     - iqtree >=1.6.4
+    - pytest
 
 test:
   imports:
