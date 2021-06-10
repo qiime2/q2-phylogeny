@@ -7,12 +7,9 @@
 # ----------------------------------------------------------------------------
 
 import os
-from sys import stderr, stdout
 import unittest
 import skbio
 import subprocess
-import contextlib
-import io
 
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
@@ -20,7 +17,7 @@ from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
 
 from q2_phylogeny import fasttree
-from q2_phylogeny._fasttree import run_command, _fasttree
+from q2_phylogeny._fasttree import run_command
 
 
 class FastTreeTests(TestPluginBase):
@@ -70,37 +67,47 @@ class FastTreeTests(TestPluginBase):
         tip_names.sort()
         self.assertEqual(tip_names, ['seq1', 'seq2'])
 
-    def test_fasttree_num_threads(self):
-        input_fp = self.get_data_path('aligned-dna-sequences-1.fasta')
-        input_seqs = AlignedDNAFASTAFormat(input_fp, mode='r')
-        result = NewickFormat()
-        aligned_fp = str(input_seqs)
-        tree_fp = str(result)
 
-        # # n_threads=1
-        # cmd = ['FastTree', '-nt', aligned_fp]
-        # with redirected_stdio(stderr=os.devnull):
-        #     run_command(cmd, tree_fp, verbose=True)
-        #     obs = _fasttree(input_seqs, n_threads=1)
-        #     self.assertTrue('FastTree (1 thread)' in stdout)
+# We are using pytest vs. unittest for this test
+# The capfd arg below is a built-in pytest fixture that allows for
+# captured stderr from all subprocesses that directly write
+# to operating system level output
+def test_fasttree_num_threads(capfd):
+    # Rather than providing an actual filepath, we just run a 'help' command
+    # Ideally, we supply --help in this param, but not available in FastTree
+    # So we are using -expert instead, so that FastTree doesn't fail
+    # ######################
+    # Output preview/example:
+    # ######################
+    # Detailed usage for FastTree 2.1.10 Double precision (No SSE3):
+    # FastTree [-nt] [-n 100] [-quote] [-pseudo | -pseudo 1.0]
+    #            [-boot 1000 | -nosupport]
+    #            [-intree starting_trees_file | -intree1 starting_tree_file]
+    #            [-quiet | -nopr]
+    #            [-nni 10] [-spr 2] [-noml | -mllen | -mlnni 10]
+    #            [-mlacc 2] [-cat 20 | -nocat] [-gamma]
+    #            [-slow | -fastest] [-2nd | -no2nd] [-slownni] [-seed 1253]
+    #            [-top | -notop] [-topm 1.0 [-close 0.75] [-refresh 0.8]]
+    #            [-matrix Matrix | -nomatrix] [-nj | -bionj]
+    #            [-lg] [-wag] [-nt] [-gtr] [-gtrrates ac ag at cg ct gt]
+    #            [-gtrfreq A C G T]
+    #            [ -constraints constraintAlignment
+    #            [ -constraintWeight 100.0 ] ]
+    #            [-log logfile]
+    #          [ alignment_file ]
+    #         [ -out output_newick_file | > newick_tree]
+    fasttree('-expert', n_threads=1)
+    captured = capfd.readouterr()
+    assert 'FastTree' in captured.err
 
-        # n_threads>1
-        cmd = ['FastTree', '-nt', aligned_fp]
-        with contextlib.redirect_stderr(io.StringIO()) as obs:
-            run_command(cmd, tree_fp, verbose=True)
-            _fasttree(input_seqs, n_threads=20)
-            obs_out = obs.getvalue()
-            self.assertIn('OpenMP (20 threads)', obs_out)
+    fasttree('-expert', n_threads=20)
+    captured = capfd.readouterr()
+    assert 'OpenMP (20 threads)' in captured.err
 
-        # # n_threads='auto'
-        # OMP_NUM_THREADS=2560
-        # cmd = ['FastTree', '-nt', aligned_fp]
-        # with contextlib.redirect_stdout(io.StringIO()) as obs:
-        #     run_command(cmd, tree_fp, verbose=True)
-        #     obs = _fasttree(input_seqs, n_threads='auto')
-        #     obs_out = obs.getvalue()
-        #     self.assertTrue('OpenMP' in obs_out)
-        #     self.assertFalse('OpenMP (2560 threads)' in obs_out)
+    os.environ['OMP_NUM_THREADS'] = '2560'
+    fasttree('-expert', n_threads='auto')
+    captured = capfd.readouterr()
+    assert 'OpenMP (2560 threads)' not in captured.err
 
 
 class RunCommandTests(TestPluginBase):
