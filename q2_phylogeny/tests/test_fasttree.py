@@ -104,6 +104,9 @@ def test_fasttree_num_threads(capfd):
     captured = capfd.readouterr()
     assert 'OpenMP (20 threads)' in captured.err
 
+    # This test case ensures that when a user enters 'auto', the n_threads
+    # var will still be set to the max available on their machine, even if
+    # the OMP_NUM_THREADS env var has been set on their machine
     os.environ['OMP_NUM_THREADS'] = '2560'
     fasttree('-expert', n_threads='auto')
     captured = capfd.readouterr()

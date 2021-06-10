@@ -14,7 +14,6 @@ from q2_types.tree import NewickFormat
 
 
 def run_command(cmd, output_fp, verbose=True, env=None):
-
     if verbose:
         print("Running external command line application. This may print "
               "messages to stdout and/or stderr.")
