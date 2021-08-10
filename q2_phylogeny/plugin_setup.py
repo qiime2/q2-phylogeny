@@ -7,7 +7,7 @@
 # ----------------------------------------------------------------------------
 
 from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
-                           Float, List)
+                           Float, List, TypeMatch)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
 from q2_types.feature_table import FeatureTable, Frequency
@@ -416,6 +416,25 @@ plugin.methods.register_function(
     name="Remove features from table if they're not present in tree.",
     description=("Remove features from a feature table if their identifiers "
                  "are not tip identifiers in tree.")
+)
+T1 = TypeMatch([Rooted, Unrooted])
+
+plugin.methods.register_function(
+    function=q2_phylogeny.filter_tree,
+    inputs={'table': FeatureTable[Frequency],
+            'tree': Phylogeny[T1]},
+    parameters={},
+    outputs=[('filtered_tree', Phylogeny[T1])],
+    input_descriptions={
+        'table': ('Feature table which contains the identifier that should be'
+                  ' retained in the tree'),
+        'tree': ('Tree that should be filtered'),
+    },
+    parameter_descriptions={},
+    output_descriptions={'filtered_tree': 'The resulting phylogenetic tree.'},
+    name="Remove features from tree if they're not present in table.",
+    description=("Remove tips from a tree if their identifiers "
+                 "are not present in the feature table.")
 )
 
 plugin.methods.register_function(

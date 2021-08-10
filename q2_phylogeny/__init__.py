@@ -10,7 +10,7 @@ from ._util import midpoint_root, robinson_foulds
 from ._fasttree import fasttree
 from ._raxml import raxml, raxml_rapid_bootstrap
 from ._iqtree import iqtree, iqtree_ultrafast_bootstrap
-from ._filter import filter_table
+from ._filter import filter_table, filter_tree
 from ._version import get_versions
 from ._align_to_tree_mafft_fasttree import align_to_tree_mafft_fasttree
 from ._align_to_tree_mafft_iqtree import align_to_tree_mafft_iqtree
