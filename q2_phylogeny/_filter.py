@@ -20,6 +20,7 @@ def filter_table(table: biom.Table, tree: skbio.TreeNode) -> biom.Table:
     table.filter(ids_to_keep, axis='observation', inplace=True)
     return table
 
+
 def filter_tree(table: biom.Table, tree: skbio.TreeNode) -> skbio.TreeNode:
     """
     Prunes a phylogenetic tree to match the input feature table
