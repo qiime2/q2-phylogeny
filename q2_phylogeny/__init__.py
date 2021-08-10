@@ -22,4 +22,4 @@ del get_versions
 __all__ = ["midpoint_root", "fasttree", "align_to_tree_mafft_fasttree",
            "raxml", "raxml_rapid_bootstrap", "iqtree", "filter_table",
            "iqtree_ultrafast_bootstrap", "align_to_tree_mafft_iqtree",
-           "align_to_tree_mafft_raxml", "robinson_foulds"]
+           "align_to_tree_mafft_raxml", "robinson_foulds", 'filter_tree']
