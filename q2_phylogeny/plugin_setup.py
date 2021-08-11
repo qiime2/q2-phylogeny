@@ -10,8 +10,9 @@ from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
                            Float, List, TypeMatch, Metadata)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
-from q2_types.feature_table import (FeatureTable, Frequency, RelativeFrequency, 
-                                    PresenceAbsence, Composition)
+from q2_types.feature_table import (FeatureTable, Frequency, 
+                                    RelativeFrequency, PresenceAbsence, 
+                                    Composition)
 from q2_types.distance_matrix import DistanceMatrix
 
 import q2_phylogeny
@@ -430,7 +431,7 @@ plugin.methods.register_function(
     inputs={'tree': Phylogeny[T2],
             'table': FeatureTable[T3],
             'sequences': FeatureData[Sequence],
-             },
+            },
     parameters={'metadata': Metadata,
                 'where': Str
                 },
