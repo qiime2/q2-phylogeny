@@ -10,8 +10,8 @@ from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
                            Float, List, TypeMatch, Metadata)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
-from q2_types.feature_table import (FeatureTable, Frequency, 
-                                    RelativeFrequency, PresenceAbsence, 
+from q2_types.feature_table import (FeatureTable, Frequency,
+                                    RelativeFrequency, PresenceAbsence,
                                     Composition)
 from q2_types.distance_matrix import DistanceMatrix
 
