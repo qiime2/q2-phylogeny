@@ -430,7 +430,6 @@ plugin.methods.register_function(
     function=q2_phylogeny.filter_tree,
     inputs={'tree': Phylogeny[T2],
             'table': FeatureTable[T3],
-            'sequences': FeatureData[Sequence],
             },
     parameters={'metadata': Metadata,
                 'where': Str
@@ -440,12 +439,13 @@ plugin.methods.register_function(
         'tree': ('Tree that should be filtered'),
         'table': ('Feature table which contains the identifier that should be'
                   ' retained in the tree'),
-        'sequences': ('The sequences that should be retained in the final '
-                      'tree'),
     },
     parameter_descriptions={
         'metadata': ("Feature metadata to use with the 'where' statement or "
-                     "to select tips to be retained"),
+                     "to select tips to be retained. Metadata objects could "
+                     "also include FeatureData[Sequence] data types, if, for"
+                     "instance, you want to filter to match represenative "
+                     "sequencces."),
         'where': ('SQLite WHERE clause specifying sample metadata criteria '
                   'that must be met to be included in the filtered feature '
                   'table. If not provided, all samples in `metadata` that'

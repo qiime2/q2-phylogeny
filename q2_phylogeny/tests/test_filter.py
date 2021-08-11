@@ -66,12 +66,6 @@ class FilterTreeTests(unittest.TestCase):
                            observation_ids=['A', 'D'],
                            sample_ids=['S1', 'S2', 'S3']
                            )
-        self.sequences = pd.Series(
-            data=[skbio.DNA('CAT', metadata={'id': 'A'}),
-                  skbio.DNA('GGG', metadata={'id': 'D'}),
-                  ],
-            index=pd.Index(['A', 'D'], name='sample-id')
-            )
         self.filtered_tree = self.tree.copy().shear(['A', 'D'])
         self.filtered_tree.prune()
 
@@ -88,7 +82,6 @@ class FilterTreeTests(unittest.TestCase):
         with self.assertRaises(ValueError) as err:
             filter_tree(self.tree,
                         table=self.table,
-                        sequences=self.sequences,
                         metadata=self.metadata)
         self.assertEqual(
             str(err.exception),
@@ -127,10 +120,6 @@ class FilterTreeTests(unittest.TestCase):
 
     def test_filter_tree_table(self):
         test = filter_tree(self.tree, table=self.table)
-        self.assertEqual(str(test), str(self.filtered_tree))
-
-    def test_filter_tree_sequences(self):
-        test = filter_tree(self.tree, sequences=self.sequences)
         self.assertEqual(str(test), str(self.filtered_tree))
 
 

@@ -26,7 +26,6 @@ def filter_table(table: biom.Table, tree: skbio.TreeNode) -> biom.Table:
 
 def filter_tree(tree: skbio.TreeNode,
                 table: biom.Table = None,
-                sequences: pd.Series = None,
                 metadata: qiime2.Metadata = None,
                 where: str = None,
                 ) -> skbio.TreeNode:
@@ -34,10 +33,10 @@ def filter_tree(tree: skbio.TreeNode,
     Prunes a phylogenetic tree to match the input ids
     """
     # Checks the input metadata
-    if ((table is None) & (sequences is None) & (metadata is None)):
+    if ((table is None) & (metadata is None)):
         raise ValueError('A feature table, sequences or metadata must be '
                          'provided for filtering.')
-    filter_refs = [table, sequences, metadata]
+    filter_refs = [table, metadata]
     if np.sum([(ref is not None) for ref in filter_refs]).sum() > 1:
         raise ValueError('Filtering can only be performed using one reference'
                          ' file. Please choose between filtering with a '
@@ -48,8 +47,6 @@ def filter_tree(tree: skbio.TreeNode,
     # Gets the list of IDs to keep
     if table is not None:
         ids_to_keep = table.ids(axis='observation')
-    if sequences is not None:
-        ids_to_keep = sequences.index
     if metadata is not None:
         ids_to_keep = metadata.get_ids(where)
 
