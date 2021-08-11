@@ -24,11 +24,11 @@ def filter_table(table: biom.Table, tree: skbio.TreeNode) -> biom.Table:
     return table
 
 
-def filter_tree(tree: skbio.TreeNode, 
-                table: biom.Table=None, 
-                sequences: pd.Series=None, 
-                metadata: qiime2.Metadata=None,
-                where: str=None,
+def filter_tree(tree: skbio.TreeNode,
+                table: biom.Table = None,
+                sequences: pd.Series = None,
+                metadata: qiime2.Metadata = None,
+                where: str = None,
                 ) -> skbio.TreeNode:
     """
     Prunes a phylogenetic tree to match the input ids
@@ -49,7 +49,7 @@ def filter_tree(tree: skbio.TreeNode,
     if table is not None:
         ids_to_keep = table.ids(axis='observation')
     if sequences is not None:
-        ids_to_keep = sequences.index 
+        ids_to_keep = sequences.index
     if metadata is not None:
         ids_to_keep = metadata.get_ids(where)
 
