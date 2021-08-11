@@ -8,7 +8,6 @@
 
 import biom
 import numpy as np
-import pandas as pd
 import qiime2
 import skbio
 
