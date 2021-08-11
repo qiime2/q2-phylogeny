@@ -7,10 +7,11 @@
 # ----------------------------------------------------------------------------
 
 from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
-                           Float, List, TypeMatch)
+                           Float, List, TypeMatch, Metadata)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
-from q2_types.feature_table import FeatureTable, Frequency
+from q2_types.feature_table import (FeatureTable, Frequency, RelativeFrequency, 
+                                    PresenceAbsence, Composition)
 from q2_types.distance_matrix import DistanceMatrix
 
 import q2_phylogeny
@@ -400,12 +401,14 @@ plugin.methods.register_function(
     deprecated=True
 )
 
+T1 = TypeMatch([Frequency, RelativeFrequency, PresenceAbsence])
+
 plugin.methods.register_function(
     function=q2_phylogeny.filter_table,
-    inputs={'table': FeatureTable[Frequency],
+    inputs={'table': FeatureTable[T1],
             'tree': Phylogeny[Rooted | Unrooted]},
     parameters={},
-    outputs=[('filtered_table', FeatureTable[Frequency])],
+    outputs=[('filtered_table', FeatureTable[T1])],
     input_descriptions={
         'table': 'Feature table that features should be filtered from.',
         'tree': ('Tree where tip identifiers are the feature identifiers that '
@@ -417,24 +420,40 @@ plugin.methods.register_function(
     description=("Remove features from a feature table if their identifiers "
                  "are not tip identifiers in tree.")
 )
-T1 = TypeMatch([Rooted, Unrooted])
+
+T2 = TypeMatch([Rooted, Unrooted])
+
+T3 = (Frequency | RelativeFrequency | PresenceAbsence | Composition)
 
 plugin.methods.register_function(
     function=q2_phylogeny.filter_tree,
-    inputs={'table': FeatureTable[Frequency],
-            'tree': Phylogeny[T1]},
-    parameters={},
-    outputs=[('filtered_tree', Phylogeny[T1])],
+    inputs={'tree': Phylogeny[T2],
+            'table': FeatureTable[T3],
+            'sequences': FeatureData[Sequence],
+             },
+    parameters={'metadata': Metadata,
+                'where': Str
+                },
+    outputs=[('filtered_tree', Phylogeny[T2])],
     input_descriptions={
+        'tree': ('Tree that should be filtered'),
         'table': ('Feature table which contains the identifier that should be'
                   ' retained in the tree'),
-        'tree': ('Tree that should be filtered'),
+        'sequences': ('The sequences that should be retained in the final '
+                      'tree'),
     },
-    parameter_descriptions={},
+    parameter_descriptions={
+        'metadata': ("Feature metadata to use with the 'where' statement or "
+                     "to select tips to be retained"),
+        'where': ('SQLite WHERE clause specifying sample metadata criteria '
+                  'that must be met to be included in the filtered feature '
+                  'table. If not provided, all samples in `metadata` that'
+                  ' are also in the feature table will be retained.'),
+    },
     output_descriptions={'filtered_tree': 'The resulting phylogenetic tree.'},
-    name="Remove features from tree if they're not present in table.",
-    description=("Remove tips from a tree if their identifiers "
-                 "are not present in the feature table.")
+    name="Remove features from tree based on metadata",
+    description=("Remove tips from a tree if their identifiers based on a "
+                 "set of provided identifiers.")
 )
 
 plugin.methods.register_function(
