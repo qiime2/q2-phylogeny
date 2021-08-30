@@ -20,9 +20,9 @@ requirements:
   run:
     - python {{ python }}
     - scikit-bio
-    - qiime2 {{ release }}.*
-    - q2-types {{ release }}.*
-    - q2-alignment {{ release }}.*
+    - qiime2 {{ qiime2 }}
+    - q2-types {{ q2_types }}
+    - q2-alignment {{ q2_alignment }}
     # fasttree pinned because newer versions don't include fasttreemp on osx:
     # https://github.com/bioconda/bioconda-recipes/blob/master/recipes/fasttree/build.sh
     - fasttree ==2.1.10=0
@@ -31,6 +31,9 @@ requirements:
     - pytest
 
 test:
+  requires:
+    - pytest
+
   imports:
     - q2_phylogeny
     - qiime2.plugins.phylogeny
