@@ -1,6 +1,5 @@
 {% set data = load_setup_py_data() %}
 {% set version = data.get('version') or 'placehold' %}
-{% set release = '.'.join(version.split('.')[:2]) %}
 
 package:
   name: q2-phylogeny
@@ -20,9 +19,9 @@ requirements:
   run:
     - python {{ python }}
     - scikit-bio
-    - qiime2 {{ release }}.*
-    - q2-types {{ release }}.*
-    - q2-alignment {{ release }}.*
+    - qiime2 {{ qiime2_epoch }}.*
+    - q2-types {{ qiime2_epoch }}.*
+    - q2-alignment {{ qiime2_epoch }}.*
     # fasttree pinned because newer versions don't include fasttreemp on osx:
     # https://github.com/bioconda/bioconda-recipes/blob/master/recipes/fasttree/build.sh
     - fasttree ==2.1.10=0
@@ -31,6 +30,12 @@ requirements:
     - pytest
 
 test:
+  requires:
+    - qiime2 >={{ qiime2 }}
+    - q2-types >={{ q2_types }}
+    - q2-alignment >={{ q2_alignment }}
+    - pytest
+
   imports:
     - q2_phylogeny
     - qiime2.plugins.phylogeny
