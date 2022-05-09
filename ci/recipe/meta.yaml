@@ -18,7 +18,7 @@ requirements:
 
   run:
     - python {{ python }}
-    - scikit-bio
+    - scikit-bio {{ scikit_bio }}
     - qiime2 {{ qiime2_epoch }}.*
     - q2-types {{ qiime2_epoch }}.*
     - q2-alignment {{ qiime2_epoch }}.*
