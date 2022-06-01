@@ -18,7 +18,7 @@ requirements:
 
   run:
     - python {{ python }}
-    - scikit-bio
+    - scikit-bio {{ scikit_bio }}
     - qiime2 {{ qiime2_epoch }}.*
     - q2-types {{ qiime2_epoch }}.*
     - q2-alignment {{ qiime2_epoch }}.*
@@ -26,7 +26,7 @@ requirements:
     # https://github.com/bioconda/bioconda-recipes/blob/master/recipes/fasttree/build.sh
     - fasttree ==2.1.10=0
     - raxml
-    - iqtree >=1.6.4
+    - iqtree ==2.2.0_beta
     - pytest
 
 test:
