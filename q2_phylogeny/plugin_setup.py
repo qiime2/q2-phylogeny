@@ -203,7 +203,7 @@ plugin.methods.register_function(
                  'of rapid bootstrapping support values. See: '
                  'https://sco.h-its.org/exelixis/web/software/raxml/'),
     citations=[citations['Stamatakis2014raxml'],
-               citations['Stamatakis2008raxml']],
+               citations['Stamatakis2008raxml']]
 )
 
 plugin.methods.register_function(
@@ -288,7 +288,7 @@ plugin.methods.register_function(
     description=('Construct a phylogenetic tree using IQ-TREE '
                  '(http://www.iqtree.org/) with automatic model selection.'),
     citations=[citations['Minh2020iqtree'],
-               citations['Kalyaanamoorthy2017modelfinder']]
+               citations['Kalyaanamoorthy2017modelfinder']],
 )
 
 plugin.methods.register_function(
