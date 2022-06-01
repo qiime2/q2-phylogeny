@@ -203,7 +203,7 @@ plugin.methods.register_function(
                  'of rapid bootstrapping support values. See: '
                  'https://sco.h-its.org/exelixis/web/software/raxml/'),
     citations=[citations['Stamatakis2014raxml'],
-               citations['Stamatakis2008raxml']]
+               citations['Stamatakis2008raxml']],
 )
 
 plugin.methods.register_function(
@@ -397,7 +397,7 @@ plugin.methods.register_function(
     citations=[citations['Minh2020iqtree'],
                citations['Kalyaanamoorthy2017modelfinder'],
                citations['Minh2013ultrafastbootstrap'],
-               citations['Hoang2017ultrafastbootstrap2']]
+               citations['Hoang2017ultrafastbootstrap2']],
 )
 
 T1 = TypeMatch([Frequency, RelativeFrequency, PresenceAbsence])
@@ -645,7 +645,7 @@ plugin.pipelines.register_function(
                  'includes both the unmasked and masked MAFFT alignment from '
                  'q2-alignment methods, and both the rooted and unrooted '
                  'phylogenies from q2-phylogeny methods.'
-                 )
+                 ),
 )
 
 plugin.pipelines.register_function(
