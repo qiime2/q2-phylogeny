@@ -28,6 +28,8 @@ requirements:
     - raxml
     - iqtree ==2.2.0_beta
     - pytest
+    # this isn't a direct dependency, but it helps convince conda to do there right thing
+    - h5py
 
 test:
   requires:
