@@ -6,11 +6,13 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
+from itertools import zip_longest
+import math
 import os
-import unittest
-import skbio
 import tempfile
+import unittest
 
+import skbio
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
@@ -332,9 +334,20 @@ class IqtreeTests(TestPluginBase):
         exp_tree = skbio.TreeNode.read(self.get_data_path('test5.tre'))
         exp_supp = [node.name for node in exp_tree.non_tips()]
 
-        self.assertEqual(set(obs_supp), set(exp_supp))
-        self.assertEqual(len(obs_supp[0].split('/')), 4)  # should be 4 values
-        self.assertEqual(len(exp_supp[0].split('/')), 4)  # should be 4 values
+        # iter through all support values for each node and check if they
+        # are at least within 1 support unit away from each other
+        zipped = zip_longest(obs_supp, exp_supp)
+        for (branch_sup_obs, branch_sup_exp) in zipped:
+            obs_sl = [float(n) for n in branch_sup_obs.split("/")]
+            exp_sl = [float(n) for n in branch_sup_exp.split("/")]
+            for (obs_f, exp_f) in zip_longest(obs_sl, exp_sl):
+                if math.isclose(obs_f, exp_f, abs_tol=1):
+                    continue
+                else:
+                    raise ValueError(
+                        "Observed branch support values \'{}\' are not equal "
+                        "to the expected values \'{}\'.".format(
+                                            branch_sup_obs, branch_sup_exp))
 
     def test_iqtree_ultrafast_bootstrap_safe_allnni(self):
         # Test that output tree is made.

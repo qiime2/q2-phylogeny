@@ -289,7 +289,6 @@ plugin.methods.register_function(
                  '(http://www.iqtree.org/) with automatic model selection.'),
     citations=[citations['Minh2020iqtree'],
                citations['Kalyaanamoorthy2017modelfinder']],
-    deprecated=True
 )
 
 plugin.methods.register_function(
@@ -399,7 +398,6 @@ plugin.methods.register_function(
                citations['Kalyaanamoorthy2017modelfinder'],
                citations['Minh2013ultrafastbootstrap'],
                citations['Hoang2017ultrafastbootstrap2']],
-    deprecated=True
 )
 
 T1 = TypeMatch([Frequency, RelativeFrequency, PresenceAbsence])
@@ -648,7 +646,6 @@ plugin.pipelines.register_function(
                  'q2-alignment methods, and both the rooted and unrooted '
                  'phylogenies from q2-phylogeny methods.'
                  ),
-    deprecated=True
 )
 
 plugin.pipelines.register_function(
