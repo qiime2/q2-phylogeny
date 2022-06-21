@@ -26,9 +26,9 @@ requirements:
     # https://github.com/bioconda/bioconda-recipes/blob/master/recipes/fasttree/build.sh
     - fasttree ==2.1.10=0
     - raxml
-    - iqtree ==2.2.0_beta
+    - iqtree
     - pytest
-    # this isn't a direct dependency, but it helps convince conda to do there right thing
+    # this isn't a direct dependency, but it helps convince conda to do the right thing
     - h5py
 
 test:
