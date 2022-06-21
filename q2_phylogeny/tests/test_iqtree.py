@@ -336,7 +336,8 @@ class IqtreeTests(TestPluginBase):
 
         # iter through all support values for each node and check if they
         # are at least within 1 support unit away from each other
-        for (branch_sup_obs, branch_sup_exp) in zip_longest(obs_supp, exp_supp):
+        zipped = zip_longest(obs_supp, exp_supp)
+        for (branch_sup_obs, branch_sup_exp) in zipped:
             obs_sl = [float(n) for n in branch_sup_obs.split("/")]
             exp_sl = [float(n) for n in branch_sup_exp.split("/")]
             for (obs_f, exp_f) in zip_longest(obs_sl, exp_sl):
