@@ -6,12 +6,13 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import os
-import unittest
-import skbio
-import tempfile
+from itertools import zip_longest
 import math
+import os
+import tempfile
+import unittest
 
+import skbio
 from qiime2.plugin.testing import TestPluginBase
 from qiime2.util import redirected_stdio
 from q2_types.feature_data import AlignedDNAFASTAFormat
@@ -335,10 +336,10 @@ class IqtreeTests(TestPluginBase):
 
         # iter through all support values for each node and check if they
         # are at least within 1 support unit away from each other
-        for (branch_sup_obs, branch_sup_exp) in zip(obs_supp, exp_supp):
+        for (branch_sup_obs, branch_sup_exp) in zip_longest(obs_supp, exp_supp):
             obs_sl = [float(n) for n in branch_sup_obs.split("/")]
             exp_sl = [float(n) for n in branch_sup_exp.split("/")]
-            for (obs_f, exp_f) in zip(obs_sl, exp_sl):
+            for (obs_f, exp_f) in zip_longest(obs_sl, exp_sl):
                 if math.isclose(obs_f, exp_f, abs_tol=1):
                     continue
                 else:
