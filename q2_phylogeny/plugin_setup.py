@@ -16,6 +16,7 @@ from q2_types.feature_table import (FeatureTable, Frequency,
 from q2_types.distance_matrix import DistanceMatrix
 
 import q2_phylogeny
+import q2_phylogeny._examples as ex
 
 _RAXML_MODEL_OPT = ['GTRGAMMA', 'GTRGAMMAI', 'GTRCAT', 'GTRCATI']
 _RAXML_VERSION_OPT = ['Standard', 'SSE3', 'AVX2']
@@ -554,7 +555,11 @@ plugin.pipelines.register_function(
                  'masked MAFFT alignment from q2-alignment methods, and both '
                  'the rooted and unrooted phylogenies from q2-phylogeny '
                  'methods.'
-                 )
+                 ),
+    examples={
+        'align_to_tree_mafft_fasttree':
+        ex.phylogeny_align_to_tree_mafft_fasttree,
+    }
 )
 
 plugin.pipelines.register_function(
