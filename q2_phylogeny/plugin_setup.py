@@ -272,7 +272,7 @@ plugin.methods.register_function(
         'allnni': ('Perform more thorough NNI search.'),
         'alrt': ('Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '
-                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Can '
+                 '(SH-aLRT). Minimum of 1000 replicates is required. Can '
                  'be used with other \'single branch test methods\'. Values '
                  'reported in the order of: alrt, lbp, abayes.'),
         'abayes': ('Single branch test method. Approximate Bayes test. '
@@ -280,7 +280,7 @@ plugin.methods.register_function(
                    'Values reported in the order of: alrt, lbp, abayes.'),
         'lbp': ('Single branch test method. Number of bootstrap replicates '
                 'to perform a fast local bootstrap probability method. '
-                'Minimum of 1000 replicates is recomended. Can be used with '
+                'Minimum of 1000 replicates is required. Can be used with '
                 'other \'single branch test methods\'. Values reported in '
                 'the order of: alrt, lbp, abayes.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow.')},
@@ -375,7 +375,7 @@ plugin.methods.register_function(
         'allnni': ('Perform more thorough NNI search.'),
         'alrt': ('Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '
-                 '(SH-aLRT). Minimum of 1000 replicates is recomended. Can '
+                 '(SH-aLRT). Minimum of 1000 replicates is required. Can '
                  'be used with other \'single branch test methods\'. Values '
                  'reported in the order of: alrt, lbp, abayes.'),
         'abayes': ('Single branch test method. Performs an '
@@ -385,7 +385,7 @@ plugin.methods.register_function(
                    'ufboot.'),
         'lbp': ('Single branch test method. Number of bootstrap replicates '
                 'to perform a fast local bootstrap probability method. '
-                'Minimum of 1000 replicates is recomended. Can be used with '
+                'Minimum of 1000 replicates is required. Can be used with '
                 'other \'single branch test methods\'. Values reported in '
                 'the order of: alrt, lbp, abayes, ufboot.'),
         'safe': ('Safe likelihood kernel to avoid numerical underflow.')},
@@ -629,7 +629,7 @@ plugin.pipelines.register_function(
         'fast': 'Fast search to resemble FastTree.',
         'alrt': 'Single branch test method. Number of bootstrap replicates '
                  'to perform an SH-like approximate likelihood ratio test '
-                 '(SH-aLRT). Minimum of 1000 replicates is recomended.'
+                 '(SH-aLRT). Minimum of 1000 replicates is required.'
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
