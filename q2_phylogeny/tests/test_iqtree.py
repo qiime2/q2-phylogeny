@@ -103,7 +103,7 @@ class IqtreeTests(TestPluginBase):
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
         with redirected_stdio(stderr=os.devnull):
-            obs = iqtree(input_sequences, n_cores='auto')
+            obs = iqtree(input_sequences, n_cores=0)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
 
         # load the resulting tree and test that it has the right number of
@@ -122,7 +122,7 @@ class IqtreeTests(TestPluginBase):
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
 
         with redirected_stdio(stderr=os.devnull):
-            obs = iqtree(input_sequences, n_cores='auto', n_cores_max=2)
+            obs = iqtree(input_sequences, n_cores=0, n_cores_max=2)
         obs_tree = skbio.TreeNode.read(str(obs), convert_underscores=False)
 
         # load the resulting tree and test that it has the right number of
@@ -197,7 +197,7 @@ class IqtreeTests(TestPluginBase):
             with redirected_stdio(stderr=os.devnull):
                 obs = _build_iqtree_command(input_sequences,
                                             seed=1723,
-                                            n_cores='auto',
+                                            n_cores=0,
                                             n_cores_max=4,
                                             n_runs=2,
                                             substitution_model='MFP',
@@ -246,7 +246,7 @@ class IqtreeTests(TestPluginBase):
             with redirected_stdio(stderr=os.devnull):
                 obs = _build_iqtree_ufbs_command(input_sequences,
                                                  seed=1723,
-                                                 n_cores='auto',
+                                                 n_cores=0,
                                                  n_cores_max=6,
                                                  n_runs=5,
                                                  bootstrap_replicates=2000,
@@ -373,7 +373,7 @@ class IqtreeTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = iqtree_ultrafast_bootstrap(input_sequences, n_cores='auto')
+            obs = iqtree_ultrafast_bootstrap(input_sequences, n_cores=0)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids
@@ -390,7 +390,7 @@ class IqtreeTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-3.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = iqtree_ultrafast_bootstrap(input_sequences, n_cores='auto',
+            obs = iqtree_ultrafast_bootstrap(input_sequences, n_cores=0,
                                              n_cores_max=2)
         obs_tree = skbio.TreeNode.read(str(obs))
         # load the resulting tree and test that it has the right number of

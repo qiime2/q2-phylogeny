@@ -7,7 +7,7 @@
 # ----------------------------------------------------------------------------
 
 from qiime2.plugin import (Plugin, Citations, Int, Range, Str, Choices, Bool,
-                           Float, List, TypeMatch, Metadata)
+                           Float, List, TypeMatch, Metadata, Threads)
 from q2_types.tree import Phylogeny, Unrooted, Rooted
 from q2_types.feature_data import FeatureData, AlignedSequence, Sequence
 from q2_types.feature_table import (FeatureTable, Frequency,
@@ -104,7 +104,7 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=q2_phylogeny.fasttree,
     inputs={'alignment': FeatureData[AlignedSequence]},
-    parameters={'n_threads': Int % Range(1, None) | Str % Choices(['auto'])},
+    parameters={'n_threads': Threads},
     outputs=[('tree', Phylogeny[Unrooted])],
     input_descriptions={
         'alignment': ('Aligned sequences to be used for phylogenetic '
@@ -132,7 +132,7 @@ plugin.methods.register_function(
     parameters={
             'seed': Int,
             'n_searches': Int % Range(1, None),
-            'n_threads': Int % Range(1, None),
+            'n_threads': Threads,
             'substitution_model': Str % Choices(_RAXML_MODEL_OPT),
             'raxml_version': Str % Choices(_RAXML_VERSION_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
@@ -171,7 +171,7 @@ plugin.methods.register_function(
             'seed': Int,
             'rapid_bootstrap_seed': Int,
             'bootstrap_replicates': Int % Range(10, None),
-            'n_threads': Int % Range(1, None),
+            'n_threads': Threads,
             'substitution_model': Str % Choices(_RAXML_MODEL_OPT),
             'raxml_version': Str % Choices(_RAXML_VERSION_OPT)},
     outputs=[('tree', Phylogeny[Unrooted])],
@@ -212,8 +212,8 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_cores': Int % Range(1, None) | Str % Choices(['auto']),
-            'n_cores_max': Int % Range(2, None),
+            'n_cores': Threads,
+            'n_cores_max': Threads,
             'n_runs': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
@@ -297,8 +297,8 @@ plugin.methods.register_function(
     inputs={'alignment': FeatureData[AlignedSequence]},
     parameters={
             'seed': Int,
-            'n_cores': Int % Range(1, None) | Str % Choices(['auto']),
-            'n_cores_max': Int % Range(2, None),
+            'n_cores': Threads,
+            'n_cores_max': Threads,
             'n_runs': Int % Range(1, None),
             'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
             'n_init_pars_trees': Int % Range(1, None),
@@ -495,7 +495,7 @@ plugin.pipelines.register_function(
         'sequences': FeatureData[Sequence],
     },
     parameters={
-        'n_threads': Int % Range(1, None) | Str % Choices(['auto']),
+        'n_threads': Threads,
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
         'parttree': Bool,
@@ -568,7 +568,7 @@ plugin.pipelines.register_function(
         'sequences': FeatureData[Sequence],
     },
     parameters={
-        'n_threads': Int % Range(1, None) | Str % Choices(['auto']),
+        'n_threads': Threads,
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
         'seed': Int,
@@ -659,7 +659,7 @@ plugin.pipelines.register_function(
         'sequences': FeatureData[Sequence],
     },
     parameters={
-        'n_threads': Int % Range(1, None) | Str % Choices(['auto']),
+        'n_threads': Threads,
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
         'parttree': Bool,
