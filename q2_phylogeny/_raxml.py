@@ -14,7 +14,7 @@ from random import randint
 
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
-from qiime2.sdk.util import get_available_cores
+from qiime2.plugin import get_available_cores
 
 _raxml_versions = {
                    'Standard': '',
