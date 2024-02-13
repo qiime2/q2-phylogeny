@@ -14,6 +14,7 @@ from random import randint
 
 from q2_types.feature_data import AlignedDNAFASTAFormat
 from q2_types.tree import NewickFormat
+from qiime2.plugin import get_available_cores
 
 _raxml_versions = {
                    'Standard': '',
@@ -35,6 +36,9 @@ def run_command(cmd, verbose=True):
 
 
 def _set_raxml_version(raxml_version='Standard', n_threads=1):
+    if n_threads == 0:
+        n_threads = get_available_cores()
+
     if n_threads == 1:
         cmd = ['raxmlHPC' + _raxml_versions[raxml_version]]
         return cmd

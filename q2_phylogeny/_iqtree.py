@@ -74,12 +74,14 @@ def _build_iqtree_command(
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
 
-    if n_cores == 'auto' and n_cores_max:
-        cmd += ['-nt', 'AUTO', '--threads-max', '%i' % n_cores_max]
-    elif n_cores == 'auto' and n_cores_max is None:
+    if n_cores == 0:
         cmd += ['-nt', 'AUTO']
     else:
+        print('n cores', n_cores)
         cmd += ['-nt', '%i' % n_cores]
+
+    if n_cores_max is not None and n_cores_max > 0:
+        cmd += ['--threads-max', '%i' % n_cores_max]
 
     if seed:
         cmd += ['-seed', '%i' % seed]
@@ -216,12 +218,13 @@ def _build_iqtree_ufbs_command(
             '-m', str(substitution_model),
             '-pre', str(run_prefix)]
 
-    if n_cores == 'auto' and n_cores_max:
-        cmd += ['-nt', 'AUTO', '--threads-max', '%i' % n_cores_max]
-    elif n_cores == 'auto' and n_cores_max is None:
+    if n_cores == 0:
         cmd += ['-nt', 'AUTO']
     else:
         cmd += ['-nt', '%i' % n_cores]
+
+    if n_cores_max is not None and n_cores_max > 0:
+        cmd += ['--threads-max', '%i' % n_cores_max]
 
     if seed:
         cmd += ['-seed', '%i' % seed]
