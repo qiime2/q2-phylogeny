@@ -90,3 +90,7 @@ ENV/
 
 # vi
 .*.swp
+
+# Version file from versioningit
+_version.py
+

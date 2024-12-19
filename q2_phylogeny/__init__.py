@@ -11,13 +11,14 @@ from ._fasttree import fasttree
 from ._raxml import raxml, raxml_rapid_bootstrap
 from ._iqtree import iqtree, iqtree_ultrafast_bootstrap
 from ._filter import filter_table, filter_tree
-from ._version import get_versions
 from ._align_to_tree_mafft_fasttree import align_to_tree_mafft_fasttree
 from ._align_to_tree_mafft_iqtree import align_to_tree_mafft_iqtree
 from ._align_to_tree_mafft_raxml import align_to_tree_mafft_raxml
 
-__version__ = get_versions()['version']
-del get_versions
+try:
+    from ._version import __version__
+except ModuleNotFoundError:
+    __version__ = '0.0.0+notfound'
 
 __all__ = ["midpoint_root", "fasttree", "align_to_tree_mafft_fasttree",
            "raxml", "raxml_rapid_bootstrap", "iqtree", "filter_table",
