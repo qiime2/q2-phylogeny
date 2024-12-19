@@ -1,0 +1,41 @@
+package:
+  name: q2-phylogeny
+  version: {{ PLUGIN_VERSION }}
+source:
+  path: ..
+build:
+  script: make install
+requirements:
+  host:
+  - python {{ python }}
+  - setuptools
+  - versioningit
+  - wheel
+  run:
+  - python {{ python }}
+  - scikit-bio {{ scikit_bio }}
+  - qiime2 {{ qiime2_epoch }}.*
+  - q2-types {{ qiime2_epoch }}.*
+  - q2-alignment {{ qiime2_epoch }}.*
+  - fasttree
+  - raxml
+  - iqtree
+  - h5py
+  build:
+  - setuptools
+  - versioningit
+test:
+  commands:
+  - py.test --pyargs q2_phylogeny
+  requires:
+  - qiime2 >={{ qiime2 }}
+  - q2-types >={{ q2_types }}
+  - q2-alignment >={{ q2_alignment }}
+  - pytest
+  imports:
+  - q2_phylogeny
+  - qiime2.plugins.phylogeny
+about:
+  home: https://qiime2.org
+  license: BSD-3-Clause
+  license_family: BSD
