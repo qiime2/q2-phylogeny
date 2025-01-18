@@ -22,6 +22,7 @@ requirements:
   - iqtree
   - h5py
   build:
+  - python {{ python }}
   - setuptools
   - versioningit
 test:
