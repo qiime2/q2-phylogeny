@@ -7,7 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import os
-import pkg_resources
+import importlib.resources
 import shutil
 import unittest
 import skbio
@@ -30,7 +30,7 @@ class RaxmlTests(TestPluginBase):
     def setUpClass(cls):
         super(TestPluginBase, cls).setUpClass()
         tmpdir = tempfile.mkdtemp()
-        src = pkg_resources.resource_filename(cls.package, 'data')
+        src = importlib.resources.files(cls.package) / 'data'
         dst = os.path.join(tmpdir, 'data')
         shutil.copytree(src, dst)
         cls.data_dir = dst
