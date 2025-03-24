@@ -14,9 +14,9 @@ requirements:
   run:
   - python {{ python }}
   - scikit-bio {{ scikit_bio }}
-  - qiime2 {{ qiime2_epoch }}.*
-  - q2-types {{ qiime2_epoch }}.*
-  - q2-alignment {{ qiime2_epoch }}.*
+  - qiime2 >={{ qiime2 }}
+  - q2-types >={{ q2_types }}
+  - q2-alignment >={{ q2_alignment }}
   - fasttree
   - raxml
   - iqtree
