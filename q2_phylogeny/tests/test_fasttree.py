@@ -56,7 +56,7 @@ class FastTreeTests(TestPluginBase):
         input_fp = self.get_data_path('aligned-dna-sequences-1.fasta')
         input_sequences = AlignedDNAFASTAFormat(input_fp, mode='r')
         with redirected_stdio(stderr=os.devnull):
-            obs = fasttree(input_sequences, n_threads='auto')
+            obs = fasttree(input_sequences, n_threads=0)
         # load the resulting tree and test that it has the right number of
         # tips and the right tip ids (the branch lengths can vary with
         # different versions of FastTree, and threading can produce
@@ -108,7 +108,7 @@ def test_fasttree_num_threads(capfd):
     # var will still be set to the max available on their machine, even if
     # the OMP_NUM_THREADS env var has been set on their machine
     os.environ['OMP_NUM_THREADS'] = '2560'
-    fasttree('-expert', n_threads='auto')
+    fasttree('-expert', n_threads=0)
     captured = capfd.readouterr()
     assert 'OpenMP (2560 threads)' not in captured.err
 
