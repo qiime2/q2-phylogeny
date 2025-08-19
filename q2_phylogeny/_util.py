@@ -10,7 +10,7 @@ import skbio
 
 
 def midpoint_root(tree: skbio.TreeNode) -> skbio.TreeNode:
-    return tree.root_at_midpoint()
+    return tree.root_at_midpoint(reset=True, branch_attrs=[], root_name=None)
 
 
 def robinson_foulds(trees: skbio.TreeNode, labels: str = None,
