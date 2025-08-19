@@ -11,6 +11,7 @@ def align_to_tree_mafft_raxml(ctx, sequences, n_threads=1,
                               mask_max_gap_frequency=1.0,
                               mask_min_conservation=0.40,
                               parttree=False,
+                              large=False,
                               substitution_model='GTRGAMMA',
                               seed=None, raxml_version='Standard'):
     mafft = ctx.get_action('alignment', 'mafft')
@@ -19,7 +20,7 @@ def align_to_tree_mafft_raxml(ctx, sequences, n_threads=1,
     midpoint_root = ctx.get_action('phylogeny', 'midpoint_root')
 
     aligned_seq, = mafft(sequences=sequences, n_threads=n_threads,
-                         parttree=parttree)
+                         parttree=parttree, large=large)
     masked_seq, = mask(alignment=aligned_seq,
                        max_gap_frequency=mask_max_gap_frequency,
                        min_conservation=mask_min_conservation)
