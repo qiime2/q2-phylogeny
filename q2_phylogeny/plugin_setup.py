@@ -540,9 +540,9 @@ plugin.pipelines.register_function(
                     'aligned are larger than 1000000. Disabled by default.',
         'large': 'This flag is required when aligning very large datasets '
                  'that do not otherwise fit into memory. Temporary data is '
-                 'then stored in files, instead of RAM. The --use-cache '
-                 'flag specifies the storage location of the temporary files '
-                 'created. By default, $TMP/qiime2/ is used.',
+                 'then stored in files, instead of RAM. The temporary files '
+                 'are stored in the QIIME 2 Artifact cache. The default '
+                 'location of the cache is $TMP/qiime2/<uname>.',
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
@@ -625,9 +625,9 @@ plugin.pipelines.register_function(
                     'aligned are larger than 1000000. Disabled by default.',
         'large': 'This flag is required when aligning very large datasets '
                  'that do not otherwise fit into memory. Temporary data is '
-                 'then stored in files, instead of RAM. The --use-cache '
-                 'flag specifies the storage location of the temporary files '
-                 'created. By default, $TMP/qiime2/ is used.',
+                 'then stored in files, instead of RAM. The temporary files '
+                 'are stored in the QIIME 2 Artifact cache. The default '
+                 'location of the cache is $TMP/qiime2/<uname>.',
         'seed':  'Random number seed for the iqtree parsimony starting tree. '
                  'This allows you to reproduce tree results. '
                  'If not supplied then one will be randomly chosen.',
