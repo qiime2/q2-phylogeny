@@ -10,14 +10,15 @@
 def align_to_tree_mafft_fasttree(ctx, sequences, n_threads=1,
                                  mask_max_gap_frequency=1.0,
                                  mask_min_conservation=0.40,
-                                 parttree=False):
+                                 parttree=False,
+                                 large=False):
     mafft = ctx.get_action('alignment', 'mafft')
     mask = ctx.get_action('alignment', 'mask')
     fasttree = ctx.get_action('phylogeny', 'fasttree')
     midpoint_root = ctx.get_action('phylogeny', 'midpoint_root')
 
     aligned_seq, = mafft(sequences=sequences, n_threads=n_threads,
-                         parttree=parttree)
+                         parttree=parttree, large=large)
     masked_seq, = mask(alignment=aligned_seq,
                        max_gap_frequency=mask_max_gap_frequency,
                        min_conservation=mask_min_conservation)

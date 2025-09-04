@@ -499,6 +499,7 @@ plugin.pipelines.register_function(
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
         'parttree': Bool,
+        'large': Bool,
     },
     outputs=[
         ('alignment', FeatureData[AlignedSequence]),
@@ -537,6 +538,11 @@ plugin.pipelines.register_function(
                                   'aligned sequences.',
         'parttree': 'This flag is required if the number of sequences being '
                     'aligned are larger than 1000000. Disabled by default.',
+        'large': 'This flag is required when aligning very large datasets '
+                 'that do not otherwise fit into memory. Temporary data is '
+                 'then stored in files, instead of RAM. The temporary files '
+                 'are stored in the QIIME 2 Artifact cache. The default '
+                 'location of the cache is $TMP/qiime2/<uname>.',
     },
     output_descriptions={
         'alignment': 'The aligned sequences.',
@@ -571,6 +577,8 @@ plugin.pipelines.register_function(
         'n_threads': Threads,
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
+        'parttree': Bool,
+        'large': Bool,
         'seed': Int,
         'substitution_model': Str % Choices(_IQTREE_DNA_MODELS),
         'stop_iter': Int % Range(1, None),
@@ -613,6 +621,13 @@ plugin.pipelines.register_function(
                                   'present in at least 40% of the sequences. '
                                   'This value is used when masking the '
                                   'aligned sequences.',
+        'parttree': 'This flag is required if the number of sequences being '
+                    'aligned are larger than 1000000. Disabled by default.',
+        'large': 'This flag is required when aligning very large datasets '
+                 'that do not otherwise fit into memory. Temporary data is '
+                 'then stored in files, instead of RAM. The temporary files '
+                 'are stored in the QIIME 2 Artifact cache. The default '
+                 'location of the cache is $TMP/qiime2/<uname>.',
         'seed':  'Random number seed for the iqtree parsimony starting tree. '
                  'This allows you to reproduce tree results. '
                  'If not supplied then one will be randomly chosen.',
@@ -663,6 +678,7 @@ plugin.pipelines.register_function(
         'mask_max_gap_frequency': Float % Range(0, 1, inclusive_end=True),
         'mask_min_conservation': Float % Range(0, 1, inclusive_end=True),
         'parttree': Bool,
+        'large': Bool,
         'seed': Int,
         'substitution_model': Str % Choices(_RAXML_MODEL_OPT),
         'raxml_version': Str % Choices(_RAXML_VERSION_OPT),
@@ -706,6 +722,11 @@ plugin.pipelines.register_function(
                     'NOTE: if using this option, it is recomended that only '
                     'the CAT-based substitution models of RAxML be '
                     'considered for this pipeline.',
+        'large': 'This flag is required when aligning very large datasets '
+                 'that do not otherwise fit into memory. Temporary data is '
+                 'then stored in files, instead of RAM. The --use-cache '
+                 'flag specifies the storage location of the temporary files '
+                 'created. By default, $TMP/qiime2/ is used.',
         'seed':  'Random number seed for the parsimony starting tree. '
                  'This allows you to reproduce tree results. '
                  'If not supplied then one will be randomly chosen.',
