@@ -50,7 +50,7 @@ class MidpointRootTests(unittest.TestCase):
 
     def _assert_midpoint_permutations(self, children, partitions):
         for perm in itertools.permutations(children):
-            newick =  f'({",".join(perm)});'
+            newick = f'({",".join(perm)});'
             with self.subTest(newick=newick):
                 tree = skbio.TreeNode.read([newick])
                 result = midpoint_root(tree)
@@ -78,7 +78,7 @@ class MidpointRootTests(unittest.TestCase):
 
     def test_ties(self):
         children = [
-            '(a:1, b:2):10', # this branch should win
+            '(a:1, b:2):10',  # this branch should win
             '(c:1, d:2):5',
             '(e:1, f:2):5',
         ]
