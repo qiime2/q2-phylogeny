@@ -8,6 +8,7 @@
 
 import unittest
 import io
+import itertools
 
 import skbio
 
@@ -46,6 +47,45 @@ class MidpointRootTests(unittest.TestCase):
         for id_ in actual_tip_tip_distances.ids:
             self.assertEqual(actual.find(id_).distance(actual.root()),
                              expected.find(id_).distance(expected.root()))
+
+    def _assert_midpoint_permutations(self, children, partitions):
+        for perm in itertools.permutations(children):
+            newick = f'({",".join(perm)});'
+            with self.subTest(newick=newick):
+                tree = skbio.TreeNode.read([newick])
+                result = midpoint_root(tree)
+                obs = [
+                    {x.name for x in p.tips(include_self=True)}
+                    for p in result.children
+                ]
+                try:
+                    self.assertEqual(obs, partitions)
+                except AssertionError:
+                    # left vs right branch doesn't actually matter
+                    # so long as the partition is the same
+                    self.assertEqual(obs, list(reversed(partitions)))
+
+    def test_pseudoroot_permutations(self):
+        children = [
+            '(a:4,b:4)x:10',
+            '(c:1,d:2)y:10',
+            '(e:1,f:2)z:20',  # this branch should win
+        ]
+        self._assert_midpoint_permutations(children, [
+            {'a', 'b', 'c', 'd'},
+            {'e', 'f'}
+        ])
+
+    def test_ties(self):
+        children = [
+            '(a:1, b:2):10',  # this branch should win
+            '(c:1, d:2):5',
+            '(e:1, f:2):5',
+        ]
+        self._assert_midpoint_permutations(children, [
+            {'a', 'b'},
+            {'c', 'd', 'e', 'f'}
+        ])
 
 
 class TestRobinsonFoulds(unittest.TestCase):
